@@ -5,14 +5,32 @@
 class Application : public TrexEngine::Engine
 {
 public:
-	Application()
+	Application(const char* p_Title, int p_Width, int p_Height)
+		: Engine(p_Title, p_Width, p_Height)
 	{
 
 	}
 
-	~Application() 
+	void Event() override
 	{
 
+	}
+
+	void Update() override
+	{
+
+	}
+
+	void Render() override
+	{
+
+	}
+
+
+	~Application() 
+	{
+		m_Renderer.Shutdown();
+		m_Window.Shutdonw();
 	}
 };
 
@@ -20,5 +38,5 @@ public:
 
 TrexEngine::Engine* TrexEngine::CreateApplication()
 {
-	return new Application();
+	return new Application("SandBox", 1000, 500);
 }
