@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1231
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TrexEngine", "TrexEngine\TrexEngine.vcxproj", "{5E83BB39-FD42-4DE8-8E1F-E953E7805497}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SandBox", "SandBox\SandBox.vcxproj", "{37CEBBC1-F7FD-4E60-B23A-994771E80534}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5E83BB39-FD42-4DE8-8E1F-E953E7805497}.Debug|x64.ActiveCfg = Debug|x64
+		{5E83BB39-FD42-4DE8-8E1F-E953E7805497}.Debug|x64.Build.0 = Debug|x64
+		{5E83BB39-FD42-4DE8-8E1F-E953E7805497}.Release|x64.ActiveCfg = Release|x64
+		{5E83BB39-FD42-4DE8-8E1F-E953E7805497}.Release|x64.Build.0 = Release|x64
+		{37CEBBC1-F7FD-4E60-B23A-994771E80534}.Debug|x64.ActiveCfg = Debug|x64
+		{37CEBBC1-F7FD-4E60-B23A-994771E80534}.Debug|x64.Build.0 = Debug|x64
+		{37CEBBC1-F7FD-4E60-B23A-994771E80534}.Release|x64.ActiveCfg = Release|x64
+		{37CEBBC1-F7FD-4E60-B23A-994771E80534}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {10803DAD-299F-495A-9106-6C1B7A5D10B9}
+	EndGlobalSection
+EndGlobal
