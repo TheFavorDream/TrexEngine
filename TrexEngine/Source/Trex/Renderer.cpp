@@ -3,7 +3,7 @@
 namespace TrexEngine
 {
 
-	int Renderer::Init()
+	int Renderer::InitGLFW()
 	{
 		if (!glfwInit())
 		{
@@ -12,6 +12,16 @@ namespace TrexEngine
 		}
 
 
+		return 0;
+	}
+
+	int Renderer::InitGLEW()
+	{
+		if (glewInit() != GLEW_OK)
+		{
+			//TODO Log Error messages.
+			return 1;
+		}
 		return 0;
 	}
 

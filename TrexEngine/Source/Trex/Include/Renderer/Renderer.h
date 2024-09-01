@@ -1,4 +1,6 @@
 #pragma once
+#define GLEW_STATIC
+#include "GL/glew.h"
 #include "../Core.h"
 #include "WindowManager.h"
 
@@ -9,7 +11,9 @@ namespace TrexEngine
 	{
 	public:
 
-		int Init();
+		int InitGLFW();
+
+		int InitGLEW();
 
 		int Shutdown();
 

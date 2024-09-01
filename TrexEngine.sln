@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.1231
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TrexEngine", "TrexEngine\TrexEngine.vcxproj", "{5E83BB39-FD42-4DE8-8E1F-E953E7805497}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SandBox", "SandBox\SandBox.vcxproj", "{37CEBBC1-F7FD-4E60-B23A-994771E80534}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TrexEngine", "TrexEngine\TrexEngine.vcxproj", "{5E83BB39-FD42-4DE8-8E1F-E953E7805497}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

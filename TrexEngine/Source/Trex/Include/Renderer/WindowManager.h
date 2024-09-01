@@ -22,6 +22,8 @@ namespace TrexEngine
 
 		void SetWindowViewPoint(GLFWwindow* window, int width, int height);
 
+		void SwapBuffers();
+
 		void GetWindowSize(int &Width, int &Height);
 
 		~WindowManager();

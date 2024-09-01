@@ -39,6 +39,11 @@ namespace TrexEngine
 
 	}
 
+	void WindowManager::SwapBuffers()
+	{
+		glfwSwapBuffers(window);
+	}
+
 
 	void WindowManager::GetWindowSize(int &Width, int &Height)
 	{
