@@ -6,27 +6,27 @@
 namespace TrexEngine
 {
 
-	class TX_API WindowManager
+	class  WindowManager
 	{
 	public:
 
 
-		int InitWindow(const char* p_Title, int p_Width, int p_Height);
+		TX_API int InitWindow(const char* p_Title, int p_Width, int p_Height);
 
-		int Shutdonw();
+		TX_API int Shutdown();
 
 
-		inline GLFWwindow* GetWindow() const { return window; }
-		inline const char* GetTitle() const { return Title; }
-		inline bool WindowShouldClose() const { return glfwWindowShouldClose(window); }
+		TX_API inline GLFWwindow* GetWindow() const { return window; }
+		TX_API inline const char* GetTitle() const { return Title; }
+		TX_API inline bool WindowShouldClose() const { return glfwWindowShouldClose(window); }
 
-		void SetWindowViewPoint(GLFWwindow* window, int width, int height);
+		TX_API void SetWindowViewPoint(GLFWwindow* window, int width, int height);
 
-		void SwapBuffers();
+		TX_API void SwapBuffers();
 
-		void GetWindowSize(int &Width, int &Height);
+		TX_API void GetWindowSize(int &Width, int &Height);
 
-		~WindowManager();
+		TX_API ~WindowManager();
 
 	private:
 

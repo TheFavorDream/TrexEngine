@@ -1,21 +1,29 @@
 #include "Application.h"
+#include "Log.h"
 
 namespace TrexEngine
 {
 
-	Engine::Engine(const char* p_Title, int p_Width, int p_Height)
+	Engine::Engine(const char* p_Title, int p_Width, int p_Height):
+		m_Log("Core")
 	{
+		m_Log.SetInfo("Engine Constructor Called");
+
+		Logger::CoreLogger = &m_Log;
+
 		m_Renderer.InitGLFW();
 
 		m_Window.InitWindow(p_Title, p_Width, p_Height);
 	
 		m_Renderer.InitGLEW();
-		
+
+
 	}
 
 	Engine::~Engine()
 	{
-
+		m_Renderer.Shutdown();
+		m_Window.Shutdown();
 	}
 
 	void Engine::run()
@@ -32,6 +40,9 @@ namespace TrexEngine
 
 			m_Window.SwapBuffers();
 			glfwPollEvents();
+
+			for (auto &i : Logger::s_Loggers)
+				i->PrintMessages();
 		}
 	}
 

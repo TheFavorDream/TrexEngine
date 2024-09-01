@@ -1,17 +1,17 @@
 #include "Include/Renderer/Renderer.h"
+#include "Log.h"
 
 namespace TrexEngine
 {
+	//extern TrexEngine::Logger TrexEngine::TrexLogger("Core");
 
 	int Renderer::InitGLFW()
 	{
 		if (!glfwInit())
 		{
-			//TODO: Log the error messages
+			Logger::CoreLogger->SetError("Unable to Init GLFW");
 			return 1;
 		}
-
-
 		return 0;
 	}
 
@@ -19,7 +19,7 @@ namespace TrexEngine
 	{
 		if (glewInit() != GLEW_OK)
 		{
-			//TODO Log Error messages.
+			Logger::CoreLogger->SetError("Unable to Init GLEW");
 			return 1;
 		}
 		return 0;

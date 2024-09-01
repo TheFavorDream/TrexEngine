@@ -1,5 +1,4 @@
 #pragma once
-#define GLEW_STATIC
 #include "GL/glew.h"
 #include "../Core.h"
 #include "WindowManager.h"
@@ -7,17 +6,17 @@
 namespace TrexEngine
 {
 
-	class TX_API Renderer
+	class  Renderer
 	{
 	public:
 
-		int InitGLFW();
+		TX_API int InitGLFW();
 
-		int InitGLEW();
+		TX_API int InitGLEW();
 
-		int Shutdown();
+		TX_API int Shutdown();
 
-		~Renderer();
+		TX_API ~Renderer();
 
 	public:
 		bool IsInit = false;

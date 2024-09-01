@@ -6,8 +6,9 @@ class Application : public TrexEngine::Engine
 {
 public:
 	Application(const char* p_Title, int p_Width, int p_Height)
-		: Engine(p_Title, p_Width, p_Height)
+		: Engine(p_Title, p_Width, p_Height), ApplicationLogger("SandBox")
 	{
+		ApplicationLogger.SetInfo("SandBox Constructor Called");
 
 	}
 
@@ -29,9 +30,12 @@ public:
 
 	~Application() 
 	{
-		m_Renderer.Shutdown();
-		m_Window.Shutdonw();
+
 	}
+
+
+private:
+	TrexEngine::Logger ApplicationLogger;
 };
 
 

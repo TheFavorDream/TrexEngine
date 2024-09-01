@@ -1,0 +1,12 @@
+﻿  Application.cpp
+  Log.cpp
+g:\dev\trexengine\trexengine\source\trex\log.cpp(84): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+  Renderer.cpp
+  WindowManager.cpp
+     Creating library G:\Dev\TrexEngine\bin\x64\Release\TrexEngine.lib and object G:\Dev\TrexEngine\bin\x64\Release\TrexEngine.exp
+LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
+  Generating code
+  All 211 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+glew32s.lib(glew.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'glew32s.lib(glew.obj)' or at 'G:\Dev\TrexEngine\bin\x64\Release\vc120.pdb'; linking object as if no debug info
+  TrexEngine.vcxproj -> G:\Dev\TrexEngine\bin\x64\Release\TrexEngine.dll

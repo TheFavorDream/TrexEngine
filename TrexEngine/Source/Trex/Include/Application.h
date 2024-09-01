@@ -2,31 +2,34 @@
 #include "Core.h"
 #include "Renderer/Renderer.h"
 #include "Renderer/WindowManager.h"
+#include "Log.h"
 
 namespace TrexEngine
 {
 
-	class TX_API Engine
+	class  Engine
 	{
 	public:
 
 		//Constructor:
-		Engine(const char* p_Title, int p_Width, int p_Height);
+		TX_API Engine(const char* p_Title, int p_Width, int p_Height);
 
 		//Distructor
-		virtual ~Engine();
+		TX_API virtual ~Engine();
 
 		//game loop
-		void run();
+		TX_API void run();
 
 		//should overload in client application:
-		virtual void Render() = 0;
-		virtual void Event() = 0;
-		virtual void Update() = 0;
+		TX_API virtual void Render() = 0;
+		TX_API virtual void Event() = 0;
+		TX_API virtual void Update() = 0;
 
 	protected:
 		WindowManager m_Window;
 		Renderer m_Renderer;
+	private:
+		Logger   m_Log;
 	};
 
 

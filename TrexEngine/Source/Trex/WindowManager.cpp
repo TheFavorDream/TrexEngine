@@ -1,5 +1,5 @@
 #include "Include/Renderer/WindowManager.h"
-
+#include "Log.h"
 
 namespace TrexEngine
 {
@@ -17,6 +17,7 @@ namespace TrexEngine
 
 		if (window == NULL)
 		{
+			Logger::CoreLogger->SetError("Unable to Create Window");
 			return 1;
 		}
 
@@ -28,7 +29,7 @@ namespace TrexEngine
 		return 0;
 	}
 
-	int WindowManager::Shutdonw()
+	int WindowManager::Shutdown()
 	{
 		glfwDestroyWindow(window);
 		return 0;
@@ -54,7 +55,7 @@ namespace TrexEngine
 
 	WindowManager::~WindowManager()
 	{
-		Shutdonw();
+		Shutdown();
 	}
 
 };
