@@ -24,11 +24,13 @@
     <ClInclude Include="Source\Trex\Include\Log.h" />
     <ClInclude Include="Source\Trex\Include\Renderer\Renderer.h" />
     <ClInclude Include="Source\Trex\Include\Renderer\WindowManager.h" />
+    <ClInclude Include="Source\Trex\Include\Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Trex\Application.cpp" />
     <ClCompile Include="Source\Trex\Log.cpp" />
     <ClCompile Include="Source\Trex\Renderer.cpp" />
+    <ClCompile Include="Source\Trex\Timer.cpp" />
     <ClCompile Include="Source\Trex\WindowManager.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

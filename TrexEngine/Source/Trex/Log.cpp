@@ -14,8 +14,9 @@ namespace TrexEngine
 
 	Logger::~Logger()
 	{
-		for (int  i =  0 ; i < m_Messages.size() ; ++i)
-			m_Messages.pop();
+		for (int  i =  0 ; i < m_Events.size() ; ++i)
+			m_Events.pop();
+
 	}
 
 
@@ -24,65 +25,59 @@ namespace TrexEngine
 		if (p_ErrorMessage == NULL)
 			return;
 
-		m_Messages.push({std::string(p_ErrorMessage), ERROR});
+		m_Events.push({ERROR, p_ErrorMessage, std::chrono::system_clock::now()});
 	}
 
-	void Logger::SetError(const std::string& p_ErrorMessage)
-	{
-		m_Messages.push({ p_ErrorMessage , ERROR });
-	}
+
 
 	void Logger::SetWarning(const char* p_WarningMessage)
 	{
 		if (p_WarningMessage == NULL)
 			return;
 
-		m_Messages.push({ std::string(p_WarningMessage), WARNING });
+		m_Events.push({ WARNING, p_WarningMessage, std::chrono::system_clock::now() });
 	}
 
-	void Logger::SetWarning(const std::string& p_WarningMessage)
-	{
-		m_Messages.push({ std::string(p_WarningMessage), WARNING });
 
-	}
 
 	void Logger::SetInfo(const char* p_InfoMessage)
 	{
 		if (p_InfoMessage == NULL)
 			return;
 
-		m_Messages.push({ std::string(p_InfoMessage), INFO });
+		m_Events.push({ INFO, p_InfoMessage, std::chrono::system_clock::now() });
 	
 	}
 
-	void Logger::SetInfo(const std::string& p_InfoMessage)
-	{
-
-		m_Messages.push({ std::string(p_InfoMessage), INFO });
-
-	}
 
 	int Logger::PrintMessages()
 	{
-		if (m_Messages.size() < 1)
+		if (m_Events.size() < 1)
 			return 0;
 
-		Message& current = m_Messages.front();
-		std::string Type;
 
-		switch (current.m_Type)
+		while (!m_Events.empty())
 		{
-		case ERROR:		Type = "[Error]";		    break;
-		
-		case WARNING:	Type = "[Warning]";			break;
-
-		case INFO:		Type = "[Info]";			break;
+			auto C = m_Events.front();
+			time_t ctime = std::chrono::system_clock::to_time_t(C.clock);
+			std::cout << '[' << m_Profile << "][" << Timer::GetCurrentElapsed() << "ms][" << ToString(C.m_Type) << ']' << C.m_Message << "\n\n";
+			m_Events.pop();
 		}
 
-		std::cout << '[' << m_Profile << ']' << Type << current.m_Message << '\n';
+		return (int)m_Events.size();
+	}
 
-		m_Messages.pop();
-		return m_Messages.size();
+	const char * Logger::ToString(MessageType type)
+	{
+
+		switch (type)
+		{
+		case ERROR:   return "Error";
+		case WARNING: return "Warning";
+		case INFO:    return "Info";
+		}
+
+		return nullptr;
 	}
 
 

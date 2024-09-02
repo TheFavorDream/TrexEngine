@@ -54,6 +54,9 @@
     <ClInclude Include="Source\Trex\Include\Log.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Trex\Include\Timer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Trex\Application.cpp">
@@ -66,6 +69,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Trex\Log.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Trex\Timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

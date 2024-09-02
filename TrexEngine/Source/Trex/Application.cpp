@@ -24,6 +24,7 @@ namespace TrexEngine
 	{
 		m_Renderer.Shutdown();
 		m_Window.Shutdown();
+		Logger::s_Loggers.clear();
 	}
 
 	void Engine::run()
@@ -41,8 +42,10 @@ namespace TrexEngine
 			m_Window.SwapBuffers();
 			glfwPollEvents();
 
-			for (auto &i : Logger::s_Loggers)
+			for (auto i : Logger::s_Loggers)
+			{
 				i->PrintMessages();
+			}
 		}
 	}
 

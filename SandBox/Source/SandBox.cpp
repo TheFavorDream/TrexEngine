@@ -9,7 +9,9 @@ public:
 		: Engine(p_Title, p_Width, p_Height), ApplicationLogger("SandBox")
 	{
 		ApplicationLogger.SetInfo("SandBox Constructor Called");
+		Test = new TrexEngine::Logger("Test");
 
+		Test->SetInfo("Im Working");
 	}
 
 	void Event() override
@@ -30,12 +32,14 @@ public:
 
 	~Application() 
 	{
+		delete Test;
 
 	}
 
 
 private:
 	TrexEngine::Logger ApplicationLogger;
+	TrexEngine::Logger* Test = NULL;
 };
 
 

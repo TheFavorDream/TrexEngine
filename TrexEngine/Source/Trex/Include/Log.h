@@ -1,7 +1,9 @@
 #pragma once
 
 #include "Core.h"
+#include "Timer.h"
 #include <queue>
+#include <chrono>
 #include <string>
 #include <iostream>
 #include <vector>
@@ -10,10 +12,13 @@ namespace TrexEngine
 {
 
 	enum MessageType {ERROR, WARNING, INFO};
-	struct Message
+	
+	//Structure for containing the Log Events info and attrbutes
+	struct LogEvent
 	{
-		std::string m_Message;
 		MessageType m_Type;
+		const char* m_Message;
+		std::chrono::time_point<std::chrono::system_clock> clock;
 	};
 
 	class  Logger 
@@ -26,20 +31,21 @@ namespace TrexEngine
 		//void Print();
 
 		TX_API void SetError(const char* p_ErrorMessage);
-		TX_API void SetError(const std::string& p_ErrorMessage);
 
 		TX_API void SetWarning(const char* p_WarningMessage);
-		TX_API void SetWarning(const std::string& p_WarningMessage);
 
 		TX_API void SetInfo(const char* p_InfoMessage);
-		TX_API void SetInfo(const std::string& p_InfoMessage);
 
 		TX_API int PrintMessages();
 
+	private:
+
+		const char* ToString(MessageType type);
 
 	private:
 		std::string m_Profile;
-		std::queue<Message> m_Messages;
+
+		std::queue<LogEvent> m_Events;
 
 	public:
 		static Logger*  CoreLogger;

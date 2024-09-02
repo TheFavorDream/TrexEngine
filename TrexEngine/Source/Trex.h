@@ -6,6 +6,7 @@
 #include "Trex/Include/Renderer/Renderer.h"
 #include "Trex/Include/Renderer/WindowManager.h"
 #include "Trex/Include/Log.h"
+#include "Trex/Include/Timer.h"
 
 //Engine EntryPoint
 //just define the function CreateApplication from Trex namespace and return your application.

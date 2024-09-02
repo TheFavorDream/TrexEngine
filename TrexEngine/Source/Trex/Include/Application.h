@@ -3,6 +3,7 @@
 #include "Renderer/Renderer.h"
 #include "Renderer/WindowManager.h"
 #include "Log.h"
+#include "Timer.h"
 
 namespace TrexEngine
 {
@@ -28,6 +29,7 @@ namespace TrexEngine
 	protected:
 		WindowManager m_Window;
 		Renderer m_Renderer;
+		Timer timer;
 	private:
 		Logger   m_Log;
 	};
