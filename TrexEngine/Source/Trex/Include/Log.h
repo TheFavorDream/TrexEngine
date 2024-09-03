@@ -2,6 +2,8 @@
 
 #include "Core.h"
 #include "Timer.h"
+
+#include <fstream>
 #include <queue>
 #include <chrono>
 #include <string>
@@ -17,8 +19,8 @@ namespace TrexEngine
 	struct LogEvent
 	{
 		MessageType m_Type;
-		const char* m_Message;
-		std::chrono::time_point<std::chrono::system_clock> clock;
+		std::string m_Message;
+		std::chrono::time_point<std::chrono::high_resolution_clock> clock;
 	};
 
 	class  Logger 
@@ -30,22 +32,27 @@ namespace TrexEngine
 
 		//void Print();
 
-		TX_API void SetError(const char* p_ErrorMessage);
+		TX_API void SetError(std::string p_ErrorMessage);
 
-		TX_API void SetWarning(const char* p_WarningMessage);
+		TX_API void SetWarning(std::string p_WarningMessage);
 
-		TX_API void SetInfo(const char* p_InfoMessage);
+		TX_API void SetInfo(std::string p_InfoMessage);
 
-		TX_API int PrintMessages();
+		TX_API int GetEvents();
 
 	private:
 
 		const char* ToString(MessageType type);
 
 	private:
+
 		std::string m_Profile;
 
 		std::queue<LogEvent> m_Events;
+
+		std::string LogFilePath;
+
+		std::fstream LogFile;
 
 	public:
 		static Logger*  CoreLogger;

@@ -10,47 +10,62 @@ namespace TrexEngine
 	Logger::Logger(std::string p_Profile) : m_Profile(p_Profile)
 	{
 		s_Loggers.push_back(this);
+		
+
+		LogFilePath = (m_Profile + "_RuntimeLog.txt");
+		LogFile.open(LogFilePath, std::ios::out);
+
+		if (LogFile.fail())
+		{
+			SetError("Unable to Open Log File");
+		}
+
 	}
 
 	Logger::~Logger()
 	{
+
+		SetError((m_Profile + " Distructor called"));
+
+		GetEvents();
+
 		for (int  i =  0 ; i < m_Events.size() ; ++i)
 			m_Events.pop();
 
+		LogFile.close();
+
+		for (int i = 0; i < s_Loggers.size(); ++i)
+		{
+			if (s_Loggers[i]->m_Profile == m_Profile)
+			{
+				s_Loggers.erase(s_Loggers.begin() + i);
+			}
+		}
+
 	}
 
 
-	void Logger::SetError(const char* p_ErrorMessage)
+	void Logger::SetError(std::string p_ErrorMessage)
 	{
-		if (p_ErrorMessage == NULL)
-			return;
-
-		m_Events.push({ERROR, p_ErrorMessage, std::chrono::system_clock::now()});
+		m_Events.push({ERROR, p_ErrorMessage, std::chrono::high_resolution_clock::now()});
 	}
 
 
 
-	void Logger::SetWarning(const char* p_WarningMessage)
+	void Logger::SetWarning(std::string p_WarningMessage)
 	{
-		if (p_WarningMessage == NULL)
-			return;
-
-		m_Events.push({ WARNING, p_WarningMessage, std::chrono::system_clock::now() });
+		m_Events.push({ WARNING, p_WarningMessage, std::chrono::high_resolution_clock::now() });
 	}
 
 
 
-	void Logger::SetInfo(const char* p_InfoMessage)
+	void Logger::SetInfo(std::string p_InfoMessage)
 	{
-		if (p_InfoMessage == NULL)
-			return;
-
-		m_Events.push({ INFO, p_InfoMessage, std::chrono::system_clock::now() });
-	
+		m_Events.push({ INFO, p_InfoMessage, std::chrono::high_resolution_clock::now() });
 	}
 
 
-	int Logger::PrintMessages()
+	int Logger::GetEvents()
 	{
 		if (m_Events.size() < 1)
 			return 0;
@@ -59,8 +74,8 @@ namespace TrexEngine
 		while (!m_Events.empty())
 		{
 			auto C = m_Events.front();
-			time_t ctime = std::chrono::system_clock::to_time_t(C.clock);
-			std::cout << '[' << m_Profile << "][" << Timer::GetCurrentElapsed() << "ms][" << ToString(C.m_Type) << ']' << C.m_Message << "\n\n";
+			std::cout << '[' << m_Profile << "][" << Timer::GetElapsedTime(C.clock) << "s][" << ToString(C.m_Type) << ']' << C.m_Message << "\n\n";
+			LogFile << '[' << m_Profile << "][" << Timer::GetElapsedTime(C.clock) << "s][" << ToString(C.m_Type) << ']' << C.m_Message << "\n\n";
 			m_Events.pop();
 		}
 

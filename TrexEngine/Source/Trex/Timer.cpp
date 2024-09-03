@@ -10,10 +10,14 @@ namespace TrexEngine
 		s_Start = std::chrono::high_resolution_clock::now();
 	}
 
-
-	double Timer::GetCurrentElapsed()
+	long double Timer::GetElapsedTime(const std::chrono::time_point<std::chrono::high_resolution_clock>& current)
 	{
-		return std::chrono::duration_cast<std::chrono::milliseconds> (std::chrono::high_resolution_clock::now() - s_Start).count();
+		return (double)std::chrono::duration_cast<std::chrono::seconds> (current - s_Start).count();
+	}
+
+	long double Timer::GetCurrentElapsed()
+	{
+		return (double) std::chrono::duration_cast<std::chrono::seconds> (std::chrono::high_resolution_clock::now() - s_Start).count();
 	}
 
 };

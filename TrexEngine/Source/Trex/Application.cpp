@@ -7,16 +7,17 @@ namespace TrexEngine
 	Engine::Engine(const char* p_Title, int p_Width, int p_Height):
 		m_Log("Core")
 	{
-		m_Log.SetInfo("Engine Constructor Called");
 
+		//Init the Logging unit
+		m_Log.SetInfo("Engine Constructor Called");
 		Logger::CoreLogger = &m_Log;
 
-		m_Renderer.InitGLFW();
 
-		m_Window.InitWindow(p_Title, p_Width, p_Height);
+		if (m_Renderer.InitGLFW() > 0) m_Log.GetEvents();
+
+		if (m_Window.InitWindow(p_Title, p_Width, p_Height) > 0) m_Log.GetEvents();
 	
-		m_Renderer.InitGLEW();
-
+		if (m_Renderer.InitGLEW() > 0) m_Log.GetEvents();
 
 	}
 
@@ -44,7 +45,7 @@ namespace TrexEngine
 
 			for (auto i : Logger::s_Loggers)
 			{
-				i->PrintMessages();
+				i->GetEvents();
 			}
 		}
 	}
