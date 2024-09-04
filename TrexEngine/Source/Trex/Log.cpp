@@ -74,8 +74,8 @@ namespace TrexEngine
 		while (!m_Events.empty())
 		{
 			auto C = m_Events.front();
-			std::cout << '[' << m_Profile << "][" << Timer::GetElapsedTime(C.clock) << "s][" << ToString(C.m_Type) << ']' << C.m_Message << "\n\n";
-			LogFile << '[' << m_Profile << "][" << Timer::GetElapsedTime(C.clock) << "s][" << ToString(C.m_Type) << ']' << C.m_Message << "\n\n";
+			std::cout << '[' << m_Profile << "][" << Timer::GetElapsedTime(C.clock) << "ms][" << ToString(C.m_Type) << ']' << C.m_Message << "\n\n";
+			LogFile << '[' << m_Profile << "][" << Timer::GetElapsedTime(C.clock) << "ms][" << ToString(C.m_Type) << ']' << C.m_Message << "\n\n";
 			m_Events.pop();
 		}
 

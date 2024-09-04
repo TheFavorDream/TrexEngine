@@ -21,7 +21,7 @@ namespace TrexEngine
 		//game loop
 		TX_API void run();
 
-		//should overload in client application:
+		//should override in client application:
 		TX_API virtual void Render() = 0;
 		TX_API virtual void Event() = 0;
 		TX_API virtual void Update() = 0;

@@ -4,7 +4,6 @@
 namespace TrexEngine
 {
 
-
 	int WindowManager::InitWindow(const char* p_Title, int p_Width, int p_Height)
 	{
 
@@ -21,10 +20,12 @@ namespace TrexEngine
 			return 1;
 		}
 
+		glViewport(0, 0, Width, Height);
+
 		glfwGetFramebufferSize(window, &WidthInPixels, &HeightInPixels);
 
-
 		glfwMakeContextCurrent(window);
+
 
 		return 0;
 	}
@@ -37,7 +38,7 @@ namespace TrexEngine
 
 	void WindowManager::SetWindowViewPoint(GLFWwindow* window, int width, int height)
 	{
-
+		glViewport(0, 0, width, height);
 	}
 
 	void WindowManager::SwapBuffers()
