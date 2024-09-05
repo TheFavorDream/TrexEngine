@@ -25,7 +25,7 @@ namespace TrexEngine
 	Logger::~Logger()
 	{
 
-		SetError((m_Profile + " Distructor called"));
+		SetInfo((m_Profile + "Logger Distructor called"));
 
 		GetEvents();
 

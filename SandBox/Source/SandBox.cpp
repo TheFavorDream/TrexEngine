@@ -30,7 +30,7 @@ public:
 
 	~Application() 
 	{
-
+		ApplicationLogger.SetError("SandBox Destructor called");
 	}
 
 

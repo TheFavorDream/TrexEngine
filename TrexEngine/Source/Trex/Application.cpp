@@ -23,6 +23,7 @@ namespace TrexEngine
 
 	Engine::~Engine()
 	{
+		Logger::CoreLogger->SetInfo("Engine Desturctor Clalled");
 		m_Renderer.Shutdown();
 		m_Window.Shutdown();
 		Logger::s_Loggers.clear();
