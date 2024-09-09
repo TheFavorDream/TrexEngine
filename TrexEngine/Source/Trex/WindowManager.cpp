@@ -4,6 +4,11 @@
 namespace TrexEngine
 {
 
+	WindowManager::WindowManager()
+	{
+		Logger::CoreLogger->SetInfo("Window Contructor Called");
+	}
+
 	int WindowManager::InitWindow(const char* p_Title, int p_Width, int p_Height)
 	{
 
@@ -56,6 +61,7 @@ namespace TrexEngine
 
 	WindowManager::~WindowManager()
 	{
+		Logger::CoreLogger->SetInfo("Window Manager Destructor Called");
 		Shutdown();
 	}
 

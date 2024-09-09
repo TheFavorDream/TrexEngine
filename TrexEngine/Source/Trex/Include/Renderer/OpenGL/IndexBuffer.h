@@ -1,7 +1,7 @@
 #pragma once
 
 
-#include "Core.h"
+#include "../../Core.h"
 #include "../../GL/glew.h"
 
 namespace TrexEngine
@@ -15,9 +15,9 @@ namespace TrexEngine
 
 		TX_API ~IndexBuffer();
 
-		TX_API void Bind();
+		TX_API void Bind() const;
 
-		TX_API void Unbind();
+		TX_API void Unbind() const;
 
 	private:
 

@@ -11,6 +11,8 @@ namespace TrexEngine
 	public:
 
 
+		TX_API WindowManager();
+
 		TX_API int InitWindow(const char* p_Title, int p_Width, int p_Height);
 
 		TX_API int Shutdown();

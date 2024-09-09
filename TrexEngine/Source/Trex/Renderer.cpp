@@ -3,7 +3,11 @@
 
 namespace TrexEngine
 {
-	//extern TrexEngine::Logger TrexEngine::TrexLogger("Core");
+
+	Renderer::Renderer()
+	{
+		Logger::CoreLogger->SetInfo("Renderer Constructor Called");
+	}
 
 	int Renderer::InitGLFW()
 	{
@@ -26,6 +30,18 @@ namespace TrexEngine
 	}
 
 
+	TX_API void Renderer::Draw(const VertexBuffer & VBO, const IndexBuffer & EBO, const VertexArray& VAO)
+	{
+		VAO.Bind();
+		VBO.Bind();
+		EBO.Bind();
+		GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
+		VAO.Unbind();
+		VBO.Unbind();
+		EBO.Unbind();
+		return;
+	}
+
 	int Renderer::Shutdown()
 	{
 		glfwTerminate();
@@ -34,6 +50,7 @@ namespace TrexEngine
 
 	Renderer::~Renderer()
 	{
+		Logger::CoreLogger->SetInfo("Renderer Destructor Called");
 		Shutdown();
 	}
 

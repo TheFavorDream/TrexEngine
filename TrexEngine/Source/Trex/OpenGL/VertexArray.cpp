@@ -1,4 +1,5 @@
 #include "../Include/Renderer/OpenGL/VertexArray.h"
+#include "../Include/Log.h"
 
 namespace TrexEngine
 {
@@ -6,37 +7,37 @@ namespace TrexEngine
 
 	VertexArray::VertexArray()
 	{
-		glGenVertexArrays(1,&VertexArrayID);
-		glBindVertexArray(VertexArrayID);
+		GLCall(glGenVertexArrays(1,&VertexArrayID));
+		GLCall(glBindVertexArray(VertexArrayID));
 	}
 
 	VertexArray::~VertexArray()
 	{
-		glDeleteVertexArrays(1, &VertexArrayID);
+		GLCall(glDeleteVertexArrays(1, &VertexArrayID));
 	}
 
-	void VertexArray::Bind()
+	void VertexArray::Bind() const
 	{
-		glBindVertexArray(VertexArrayID);
+		GLCall(glBindVertexArray(VertexArrayID));
 	}
 
-	void VertexArray::Unbind()
+	void VertexArray::Unbind() const
 	{
-		glBindVertexArray(0);
+		GLCall(glBindVertexArray(0));
 	}
 
 	void VertexArray::AddLayouts(const VertexBuffer & VBO, VertexBufferLayout & VBL)
 	{
 
-		unsigned int Ofset = 0;
+		unsigned int Offset = 0;
 
 		auto Layouts = VBL.GetLayouts();
 		VBO.Bind();
-		for (int i = 0; i < Layouts.size(); ++i)
+		for (unsigned int i = 0; i < Layouts.size(); ++i)
 		{
-			glEnableVertexAttribArray(i);
-			glVertexAttribPointer(i, Layouts[i].m_Count, Layouts[i].m_Type, Layouts[i].m_Normalized, VBL.GetStride(), (void*)Ofset);
-			Ofset += Layouts[i].m_Count * Layout::GetTypeSize(Layouts[i].m_Type);
+			GLCall(glEnableVertexAttribArray(i));
+			GLCall(glVertexAttribPointer(i, Layouts[i].m_Count, Layouts[i].m_Type, Layouts[i].m_Normalized, VBL.GetStride(), (void*)Offset));
+			Offset += Layouts[i].m_Count * Layout::GetTypeSize(Layouts[i].m_Type);
 		}
 	}
 

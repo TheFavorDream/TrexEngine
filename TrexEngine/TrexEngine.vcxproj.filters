@@ -69,6 +69,9 @@
     <ClInclude Include="Source\Trex\Include\Renderer\OpenGL\VertexBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Trex\Include\Renderer\OpenGL\ShaderManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Trex\Application.cpp">
@@ -95,5 +98,11 @@
     <ClCompile Include="Source\Trex\OpenGL\IndexBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Trex\OpenGL\ShaderManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\Trex\Include\Renderer\Shaders\Simple.glsl" />
   </ItemGroup>
 </Project>

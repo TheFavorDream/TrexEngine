@@ -1,9 +1,15 @@
 #pragma once
+#include "Log.h"
 #include "Core.h"
 #include "Renderer/Renderer.h"
 #include "Renderer/WindowManager.h"
-#include "Log.h"
 #include "Timer.h"
+
+#include "Renderer/OpenGL/VertexBuffer.h"
+#include "Renderer/OpenGL/IndexBuffer.h"
+#include "Renderer/OpenGL/VertexArray.h"
+#include "Renderer/OpenGL/VertexBufferLayout.h"
+#include "Renderer/OpenGL/ShaderManager.h"
 
 namespace TrexEngine
 {
@@ -26,12 +32,15 @@ namespace TrexEngine
 		TX_API virtual void Event() = 0;
 		TX_API virtual void Update() = 0;
 
+	private:
+		Logger   m_Log;
+		Shader m_Shader;
 	protected:
 		WindowManager m_Window;
 		Renderer m_Renderer;
 		Timer timer;
-	private:
-		Logger   m_Log;
+
+
 	};
 
 

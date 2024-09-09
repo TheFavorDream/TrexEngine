@@ -5,36 +5,35 @@ namespace TrexEngine
 {
 
 	Engine::Engine(const char* p_Title, int p_Width, int p_Height):
-		m_Log("Core")
+		m_Log("Core"),
+		m_Shader("G:\\Dev\\TrexEngine\\TrexEngine\\Source\\Trex\\Include\\Renderer\\Shaders\\Simple.glsl")
 	{
 
 		//Init the Logging unit
 		m_Log.SetInfo("Engine Constructor Called");
-		Logger::CoreLogger = &m_Log;
 
 
-		if (m_Renderer.InitGLFW() > 0) m_Log.GetEvents();
+		m_Renderer.InitGLFW();
 
-		if (m_Window.InitWindow(p_Title, p_Width, p_Height) > 0) m_Log.GetEvents();
+		m_Window.InitWindow(p_Title, p_Width, p_Height);
 	
-		if (m_Renderer.InitGLEW() > 0) m_Log.GetEvents();
+		m_Renderer.InitGLEW();
 
+		m_Shader.CreateShaderProgram();
 	}
 
 	Engine::~Engine()
 	{
-		Logger::CoreLogger->SetInfo("Engine Desturctor Clalled");
-		m_Renderer.Shutdown();
-		m_Window.Shutdown();
-		Logger::s_Loggers.clear();
+		Logger::CoreLogger->SetInfo("Engine Desturctor Called");
 	}
 
 	void Engine::run()
 	{
 		while (!m_Window.WindowShouldClose())
 		{
-			glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT);
+			GLCall(glClearColor(0.5f, 0.5f, 0.5f, 1.0f));
+			GLCall(glClear(GL_COLOR_BUFFER_BIT));
+			
 			Event();
 
 			Update();
@@ -43,11 +42,6 @@ namespace TrexEngine
 
 			m_Window.SwapBuffers();
 			glfwPollEvents();
-
-			for (auto i : Logger::s_Loggers)
-			{
-				i->GetEvents();
-			}
 		}
 	}
 

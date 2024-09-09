@@ -23,6 +23,7 @@
     <ClInclude Include="Source\Trex\Include\GL\wglew.h" />
     <ClInclude Include="Source\Trex\Include\Log.h" />
     <ClInclude Include="Source\Trex\Include\Renderer\OpenGL\IndexBuffer.h" />
+    <ClInclude Include="Source\Trex\Include\Renderer\OpenGL\ShaderManager.h" />
     <ClInclude Include="Source\Trex\Include\Renderer\Renderer.h" />
     <ClInclude Include="Source\Trex\Include\Renderer\OpenGL\VertexArray.h" />
     <ClInclude Include="Source\Trex\Include\Renderer\OpenGL\VertexBufferLayout.h" />
@@ -34,11 +35,15 @@
     <ClCompile Include="Source\Trex\Application.cpp" />
     <ClCompile Include="Source\Trex\OpenGL\IndexBuffer.cpp" />
     <ClCompile Include="Source\Trex\Log.cpp" />
+    <ClCompile Include="Source\Trex\OpenGL\ShaderManager.cpp" />
     <ClCompile Include="Source\Trex\Renderer.cpp" />
     <ClCompile Include="Source\Trex\Timer.cpp" />
     <ClCompile Include="Source\Trex\OpenGL\VertexArray.cpp" />
     <ClCompile Include="Source\Trex\OpenGL\VertexBuffer.cpp" />
     <ClCompile Include="Source\Trex\WindowManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\Trex\Include\Renderer\Shaders\Simple.glsl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

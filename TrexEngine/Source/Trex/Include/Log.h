@@ -1,5 +1,6 @@
 #pragma once
 
+
 #include "Core.h"
 #include "Timer.h"
 
@@ -9,6 +10,11 @@
 #include <string>
 #include <iostream>
 #include <vector>
+
+#define ASSERT(x) if (!(x)) __debugbreak()
+#define GLCall(x) Logger::CoreLogger->GL_ClearErrors();\
+													  x;ASSERT(Logger::CoreLogger->GL_GetLog(#x, __FILE__, __LINE__));
+													
 
 namespace TrexEngine
 {
@@ -38,17 +44,21 @@ namespace TrexEngine
 
 		TX_API void SetInfo(std::string p_InfoMessage);
 
-		TX_API int GetEvents();
+		//for opengl debuging
+		TX_API void GL_ClearErrors();
+
+		TX_API bool GL_GetLog(const char* function, const char* file, int line);
+
 
 	private:
 
-		const char* ToString(MessageType type);
+		const char* ToString(MessageType p_Type);
+
+		void LogMessage(MessageType p_Type, const char* p_Message);
 
 	private:
 
 		std::string m_Profile;
-
-		std::queue<LogEvent> m_Events;
 
 		std::string LogFilePath;
 

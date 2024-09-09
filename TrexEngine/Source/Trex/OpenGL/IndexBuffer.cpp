@@ -1,29 +1,29 @@
 #include "../Include/Renderer/OpenGL/IndexBuffer.h"
-
+#include "../Include/Log.h"
 
 namespace TrexEngine
 {
 
 	IndexBuffer::IndexBuffer(unsigned int *p_Data, unsigned int p_Count)
 	{
-		glGenBuffers(1, &IndexBufferID);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBufferID);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, (p_Count * sizeof(unsigned int)), p_Data, GL_STATIC_DRAW);
+		GLCall(glGenBuffers(1, &IndexBufferID));
+		GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBufferID));
+		GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, (p_Count * sizeof(unsigned int)), p_Data, GL_STATIC_DRAW));
 	}
 
 	IndexBuffer::~IndexBuffer()
 	{
-		glDeleteBuffers(1, &IndexBufferID);
+		GLCall(glDeleteBuffers(1, &IndexBufferID));
 	}
 
-	void IndexBuffer::Bind()
+	void IndexBuffer::Bind() const
 	{
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBufferID);
+		GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBufferID));
 	}
 
-	void IndexBuffer::Unbind()
+	void IndexBuffer::Unbind() const 
 	{
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
 	}
 
 };

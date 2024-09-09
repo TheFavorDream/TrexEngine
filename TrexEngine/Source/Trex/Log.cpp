@@ -1,6 +1,6 @@
 #include "../Include/Log.h"
 
-
+#include "GL/glew.h"
 //Implementation for Logging system:
 namespace TrexEngine
 {
@@ -9,6 +9,9 @@ namespace TrexEngine
 
 	Logger::Logger(std::string p_Profile) : m_Profile(p_Profile)
 	{
+		if (p_Profile == "Core")
+			CoreLogger = this;
+
 		s_Loggers.push_back(this);
 		
 
@@ -27,11 +30,6 @@ namespace TrexEngine
 
 		SetInfo((m_Profile + "Logger Distructor called"));
 
-		GetEvents();
-
-		for (int  i =  0 ; i < m_Events.size() ; ++i)
-			m_Events.pop();
-
 		LogFile.close();
 
 		for (int i = 0; i < s_Loggers.size(); ++i)
@@ -42,54 +40,68 @@ namespace TrexEngine
 			}
 		}
 
+		if (s_Loggers.empty())
+			s_Loggers.clear();
+
 	}
 
 
 	void Logger::SetError(std::string p_ErrorMessage)
 	{
-		m_Events.push({ERROR, p_ErrorMessage, std::chrono::high_resolution_clock::now()});
+		LogMessage(ERROR, p_ErrorMessage.c_str());
 	}
 
 
 
 	void Logger::SetWarning(std::string p_WarningMessage)
 	{
-		m_Events.push({ WARNING, p_WarningMessage, std::chrono::high_resolution_clock::now() });
+		LogMessage(WARNING, p_WarningMessage.c_str());
 	}
 
 
 
 	void Logger::SetInfo(std::string p_InfoMessage)
 	{
-		m_Events.push({ INFO, p_InfoMessage, std::chrono::high_resolution_clock::now() });
+		LogMessage(INFO, p_InfoMessage.c_str());
 	}
 
-
-	int Logger::GetEvents()
+	TX_API void Logger::GL_ClearErrors()
 	{
-		if (m_Events.size() < 1)
-			return 0;
+		while (glGetError() != GL_NO_ERROR);
+	}
 
-
-		while (!m_Events.empty())
+	TX_API bool Logger::GL_GetLog(const char * function, const char * file, int line)
+	{
+		while (GLenum error = glGetError())
 		{
-			auto C = m_Events.front();
-			std::cout << '[' << m_Profile << "][" << Timer::GetElapsedTime(C.clock) << "ms][" << ToString(C.m_Type) << ']' << C.m_Message << "\n\n";
-			LogFile << '[' << m_Profile << "][" << Timer::GetElapsedTime(C.clock) << "ms][" << ToString(C.m_Type) << ']' << C.m_Message << "\n\n";
-			m_Events.pop();
+			SetError(("[OpenGL]: Function:" + std::string(function) + " Line:" + std::to_string(line) + " File:" + std::string(file)));
+			return false;
 		}
-
-		return (int)m_Events.size();
+		return true;
 	}
 
-	const char * Logger::ToString(MessageType type)
+	void Logger::LogMessage(MessageType p_Type, const char * p_Message)
+	{
+		std::cout << '[' << m_Profile <<
+			"][" << Timer::GetElapsedTime(std::chrono::high_resolution_clock::now())
+			<< "ms]" << ToString(p_Type)  <<
+			p_Message << "\n\n";
+
+		LogFile << '[' << m_Profile <<
+			"][" << Timer::GetElapsedTime(std::chrono::high_resolution_clock::now())
+			<< "ms]" << ToString(p_Type) << 
+			p_Message << "\n\n";
+	}
+
+
+	const char * Logger::ToString(MessageType p_Type)
 	{
 
-		switch (type)
+		switch (p_Type)
 		{
-		case ERROR:   return "Error";
-		case WARNING: return "Warning";
-		case INFO:    return "Info";
+		case ERROR:   return "[Error]";
+		case WARNING: return "[Warning]";
+		case INFO:    return "[Info]";
 		}
 
 		return nullptr;
