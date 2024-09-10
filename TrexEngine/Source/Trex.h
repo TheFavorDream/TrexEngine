@@ -10,7 +10,6 @@
 #include "Trex/Include/Renderer/OpenGL/IndexBuffer.h"
 #include "Trex/Include/Renderer/OpenGL/VertexArray.h"
 #include "Trex/Include/Renderer/OpenGL/VertexBufferLayout.h"
-#include "Trex/Include/Renderer/OpenGL/ShaderManager.h"
 #include "Trex/Include/Timer.h"
 
 

@@ -10,8 +10,7 @@ namespace TrexEngine
 	{
 	public:
 
-		TX_API Timer();
-
+		TX_API Timer(); 
 
 		TX_API static long double GetElapsedTime(const std::chrono::time_point<std::chrono::high_resolution_clock>& current);
 		TX_API static long double GetCurrentElapsed();

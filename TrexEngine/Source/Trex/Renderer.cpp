@@ -29,13 +29,20 @@ namespace TrexEngine
 		return 0;
 	}
 
+	TX_API void Renderer::DrawArrays(const VertexBuffer & VBO, const VertexArray & VAO)
+	{
+		VAO.Bind();
+		VBO.Bind();
+		GLCall(glDrawArrays(GL_TRIANGLES, 0, 3));
+	}
 
-	TX_API void Renderer::Draw(const VertexBuffer & VBO, const IndexBuffer & EBO, const VertexArray& VAO)
+
+	TX_API void Renderer::DrawElements(const VertexBuffer & VBO, const IndexBuffer & EBO, const VertexArray& VAO)
 	{
 		VAO.Bind();
 		VBO.Bind();
 		EBO.Bind();
-		GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL));
+		GLCall(glDrawElements(GL_TRIANGLES, EBO.GetCount(), GL_UNSIGNED_INT, NULL));
 		VAO.Unbind();
 		VBO.Unbind();
 		EBO.Unbind();

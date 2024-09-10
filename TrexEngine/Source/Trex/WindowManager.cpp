@@ -25,12 +25,13 @@ namespace TrexEngine
 			return 1;
 		}
 
+		glfwMakeContextCurrent(window);
+
 		glViewport(0, 0, Width, Height);
 
 		glfwGetFramebufferSize(window, &WidthInPixels, &HeightInPixels);
 
-		glfwMakeContextCurrent(window);
-
+		glfwSetWindowSizeCallback(window, SetViewportSizeCallBack);
 
 		return 0;
 	}
@@ -41,10 +42,7 @@ namespace TrexEngine
 		return 0;
 	}
 
-	void WindowManager::SetWindowViewPoint(GLFWwindow* window, int width, int height)
-	{
-		glViewport(0, 0, width, height);
-	}
+
 
 	void WindowManager::SwapBuffers()
 	{
@@ -63,6 +61,11 @@ namespace TrexEngine
 	{
 		Logger::CoreLogger->SetInfo("Window Manager Destructor Called");
 		Shutdown();
+	}
+
+	void WindowManager::SetViewportSizeCallBack(GLFWwindow * window, int width, int height)
+	{
+		GLCall(glViewport(0,0,width, height));
 	}
 
 };

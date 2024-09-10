@@ -20,8 +20,9 @@ namespace TrexEngine
 
 		TX_API int InitGLEW();
 
+		TX_API void DrawArrays(const VertexBuffer& VBO,  const VertexArray& VAO);
 
-		TX_API static void Draw(const VertexBuffer& VBO, const IndexBuffer& EBO, const VertexArray& VAO);
+		TX_API void DrawElements(const VertexBuffer& VBO, const IndexBuffer& EBO, const VertexArray& VAO);
 
 		TX_API int Shutdown();
 

@@ -23,7 +23,7 @@
     <ClInclude Include="Source\Trex\Include\GL\wglew.h" />
     <ClInclude Include="Source\Trex\Include\Log.h" />
     <ClInclude Include="Source\Trex\Include\Renderer\OpenGL\IndexBuffer.h" />
-    <ClInclude Include="Source\Trex\Include\Renderer\OpenGL\ShaderManager.h" />
+    <ClInclude Include="Source\Trex\Include\Renderer\OpenGL\Shader.h" />
     <ClInclude Include="Source\Trex\Include\Renderer\Renderer.h" />
     <ClInclude Include="Source\Trex\Include\Renderer\OpenGL\VertexArray.h" />
     <ClInclude Include="Source\Trex\Include\Renderer\OpenGL\VertexBufferLayout.h" />
@@ -35,7 +35,7 @@
     <ClCompile Include="Source\Trex\Application.cpp" />
     <ClCompile Include="Source\Trex\OpenGL\IndexBuffer.cpp" />
     <ClCompile Include="Source\Trex\Log.cpp" />
-    <ClCompile Include="Source\Trex\OpenGL\ShaderManager.cpp" />
+    <ClCompile Include="Source\Trex\OpenGL\Shader.cpp" />
     <ClCompile Include="Source\Trex\Renderer.cpp" />
     <ClCompile Include="Source\Trex\Timer.cpp" />
     <ClCompile Include="Source\Trex\OpenGL\VertexArray.cpp" />
@@ -97,7 +97,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories>$(SolutionDir)bin\$(Platform)\Dependencies\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;glew32s.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>
       </EntryPointSymbol>
     </Link>
@@ -118,7 +118,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)bin\$(Platform)\Dependencies\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;glew32s.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>
       </EntryPointSymbol>
     </Link>

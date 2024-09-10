@@ -22,13 +22,15 @@ namespace TrexEngine
 		TX_API inline const char* GetTitle() const { return Title; }
 		TX_API inline bool WindowShouldClose() const { return glfwWindowShouldClose(window); }
 
-		TX_API void SetWindowViewPoint(GLFWwindow* window, int width, int height);
-
 		TX_API void SwapBuffers();
 
 		TX_API void GetWindowSize(int &Width, int &Height);
 
 		TX_API ~WindowManager();
+
+	public:
+
+		static void SetViewportSizeCallBack(GLFWwindow* window, int width, int height);
 
 	private:
 

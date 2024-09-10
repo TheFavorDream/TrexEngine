@@ -11,7 +11,9 @@ namespace TrexEngine
 	{
 	public:
 
-		TX_API IndexBuffer(unsigned int *p_Data, unsigned int p_Count);
+		TX_API IndexBuffer();
+
+		TX_API void BufferData(unsigned int *p_Data, unsigned int p_Count);
 
 		TX_API ~IndexBuffer();
 
@@ -19,8 +21,10 @@ namespace TrexEngine
 
 		TX_API void Unbind() const;
 
-	private:
+		TX_API inline unsigned int GetCount() const { return m_Count; }
 
+	private:
+		unsigned int m_Count = 0;
 		unsigned int IndexBufferID = 0;
 	};
 

@@ -9,7 +9,7 @@
 #include "Renderer/OpenGL/IndexBuffer.h"
 #include "Renderer/OpenGL/VertexArray.h"
 #include "Renderer/OpenGL/VertexBufferLayout.h"
-#include "Renderer/OpenGL/ShaderManager.h"
+#include "Renderer/OpenGL/Shader.h"
 
 namespace TrexEngine
 {
@@ -34,10 +34,10 @@ namespace TrexEngine
 
 	private:
 		Logger   m_Log;
-		Shader m_Shader;
 	protected:
 		WindowManager m_Window;
 		Renderer m_Renderer;
+		Shader m_Shader;
 		Timer timer;
 
 

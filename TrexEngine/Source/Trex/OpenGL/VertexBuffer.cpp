@@ -3,10 +3,13 @@
 
 namespace TrexEngine
 {
-	VertexBuffer::VertexBuffer(void* p_Data, unsigned int p_Size)
+	VertexBuffer::VertexBuffer()
 	{
 		GLCall(glGenBuffers(1, &VertexBufferID));
 		GLCall(glBindBuffer(GL_ARRAY_BUFFER, VertexBufferID));
+	}
+	void VertexBuffer::BufferData(void* p_Data, unsigned int p_Size)
+	{
 		GLCall(glBufferData(GL_ARRAY_BUFFER, p_Size, p_Data, GL_STATIC_DRAW));
 	}
 
