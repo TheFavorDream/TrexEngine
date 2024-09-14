@@ -14,13 +14,15 @@
     <ClInclude Include="Source\Trex.h" />
     <ClInclude Include="Source\Trex\Include\Application.h" />
     <ClInclude Include="Source\Trex\Include\Core.h" />
-    <ClInclude Include="Source\Trex\Include\EntryPoint.h" />
+    <ClInclude Include="Source\EntryPoint.h" />
     <ClInclude Include="Source\Trex\Include\GLFW\glfw3.h" />
     <ClInclude Include="Source\Trex\Include\GLFW\glfw3native.h" />
     <ClInclude Include="Source\Trex\Include\GL\eglew.h" />
     <ClInclude Include="Source\Trex\Include\GL\glew.h" />
     <ClInclude Include="Source\Trex\Include\GL\glxew.h" />
     <ClInclude Include="Source\Trex\Include\GL\wglew.h" />
+    <ClInclude Include="Source\Trex\Include\Layer.h" />
+    <ClInclude Include="Source\Trex\Include\LayerContainer.h" />
     <ClInclude Include="Source\Trex\Include\Log.h" />
     <ClInclude Include="Source\Trex\Include\Renderer\OpenGL\IndexBuffer.h" />
     <ClInclude Include="Source\Trex\Include\Renderer\OpenGL\Shader.h" />
@@ -33,6 +35,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Trex\Application.cpp" />
+    <ClCompile Include="Source\Trex\Layer.cpp" />
+    <ClCompile Include="Source\Trex\LayerContainer.cpp" />
     <ClCompile Include="Source\Trex\OpenGL\IndexBuffer.cpp" />
     <ClCompile Include="Source\Trex\Log.cpp" />
     <ClCompile Include="Source\Trex\OpenGL\Shader.cpp" />
@@ -41,9 +45,6 @@
     <ClCompile Include="Source\Trex\OpenGL\VertexArray.cpp" />
     <ClCompile Include="Source\Trex\OpenGL\VertexBuffer.cpp" />
     <ClCompile Include="Source\Trex\WindowManager.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Source\Trex\Include\Renderer\Shaders\Simple.glsl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

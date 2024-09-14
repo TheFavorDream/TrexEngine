@@ -4,13 +4,9 @@
 namespace TrexEngine
 {
 
-	Shader::Shader(const char* ShaderFilePath)
+	Shader::Shader()
 	{
 
-		if (ReadShadersFromSourceFile(ShaderFilePath) > 0)
-		{
-			return;
-		}
 	}
 
 	Shader::~Shader()
@@ -46,57 +42,6 @@ namespace TrexEngine
 	}
 
 
-	int Shader::ReadShadersFromSourceFile(const char* FilePath)
-	{
-
-		std::ifstream SourceFile(FilePath);
-
-		if (SourceFile.fail())
-		{
-			Logger::CoreLogger->SetError("Cannot Open the Shader Source File");
-			return 1;
-		}
-
-
-		std::string line;
-		std::string* Current = NULL;
-		bool Reading = false;
-
-		while (!SourceFile.eof())
-		{
-			std::getline(SourceFile, line, '\n');
-
-			if (line == "#End")
-			{
-				Reading = false;
-				Current = NULL;
-			}
-
-			if (Reading)
-			{
-				(*Current) += (line + "\n");
-			}
-
-
-			if (line == "#Shader Vertex")
-			{
-				Reading = true;
-				Current = &VertexShaderSource;
-			}
-
-			else if (line == "#Shader Fragment")
-			{
-				Reading = true;
-				Current = &FragmentShaderSource;
-			}
-
-		}
-
-		SourceFile.close();
-
-		return 0;
-	}
-
 	unsigned int Shader::CompileShader(unsigned int Type, const std::string& ShaderSource)
 	{
 		unsigned int Shader = glCreateShader(Type);
@@ -124,10 +69,10 @@ namespace TrexEngine
 		return Shader;
 	}
 
-	void Shader::CreateShaderProgram()
+	void Shader::CreateShaderProgram(const std::string& VertexShader, const std::string& FragmentShader)
 	{
-		unsigned int VS = CompileShader(GL_VERTEX_SHADER, VertexShaderSource);
-		unsigned int FS = CompileShader(GL_FRAGMENT_SHADER, FragmentShaderSource);
+		unsigned int VS = CompileShader(GL_VERTEX_SHADER, VertexShader);
+		unsigned int FS = CompileShader(GL_FRAGMENT_SHADER, FragmentShader);
 
 		ProgramID = glCreateProgram();
 		GLCall(glAttachShader(ProgramID, VS));
@@ -160,7 +105,7 @@ namespace TrexEngine
 		Bind();
 	}
 
-	int Shader::SetUniformF(const char * p_UniformName, float p_Value)
+	int Shader::SetUniformF(const char * p_UniformName, float p_Value) const
 	{
 		int Location = glGetUniformLocation(ProgramID, p_UniformName);
 
@@ -174,7 +119,7 @@ namespace TrexEngine
 		return 0;
 	}
 
-	int Shader::SetUniformI(const char * p_UniformName, int p_Value)
+	int Shader::SetUniformI(const char * p_UniformName, int p_Value) const
 	{
 		int Location = glGetUniformLocation(ProgramID, p_UniformName);
 

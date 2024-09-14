@@ -4,6 +4,7 @@
 #include "Renderer/Renderer.h"
 #include "Renderer/WindowManager.h"
 #include "Timer.h"
+#include "LayerContainer.h"
 
 #include "Renderer/OpenGL/VertexBuffer.h"
 #include "Renderer/OpenGL/IndexBuffer.h"
@@ -27,19 +28,14 @@ namespace TrexEngine
 		//game loop
 		TX_API void run();
 
-		//should override in client application:
-		TX_API virtual void Render() = 0;
-		TX_API virtual void Event() = 0;
-		TX_API virtual void Update() = 0;
-
 	private:
 		Logger   m_Log;
 	protected:
-		WindowManager m_Window;
-		Renderer m_Renderer;
-		Shader m_Shader;
-		Timer timer;
-
+		WindowManager	Window;
+		Renderer		Renderer;
+		Timer			timer;
+		Shader			Shader;
+		LayerContainer  Layers;
 
 	};
 

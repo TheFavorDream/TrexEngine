@@ -10,9 +10,6 @@
 #include "Trex/Include/Renderer/OpenGL/IndexBuffer.h"
 #include "Trex/Include/Renderer/OpenGL/VertexArray.h"
 #include "Trex/Include/Renderer/OpenGL/VertexBufferLayout.h"
+#include "Trex/Include/Renderer/OpenGL/Shader.h"
+#include "Trex/Include/Layer.h"
 #include "Trex/Include/Timer.h"
-
-
-//Engine EntryPoint
-//just define the function CreateApplication from Trex namespace and return your application.
-#include "Trex/Include/EntryPoint.h"

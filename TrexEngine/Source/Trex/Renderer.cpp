@@ -29,7 +29,7 @@ namespace TrexEngine
 		return 0;
 	}
 
-	TX_API void Renderer::DrawArrays(const VertexBuffer & VBO, const VertexArray & VAO)
+	TX_API void Renderer::DrawArrays(const VertexBuffer & VBO, const VertexArray & VAO) const
 	{
 		VAO.Bind();
 		VBO.Bind();
@@ -37,7 +37,7 @@ namespace TrexEngine
 	}
 
 
-	TX_API void Renderer::DrawElements(const VertexBuffer & VBO, const IndexBuffer & EBO, const VertexArray& VAO)
+	TX_API void Renderer::DrawElements(const VertexBuffer & VBO, const IndexBuffer & EBO, const VertexArray& VAO) const
 	{
 		VAO.Bind();
 		VBO.Bind();

@@ -5,21 +5,21 @@ namespace TrexEngine
 {
 
 	Engine::Engine(const char* p_Title, int p_Width, int p_Height):
-		m_Log("Core"),
-		m_Shader("G:\\Dev\\TrexEngine\\TrexEngine\\Source\\Trex\\Include\\Renderer\\Shaders\\Simple.glsl")
+		m_Log("Core"), Shader()
 	{
 
 		//Init the Logging unit
 		m_Log.SetInfo("Engine Constructor Called");
 
 
-		m_Renderer.InitGLFW();
+		Renderer.InitGLFW();
 
-		m_Window.InitWindow(p_Title, p_Width, p_Height);
+		Window.InitWindow(p_Title, p_Width, p_Height);
 	
-		m_Renderer.InitGLEW();
+		Renderer.InitGLEW();
 
-		m_Shader.CreateShaderProgram();
+		Shader.CreateShaderProgram(VertexShaderSource, FragmentShaderSource);
+		Shader.Bind();
 
 	}
 
@@ -30,18 +30,18 @@ namespace TrexEngine
 
 	void Engine::run()
 	{
-		while (!m_Window.WindowShouldClose())
+		while (!Window.WindowShouldClose())
 		{
 			GLCall(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
 			GLCall(glClear(GL_COLOR_BUFFER_BIT));
 
-			Event();
+			for (auto& i : Layers)
+			{
+				i->OnUpdate(Shader);
+				i->OnRender(Renderer);
+			}
 
-			Update();
-
-			Render();
-
-			m_Window.SwapBuffers();
+			Window.SwapBuffers();
 			glfwPollEvents();
 		}
 	}

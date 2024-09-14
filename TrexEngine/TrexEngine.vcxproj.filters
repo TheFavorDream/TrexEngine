@@ -24,9 +24,6 @@
     <ClInclude Include="Source\Trex\Include\Application.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Trex\Include\EntryPoint.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Trex\Include\Renderer\Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -72,6 +69,15 @@
     <ClInclude Include="Source\Trex\Include\Renderer\OpenGL\Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Trex\Include\Layer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Trex\Include\LayerContainer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EntryPoint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Trex\Application.cpp">
@@ -101,8 +107,11 @@
     <ClCompile Include="Source\Trex\OpenGL\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Source\Trex\Include\Renderer\Shaders\Simple.glsl" />
+    <ClCompile Include="Source\Trex\Layer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Trex\LayerContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
