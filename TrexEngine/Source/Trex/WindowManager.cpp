@@ -9,6 +9,18 @@ namespace TrexEngine
 		Logger::CoreLogger->SetInfo("Window Contructor Called");
 	}
 
+	WindowManager* WindowManager::s_WindowManager;
+
+	TX_API WindowManager * WindowManager::GetInstance()
+	{
+		if (s_WindowManager == NULL)
+		{
+			s_WindowManager = new WindowManager;
+		}
+
+		return s_WindowManager;
+	}
+
 	int WindowManager::InitWindow(const char* p_Title, int p_Width, int p_Height)
 	{
 

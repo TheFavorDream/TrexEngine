@@ -29,11 +29,11 @@ namespace TrexEngine
 	void VertexArray::AddLayouts(const VertexBuffer & VBO, VertexBufferLayout & VBL)
 	{
 
-		unsigned int Offset = 0;
+		int Offset = 0;
 
 		auto Layouts = VBL.GetLayouts();
 		VBO.Bind();
-		for (unsigned int i = 0; i < Layouts.size(); ++i)
+		for (int i = 0; i < Layouts.size(); ++i)
 		{
 			GLCall(glEnableVertexAttribArray(i));
 			GLCall(glVertexAttribPointer(i, Layouts[i].m_Count, Layouts[i].m_Type, Layouts[i].m_Normalized, VBL.GetStride(), (void*)Offset));

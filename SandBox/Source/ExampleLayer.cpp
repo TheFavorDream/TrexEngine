@@ -23,10 +23,10 @@ void ExampleLayer::OnEvent()
 {
 }
 
-void ExampleLayer::OnUpdate(const TrexEngine::Shader& shader)
+void ExampleLayer::OnUpdate()
 {
-	shader.SetUniformF("u_Color", i);
-	shader.SetUniformF("Scale", i);
+	Shader::GetInstance()->SetUniformF("u_Color", i);
+	Shader::GetInstance()->SetUniformF("Scale", i);
 
 	switch (Increace)
 	{
@@ -53,9 +53,9 @@ void ExampleLayer::OnUpdate(const TrexEngine::Shader& shader)
 
 }
 
-void ExampleLayer::OnRender(const TrexEngine::Renderer & Render)
+void ExampleLayer::OnRender()
 {
-	Render.DrawElements(VBO, EBO, VAO);
+	Renderer::GetInstance()->DrawElements(VBO, EBO, VAO);
 }
 
 

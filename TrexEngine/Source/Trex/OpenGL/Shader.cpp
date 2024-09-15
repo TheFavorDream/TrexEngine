@@ -9,6 +9,18 @@ namespace TrexEngine
 
 	}
 
+	Shader* Shader::shader;
+
+	TX_API Shader * Shader::GetInstance()
+	{
+
+		if (shader == NULL)
+		{
+			shader = new Shader;
+		}
+		return shader;
+	}
+
 	Shader::~Shader()
 	{
 	
@@ -130,6 +142,8 @@ namespace TrexEngine
 		}
 
 		GLCall(glUniform1i(Location, p_Value));
+
+		return 0;
 	}
 
 

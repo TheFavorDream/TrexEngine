@@ -14,7 +14,9 @@ namespace TrexEngine
 	{
 	public:
 
-		TX_API Renderer();
+		TX_API static Renderer* GetInstance();
+
+		Renderer(const Renderer& obj) = delete;
 
 		TX_API int InitGLFW();
 
@@ -28,8 +30,11 @@ namespace TrexEngine
 
 		TX_API ~Renderer();
 
+	private:
+		Renderer();
+
 	public:
-		bool IsInit = false;
+		static Renderer* Render;
 	};
 
 };

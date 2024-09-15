@@ -8,17 +8,17 @@
 namespace TrexEngine
 {
 
-	class TX_API Layer
+	class  Layer
 	{
 	public:
-		Layer(std::string p_LayerName);
-		virtual ~Layer();
+		TX_API Layer(std::string p_LayerName);
+		TX_API virtual ~Layer();
 
-		virtual void OnAttach ()  = 0;
-		virtual void OnDettach()  = 0;
-		virtual void OnUpdate (const Shader&  shader)  = 0;
-		virtual void OnRender (const Renderer& Render)  = 0;
-		virtual void OnEvent  ()  = 0;
+		TX_API virtual void OnAttach ()  = 0;
+		TX_API virtual void OnDettach()  = 0;
+		TX_API virtual void OnUpdate ()  = 0;
+		TX_API virtual void OnRender ()  = 0;
+		TX_API virtual void OnEvent  ()  = 0;
 
 	private:
 

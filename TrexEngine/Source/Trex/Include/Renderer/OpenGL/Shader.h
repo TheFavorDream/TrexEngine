@@ -46,20 +46,24 @@ namespace TrexEngine
 
 	public:
 
-		Shader();
-		~Shader();
+		TX_API static Shader* GetInstance();
 
-		void Bind();
-		void Unbind();
+		Shader(const Shader& obj) = delete;
 
-		void CreateShaderProgram(const std::string& VertexShader, const std::string& FragmentShader);
+		TX_API ~Shader();
+
+		TX_API void Bind();
+		TX_API void Unbind();
+
+		TX_API void CreateShaderProgram(const std::string& VertexShader, const std::string& FragmentShader);
 
 		TX_API int SetUniformF(const char* p_UniformName, float p_Value) const;
 		TX_API int SetUniformI(const char* p_UniformName, int p_Value)   const;
 
 
 	private:
-		unsigned int CompileShader(unsigned int Type, const std::string& ShaderSource);
+		TX_API unsigned int CompileShader(unsigned int Type, const std::string& ShaderSource);
+		TX_API Shader();
 
 	private:
 
@@ -67,6 +71,8 @@ namespace TrexEngine
 
 		unsigned int ProgramID = 0;
 		const char* ShaderFilePath = 0;
+	public:
+		static Shader* shader;
 	};
 
 };

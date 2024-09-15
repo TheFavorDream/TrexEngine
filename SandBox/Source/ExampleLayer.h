@@ -2,6 +2,8 @@
 
 #include "Source/Trex.h"
 
+using namespace TrexEngine;
+
 class ExampleLayer : public TrexEngine::Layer
 {
 public:
@@ -12,9 +14,9 @@ public:
 
 	void OnEvent() override;
 
-	void OnUpdate(const TrexEngine::Shader&  shader) override;
+	void OnUpdate() override;
 
-	void OnRender(const TrexEngine::Renderer& Render) override;
+	void OnRender() override;
 
 	void OnDettach() override;
 

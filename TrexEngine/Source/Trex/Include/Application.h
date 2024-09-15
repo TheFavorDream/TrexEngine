@@ -5,11 +5,6 @@
 #include "Renderer/WindowManager.h"
 #include "Timer.h"
 #include "LayerContainer.h"
-
-#include "Renderer/OpenGL/VertexBuffer.h"
-#include "Renderer/OpenGL/IndexBuffer.h"
-#include "Renderer/OpenGL/VertexArray.h"
-#include "Renderer/OpenGL/VertexBufferLayout.h"
 #include "Renderer/OpenGL/Shader.h"
 
 namespace TrexEngine
@@ -31,10 +26,7 @@ namespace TrexEngine
 	private:
 		Logger   m_Log;
 	protected:
-		WindowManager	Window;
-		Renderer		Renderer;
 		Timer			timer;
-		Shader			Shader;
 		LayerContainer  Layers;
 
 	};

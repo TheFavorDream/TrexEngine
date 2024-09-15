@@ -10,8 +10,9 @@ namespace TrexEngine
 	{
 	public:
 
+		TX_API static WindowManager* GetInstance();
 
-		TX_API WindowManager();
+		WindowManager(const WindowManager& obj) = delete;
 
 		TX_API int InitWindow(const char* p_Title, int p_Width, int p_Height);
 
@@ -31,6 +32,8 @@ namespace TrexEngine
 	public:
 
 		static void SetViewportSizeCallBack(GLFWwindow* window, int width, int height);
+	private:
+		WindowManager();
 
 	private:
 
@@ -43,5 +46,7 @@ namespace TrexEngine
 		int HeightInPixels = 0;
 
 		const char* Title = NULL;
+	public:
+		static WindowManager* s_WindowManager;
 	};
 };

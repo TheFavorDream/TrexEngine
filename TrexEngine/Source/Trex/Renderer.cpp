@@ -9,6 +9,19 @@ namespace TrexEngine
 		Logger::CoreLogger->SetInfo("Renderer Constructor Called");
 	}
 
+	Renderer *Renderer::Render;
+
+	TX_API Renderer* Renderer::GetInstance()
+	{
+		if (Render == NULL)
+		{
+			Render = new Renderer;
+		}
+
+
+		return Render;
+	}
+
 	int Renderer::InitGLFW()
 	{
 		if (!glfwInit())
