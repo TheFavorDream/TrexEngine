@@ -12,4 +12,5 @@ SandBox/SandBox_RuntimeLog.txt
 
 bin-in/
 bin/Debug-windows-x86_64/
+bin/Release-windows-x86_64/
 .vs/    

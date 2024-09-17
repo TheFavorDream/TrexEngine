@@ -7,7 +7,7 @@ namespace TrexEngine
 	Logger*  Logger::CoreLogger = nullptr;
 	std::vector<Logger*> Logger::s_Loggers;
 
-	Logger::Logger(std::string p_Profile) : m_Profile(p_Profile)
+	Logger::Logger(std::string p_Profile): m_Profile(p_Profile)
 	{
 		if (p_Profile == "Core")
 			CoreLogger = this;
