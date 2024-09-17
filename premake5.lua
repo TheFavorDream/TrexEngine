@@ -23,12 +23,11 @@ workspace "TrexEngine"
 
 		includedirs {
 			"./TrexEngine/Source/Trex/Include",
-			"./glfw/include/GLFW",
-			"./TrexEngine/Source/Trex/Include/GLFW",
+			"/TrexEngine/Source/Trex/Include/GL",
+			"/TrexEngine/Source/Trex/Include/GLFW"
 		}
 
 		libdirs {
-			("./bin/"..OutputDir.."/glfw"),
 			"./bin/External"
 		}
 
@@ -52,29 +51,29 @@ workspace "TrexEngine"
 		filter {"configurations:Debug", "system:windows"}
 			buildoptions {"/MDd"}
 			
---------------------------------------------------GLFW-------------------------------------------------------
-project "glfw3"
-location "glfw3"
-kind "StaticLib"
-language "C"
+-- --------------------------------------------------GLFW-------------------------------------------------------
+-- project "glfw3"
+-- location "glfw3"
+-- kind "StaticLib"
+-- language "C"
 
-targetdir ("./bin/" .. OutputDir .. "/glfw3")
-objdir ("./bin-in/" .. OutputDir .. "/glfw3")
+-- targetdir ("./bin/" .. OutputDir .. "/glfw3")
+-- objdir ("./bin-in/" .. OutputDir .. "/glfw3")
 
-files {
-	"./glfw/include/**.h",
-	"./glfw/src/**.c"
-}
+-- files {
+-- 	"./glfw/include/**.h",
+-- 	"./glfw/src/**.c"
+-- }
 
-filter ("system:windows")
-	defines {"_WIN32", "_GLFW_WIN32"}
-	systemversion "10.0.17763.0"
-	staticruntime "On"
+-- filter ("system:windows")
+-- 	defines {"_WIN32", "_GLFW_WIN32"}
+-- 	systemversion "10.0.17763.0"
+-- 	staticruntime "On"
 
-filter("configurations:Debug")
-	symbols "On"
-filter("configurations:Release")
-	optimize "On"
+-- filter("configurations:Debug")
+-- 	symbols "On"
+-- filter("configurations:Release")
+-- 	optimize "On"
 
 
 -------------------------------------------------SandBox----------------------------------------------
@@ -122,5 +121,3 @@ filter("configurations:Release")
 			optimize "On"
 			defines {"RELEASE"}
 
-		filter {"system:windows", "configurations:Debug"}
-			buildoptions {"/MDd"}

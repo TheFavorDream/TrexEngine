@@ -1,6 +1,7 @@
 TrexEngine.sln
 TrexEngine/TrexEngine.vcxproj
 TrexEngine/TrexEngine.vcxproj.filters
+TrexEngine/TrexEngine.vcxproj.user
 
 SandBox/SandBox.vcxproj
 SandBox/SandBox.vcxproj.filters
