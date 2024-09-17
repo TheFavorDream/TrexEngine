@@ -1,0 +1,14 @@
+TrexEngine.sln
+TrexEngine/TrexEngine.vcxproj
+TrexEngine/TrexEngine.vcxproj.filters
+
+SandBox/SandBox.vcxproj
+SandBox/SandBox.vcxproj.filters
+SandBox/SandBox.vcxproj.user
+
+SandBox/Core_RuntimeLog.txt
+SandBox/SandBox_RuntimeLog.txt
+
+bin-in/
+bin/Debug-windows-x86_64/
+.vs/    
