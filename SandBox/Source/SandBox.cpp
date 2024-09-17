@@ -1,7 +1,8 @@
 
 #include <iostream>
 #include "ExampleLayer.h"
-#include "Source/EntryPoint.h"
+
+#include "EntryPoint.h"
 
 class Application : public TrexEngine::Engine
 {

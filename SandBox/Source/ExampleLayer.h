@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Source/Trex.h"
+#include "Trex.h"
 
 using namespace TrexEngine;
 
