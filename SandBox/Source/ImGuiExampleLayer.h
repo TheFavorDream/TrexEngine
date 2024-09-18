@@ -25,4 +25,7 @@ public:
 private:
 	bool show_demo_window = true;
 	bool show_another_window = true;
+
+	float f = 1.0f;
+	float i = 1.0f;
 };

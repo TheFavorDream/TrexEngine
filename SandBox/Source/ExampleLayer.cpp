@@ -24,31 +24,6 @@ void ExampleLayer::OnEvent()
 
 void ExampleLayer::OnUpdate()
 {
-	Shader::GetInstance()->SetUniformF("u_Color", i);
-	Shader::GetInstance()->SetUniformF("Scale", i);
-
-	switch (Increace)
-	{
-	case true:
-		i += 0.0001f;
-
-		if (i >= 1.5f)
-		{
-			Increace = false;
-		}
-
-
-		break;
-
-	case false:
-		i -= 0.0001f;
-
-		if (i <= 0.0f)
-		{
-			Increace = true;
-		}
-		break;
-	}
 
 }
 

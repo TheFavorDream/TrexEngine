@@ -33,7 +33,7 @@ workspace "TrexEngine"
 			"./bin/External"
 		}
 
-		links {"opengl32", "glew32s", "glfw", "kernel32", "user32" , "gdi32", "winspool", "comdlg32", "advapi32", "shell32","ole32", 
+		links {"opengl32", "glew32s", "glfw", "ImGui","kernel32", "user32" , "gdi32", "winspool", "comdlg32", "advapi32", "shell32","ole32", 
 		"oleaut32", "uuid", "odbc32", "odbccp32"}
 
 		filter ("system:windows")
@@ -145,7 +145,7 @@ workspace "TrexEngine"
 		}
 			
 		links {
-			"TrexEngine", "ImGui"
+			"TrexEngine", "ImGui", "glfw"
 		}
 			
 		filter ("system:windows")

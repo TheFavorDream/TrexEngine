@@ -38,5 +38,5 @@ private:
 
 TrexEngine::Engine* TrexEngine::CreateApplication()
 {
-	return new Application("SandBox", 1000, 500);
+	return new Application("SandBox", 1200, 600);
 }
