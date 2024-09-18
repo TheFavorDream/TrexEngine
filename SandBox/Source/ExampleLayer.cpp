@@ -1,5 +1,4 @@
 #include "ExampleLayer.h"
-
 ExampleLayer::ExampleLayer()
 	:	Layer("ExampleLayer")
 {

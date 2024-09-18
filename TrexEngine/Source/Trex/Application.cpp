@@ -21,6 +21,7 @@ namespace TrexEngine
 		Shader::GetInstance()->CreateShaderProgram(VertexShaderSource, FragmentShaderSource);
 		Shader::GetInstance()->Bind();
 
+
 	}
 
 	Engine::~Engine()

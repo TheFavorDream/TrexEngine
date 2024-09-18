@@ -7,6 +7,7 @@ namespace TrexEngine
 	Renderer::Renderer()
 	{
 		Logger::CoreLogger->SetInfo("Renderer Constructor Called");
+
 	}
 
 	Renderer *Renderer::Render;
@@ -29,6 +30,10 @@ namespace TrexEngine
 			Logger::CoreLogger->SetError("Unable to Init GLFW");
 			return 1;
 		}
+		Logger::CoreLogger->SetError("Init GLFW");
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		return 0;
 	}
 
@@ -41,6 +46,7 @@ namespace TrexEngine
 		}
 		return 0;
 	}
+
 
 	TX_API void Renderer::DrawArrays(const VertexBuffer & VBO, const VertexArray & VAO) const
 	{

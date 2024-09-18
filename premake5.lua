@@ -24,7 +24,8 @@ workspace "TrexEngine"
 		includedirs {
 			"./TrexEngine/Source/Trex/Include",
 			"/TrexEngine/Source/Trex/Include/GL",
-			"./glfw/include"
+			"./glfw/include",
+			"./ImGui/Include"
 		}
 
 		libdirs {
@@ -55,34 +56,67 @@ workspace "TrexEngine"
 			buildoptions {"/MD"}
 			
 -- --------------------------------------------------GLFW-------------------------------------------------------
-project "glfw"
-	location "glfw"
-	kind "StaticLib"
-	language "C"
+	project "glfw"
+		location "glfw"
+		kind "StaticLib"
+		language "C"
 
-	targetdir ("./bin/" .. OutputDir .. "/glfw")
-	objdir ("./bin-in/" .. OutputDir .. "/glfw")
+		targetdir ("./bin/" .. OutputDir .. "/glfw")
+		objdir ("./bin-in/" .. OutputDir .. "/glfw")
 
-	files {
-		"./glfw/include/**.h",
-		"./glfw/src/**.c"
-	}
+		files {
+			"./glfw/include/**.h",
+			"./glfw/src/**.c"
+		}
 
-	filter ("system:windows")
-		defines {"_WIN32", "_GLFW_WIN32"}
-		systemversion "10.0.17763.0"
-		staticruntime "On"
+		filter ("system:windows")
+			defines {"_WIN32", "_GLFW_WIN32"}
+			systemversion "10.0.17763.0"
+			staticruntime "On"
 
-	filter("configurations:Debug")
-		symbols "On"
-	filter("configurations:Release")
-		optimize "On"
+		filter("configurations:Debug")
+			symbols "On"
+		filter("configurations:Release")
+			optimize "On"
 
-	filter {"system:windows", "configurations:Debug"}
-		buildoptions {"/MDd"}
-	filter {"system:windows", "configurations:Release"}
-		buildoptions {"/MT"}
+		filter {"system:windows", "configurations:Debug"}
+			buildoptions {"/MDd"}
+		filter {"system:windows", "configurations:Release"}
+			buildoptions {"/MT"}
 
+
+----------------------------------ImGui--------------------------------------------------------
+
+		project "ImGui"
+			location "ImGui"
+			kind "StaticLib"
+			language "C++"
+			targetdir ("./bin/" .. OutputDir .. "/ImGui")
+			objdir ("./bin-in/" .. OutputDir .. "/ImGui")
+	
+			includedirs {
+				"./glfw/include"
+			}
+
+			files {
+				"./ImGui/Include/**.h",
+				"./ImGui/Src/**.cpp"
+			}
+	
+			filter ("system:windows")
+				systemversion "10.0.17763.0"
+				staticruntime "On"
+				cppdialect "C++17"
+	
+			filter("configurations:Debug")
+				symbols "On"
+			filter("configurations:Release")
+				optimize "On"
+	
+			filter {"system:windows", "configurations:Debug"}
+				buildoptions {"/MDd"}
+			filter {"system:windows", "configurations:Release"}
+				buildoptions {"/MT"}
 -------------------------------------------------SandBox----------------------------------------------
 
 	project "SandBox"
@@ -102,15 +136,16 @@ project "glfw"
 		includedirs {
 			"./TrexEngine/Source/",
 			"./TrexEngine/Source/Trex/Include",
-			"./glfw/include"
+			"./glfw/include",
+			"./ImGui/Include"
 		}
 			
 		libdirs {
-			("./bin/" .. OutputDir)
+			("./bin/"..OutputDir.."/TrexEngine")
 		}
 			
 		links {
-			"TrexEngine"
+			"TrexEngine", "ImGui"
 		}
 			
 		filter ("system:windows")

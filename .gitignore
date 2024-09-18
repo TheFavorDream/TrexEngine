@@ -7,6 +7,10 @@ SandBox/SandBox.vcxproj
 SandBox/SandBox.vcxproj.filters
 SandBox/SandBox.vcxproj.user
 
+ImGui/ImGui.vcxproj
+ImGui/ImGui.vcxproj.filters
+ImGui/ImGui.vcxproj.user
+
 SandBox/Core_RuntimeLog.txt
 SandBox/SandBox_RuntimeLog.txt
 

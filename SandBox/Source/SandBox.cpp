@@ -1,6 +1,8 @@
 
 #include <iostream>
+
 #include "ExampleLayer.h"
+#include "ImGuiExampleLayer.h"
 
 #include "EntryPoint.h"
 
@@ -14,6 +16,7 @@ public:
 		ApplicationLogger.SetInfo("SandBox Constructor Called");
 
 		Layers.PushLayer(new ExampleLayer);
+		Layers.PushOverLayer(new ImGuiExampleLayer);
 	}
 
 

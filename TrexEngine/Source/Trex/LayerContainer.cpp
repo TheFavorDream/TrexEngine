@@ -6,7 +6,7 @@ namespace TrexEngine
 
 	LayerContainer::LayerContainer()
 	{
-
+		Logger::CoreLogger->SetError("LayerContainer Constructor Called");
 	}
 
 

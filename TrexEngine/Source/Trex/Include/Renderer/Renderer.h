@@ -7,6 +7,10 @@
 #include "./OpenGL/VertexArray.h"
 #include "./OpenGL/VertexBuffer.h"
 
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
+#include "imgui.h"
+
 namespace TrexEngine
 {
 
