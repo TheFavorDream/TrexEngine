@@ -63,22 +63,26 @@ void ImGuiExampleLayer::OnRender()
 			ImGui::Begin("Shape Settings");                          
 			ImGui::Text("ImGui On TrexEngine");               
 
-			ImGui::SliderFloat("Scale", &f, 0.0f, 1.0f);      
+			ImGui::SliderFloat("Y", &ScaleY, -1.0f, 1.0f);
+			ImGui::SameLine();
+			ImGui::InputFloat("ScaleY", &ScaleY);
 			if (Sync)
-				i = f;
-			
+				ScaleX = ScaleY;
 
-			ImGui::SliderFloat("Transparensy", &i, 0.0f, 1.0f);          
-
+			ImGui::SliderFloat("X", &ScaleX, -1.0f, 1.0f);
+			ImGui::SameLine();
+			ImGui::InputFloat("ScaleX", &ScaleX);
 			if (Sync)
-				f = i;
-			
+				ScaleY = ScaleX;
+			ImGui::SliderFloat("Transparensy", &i, 0.0f, 2.0f);          
 
+			if (ImGui::Button("Invert"))
+			{
+				ScaleX *= -1;
+				ScaleY *= -1;
+			}
 
 			ImGui::Checkbox("Sync", &Sync);
-
-
-			ImGui::Text("Average %.3f ms/frame(%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
 			ImGui::End();
 		}
 
@@ -89,6 +93,7 @@ void ImGuiExampleLayer::OnRender()
 
 void ImGuiExampleLayer::OnUpdate()
 {
-	TrexEngine::Shader::GetInstance()->SetUniformF("Scale", f);
+	TrexEngine::Shader::GetInstance()->SetUniformF("ScaleX", ScaleX);
+	TrexEngine::Shader::GetInstance()->SetUniformF("ScaleY", ScaleY);
 	TrexEngine::Shader::GetInstance()->SetUniformF("u_Color", i);
 }
