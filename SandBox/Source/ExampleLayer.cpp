@@ -1,6 +1,6 @@
 #include "ExampleLayer.h"
 ExampleLayer::ExampleLayer()
-	:	Layer("ExampleLayer")
+	: Layer("ExampleLayer"), Log("ExampleLayer")
 {
 
 }
@@ -35,6 +35,7 @@ void ExampleLayer::OnRender()
 
 void ExampleLayer::OnDettach()
 {
+
 }
 
 

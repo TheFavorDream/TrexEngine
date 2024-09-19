@@ -1,7 +1,7 @@
 #include "ImGuiExampleLayer.h"
 
 ImGuiExampleLayer::ImGuiExampleLayer()
-	: Layer("ImGuiExample")
+	: Layer("ImGuiExample"), Log("ImGuiExample")
 {
 
 }
@@ -20,8 +20,9 @@ void ImGuiExampleLayer::OnAttach()
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls     
+	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
 	// Setup Dear ImGui style
 	ImGui::StyleColorsDark();
@@ -36,6 +37,7 @@ void ImGuiExampleLayer::OnAttach()
 
 void ImGuiExampleLayer::OnDettach()
 {
+
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
@@ -49,19 +51,24 @@ void ImGuiExampleLayer::OnEvent()
 void ImGuiExampleLayer::OnRender()
 {
 	
+
 		// Start the Dear ImGui frame
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 
 		ImGuiIO& io = ImGui::GetIO();
+		io.DisplaySize = ImVec2(TrexEngine::WindowManager::GetInstance()->GetW(), TrexEngine::WindowManager::GetInstance()->GetH());
+
+
 
 		static bool Sync = false;
 
+
 		{
 
-			ImGui::Begin("Shape Settings");                          
-			ImGui::Text("ImGui On TrexEngine");               
+			ImGui::Begin("Shape Settings");
+			ImGui::Text("ImGui On TrexEngine");
 
 			ImGui::SliderFloat("Y", &ScaleY, -1.0f, 1.0f);
 			ImGui::SameLine();
@@ -74,7 +81,7 @@ void ImGuiExampleLayer::OnRender()
 			ImGui::InputFloat("ScaleX", &ScaleX);
 			if (Sync)
 				ScaleY = ScaleX;
-			ImGui::SliderFloat("Transparensy", &i, 0.0f, 2.0f);          
+			ImGui::SliderFloat("Transparensy", &i, 0.0f, 2.0f);
 
 			if (ImGui::Button("Invert"))
 			{
@@ -82,13 +89,24 @@ void ImGuiExampleLayer::OnRender()
 				ScaleY *= -1;
 			}
 
+			ImGui::SameLine();
 			ImGui::Checkbox("Sync", &Sync);
 			ImGui::End();
 		}
 
+
 		// Rendering
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+		{
+			GLFWwindow* current_context = TrexEngine::WindowManager::GetInstance()->GetWindow();
+			ImGui::UpdatePlatformWindows();
+			ImGui::RenderPlatformWindowsDefault();
+			glfwMakeContextCurrent(current_context);
+		}
+
 }
 
 void ImGuiExampleLayer::OnUpdate()

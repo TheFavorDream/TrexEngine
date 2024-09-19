@@ -28,7 +28,6 @@ namespace TrexEngine
 	Logger::~Logger()
 	{
 
-		SetInfo((m_Profile + "Logger Distructor called"));
 
 		LogFile.close();
 
@@ -48,21 +47,21 @@ namespace TrexEngine
 
 	void Logger::SetError(std::string p_ErrorMessage)
 	{
-		LogMessage(ERROR, p_ErrorMessage.c_str());
+		LogMessage(TX_ERROR, p_ErrorMessage.c_str());
 	}
 
 
 
 	void Logger::SetWarning(std::string p_WarningMessage)
 	{
-		LogMessage(WARNING, p_WarningMessage.c_str());
+		LogMessage(TX_WARNING, p_WarningMessage.c_str());
 	}
 
 
 
 	void Logger::SetInfo(std::string p_InfoMessage)
 	{
-		LogMessage(INFO, p_InfoMessage.c_str());
+		LogMessage(TX_INFO, p_InfoMessage.c_str());
 	}
 
 	TX_API void Logger::GL_ClearErrors()
@@ -74,7 +73,7 @@ namespace TrexEngine
 	{
 		while (GLenum error = glGetError())
 		{
-			SetError(("[OpenGL]: Function:" + std::string(function) + " Line:" + std::to_string(line) + " File:" + std::string(file)));
+			SetError(("[OpenGL]: Code:" + std::to_string(error) + "\tFunction:" + std::string(function) + " Line:" + std::to_string(line) + " File:" + std::string(file)));
 			return false;
 		}
 		return true;
@@ -99,9 +98,9 @@ namespace TrexEngine
 
 		switch (p_Type)
 		{
-		case ERROR:   return "[Error]";
-		case WARNING: return "[Warning]";
-		case INFO:    return "[Info]";
+		case TX_ERROR:   return "[Error]";
+		case TX_WARNING: return "[Warning]";
+		case TX_INFO:    return "[Info]";
 		}
 
 		return nullptr;

@@ -20,7 +20,7 @@ namespace TrexEngine
 		TX_API virtual void OnRender ()  = 0;
 		TX_API virtual void OnEvent  ()  = 0;
 
-	private:
+	protected:
 
 		//For Debugging
 		std::string LayerName;

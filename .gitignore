@@ -11,8 +11,7 @@ ImGui/ImGui.vcxproj
 ImGui/ImGui.vcxproj.filters
 ImGui/ImGui.vcxproj.user
 
-SandBox/Core_RuntimeLog.txt
-SandBox/SandBox_RuntimeLog.txt
+SandBox/*.txt
 
 SandBox/imgui.ini
 

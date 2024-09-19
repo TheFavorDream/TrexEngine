@@ -6,8 +6,9 @@
 extern TrexEngine::Engine* TrexEngine::CreateApplication();
 
 #ifdef PLATFORM_WINDOWS
+#include <windows.h>
 
-int main(int argc, char** arvg)
+int  main(int argc, char** arvg)
 {
 	TrexEngine::Engine* app = TrexEngine::CreateApplication();
 	app->run();

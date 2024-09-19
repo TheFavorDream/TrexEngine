@@ -16,7 +16,7 @@ public:
 		ApplicationLogger.SetInfo("SandBox Constructor Called");
 
 		Layers.PushLayer(new ExampleLayer);
-		Layers.PushOverLayer(new ImGuiExampleLayer);
+		Layers.PushLayer(new ImGuiExampleLayer);
 	}
 
 
@@ -25,7 +25,6 @@ public:
 	~Application() 
 	{
 		ApplicationLogger.SetInfo("SandBox Destructor called");
-		Layers.PopLayer();
 	}
 
 

@@ -29,6 +29,11 @@ namespace TrexEngine
 		Timer			timer;
 		LayerContainer  Layers;
 
+		WindowManager *Window   = NULL;
+		Renderer      *Renderer = NULL;
+		Shader		  *Shader	= NULL;
+
+
 	};
 
 

@@ -23,6 +23,9 @@ public:
 	void OnEvent()    override;
 
 private:
+
+	TrexEngine::Logger Log;
+
 	bool show_demo_window = true;
 	bool show_another_window = true;
 

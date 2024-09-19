@@ -116,13 +116,14 @@ workspace "TrexEngine"
 			filter {"system:windows", "configurations:Debug"}
 				buildoptions {"/MDd"}
 			filter {"system:windows", "configurations:Release"}
-				buildoptions {"/MT"}
+				buildoptions {"/MD"}
 -------------------------------------------------SandBox----------------------------------------------
 
 	project "SandBox"
 		location "SandBox"
-			
+		
 		kind "ConsoleApp"
+
 		language "C++"
 			
 		targetdir ("./bin/" .. OutputDir .. "/SandBox")
@@ -168,4 +169,4 @@ workspace "TrexEngine"
 			buildoptions {"/MDd"}
 
 		filter {"system:windows", "configurations:Release"}
-			buildoptions {"/MT"}
+			buildoptions {"/MD"}

@@ -11,6 +11,7 @@
 #include <iostream>
 #include <vector>
 
+
 #define ASSERT(x) if (!(x)) __debugbreak()
 #define GLCall(x) Logger::CoreLogger->GL_ClearErrors();\
 													  x;ASSERT(Logger::CoreLogger->GL_GetLog(#x, __FILE__, __LINE__));
@@ -19,7 +20,7 @@
 namespace TrexEngine
 {
 
-	enum MessageType {ERROR, WARNING, INFO};
+	enum MessageType {TX_ERROR, TX_WARNING, TX_INFO};
 	
 	//Structure for containing the Log Events info and attrbutes
 	struct LogEvent
@@ -36,7 +37,7 @@ namespace TrexEngine
 		TX_API Logger(std::string p_Profile);
 		TX_API ~Logger();
 
-		//void Print();
+
 
 		TX_API void SetError(std::string p_ErrorMessage);
 
@@ -52,6 +53,7 @@ namespace TrexEngine
 
 	private:
 
+
 		const char* ToString(MessageType p_Type);
 
 		void LogMessage(MessageType p_Type, const char* p_Message);
@@ -59,10 +61,10 @@ namespace TrexEngine
 	private:
 
 		std::string m_Profile;
-
 		std::string LogFilePath;
-
 		std::fstream LogFile;
+
+
 
 	public:
 		static Logger*  CoreLogger;

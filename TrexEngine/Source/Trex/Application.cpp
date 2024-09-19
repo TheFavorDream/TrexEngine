@@ -5,28 +5,21 @@ namespace TrexEngine
 {
 
 	Engine::Engine(const char* p_Title, int p_Width, int p_Height):
-		m_Log("Core")
+		m_Log("Core"), Renderer(Renderer::GetInstance()), Window(WindowManager::GetInstance()), Shader(Shader::GetInstance())
 	{
 
-		//Init the Logging unit
-		m_Log.SetInfo("Engine Constructor Called");
+		Renderer->InitGLFW();
 
-
-		Renderer::GetInstance()->InitGLFW();
-
-		WindowManager::GetInstance()->InitWindow(p_Title, p_Width, p_Height);
+		Window->InitWindow(p_Title, p_Width, p_Height);
 	
-		Renderer::GetInstance()->InitGLEW();
+		Renderer->InitGLEW();
 
-		Shader::GetInstance()->CreateShaderProgram(VertexShaderSource, FragmentShaderSource);
-		Shader::GetInstance()->Bind();
-
-
+		Shader->CreateShaderProgram(VertexShaderSource, FragmentShaderSource);
+		Shader->Bind();
 	}
 
 	Engine::~Engine()
 	{
-		Logger::CoreLogger->SetInfo("Engine Desturctor Called");
 
 		delete Shader::shader;
 		delete WindowManager::s_WindowManager;

@@ -6,7 +6,7 @@ namespace TrexEngine
 
 	LayerContainer::LayerContainer()
 	{
-		Logger::CoreLogger->SetError("LayerContainer Constructor Called");
+
 	}
 
 
@@ -24,16 +24,8 @@ namespace TrexEngine
 			return;
 		}
 
-		if ( m_OverLayerPointer == NULL)
-		{
-			m_Layers.push_back(p_NewLayer);
-		}
 
-		else
-		{
-			m_Layers.emplace(m_Layers.end(), p_NewLayer);
-			m_Layers.push_back(*m_OverLayerPointer);
-		}
+		m_Layers.push_back(p_NewLayer);
 
 		p_NewLayer->OnAttach();
 	}

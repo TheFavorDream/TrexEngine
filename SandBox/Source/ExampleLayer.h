@@ -24,6 +24,9 @@ public:
 
 private:
 
+
+	TrexEngine::Logger Log;
+
 	TrexEngine::VertexArray        VAO;
 	TrexEngine::VertexBufferLayout VBL;
 	TrexEngine::VertexBuffer       VBO;

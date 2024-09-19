@@ -6,7 +6,6 @@ namespace TrexEngine
 
 	Renderer::Renderer()
 	{
-		Logger::CoreLogger->SetInfo("Renderer Constructor Called");
 
 	}
 
@@ -76,7 +75,6 @@ namespace TrexEngine
 
 	Renderer::~Renderer()
 	{
-		Logger::CoreLogger->SetInfo("Renderer Destructor Called");
 		Shutdown();
 	}
 
