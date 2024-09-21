@@ -29,33 +29,50 @@ namespace TrexEngine
 		std::chrono::time_point<std::chrono::high_resolution_clock> clock;
 	};
 
+	//Log System Class
 	class  Logger 
 	{
-	public:
+	public: //DLL Exports:
 
+		//Constructor 
 		TX_API Logger(std::string p_Profile);
+
+		//Should gets Called by Layer Distructor or by defualt gets called by Logger::~Logger()
+		TX_API void Shutdown();
+
 		TX_API ~Logger();
 
 
-
+		//Set and Print an Error Message on Console
 		TX_API void SetError(std::string p_ErrorMessage);
 
+		//Set and Print an Warning Message on Console
 		TX_API void SetWarning(std::string p_WarningMessage);
 
+		//Set and Print an Info Message on Console
 		TX_API void SetInfo(std::string p_InfoMessage);
 
-		//for opengl debuging
+		//for opengl debuging:
+		//Clears All the Errors from opengl error queue
 		TX_API void GL_ClearErrors();
 
+		//Print the information about occured opengl Error
 		TX_API bool GL_GetLog(const char* function, const char* file, int line);
 
 
-	private:
+	public: // Engine Scope Functions:
 
+		//Writes the LogEvent queue to file
+		void WriteLogEvents();
 
+	private: // Internal use:
+
+		//Converts Log type to string
 		const char* ToString(MessageType p_Type);
 
+		//pushes the Event on Log queue and prints it on Console.
 		void LogMessage(MessageType p_Type, const char* p_Message);
+
 
 	private:
 
@@ -66,7 +83,10 @@ namespace TrexEngine
 		std::queue<LogEvent> m_Logs;
 
 	public:
+		//A refrence to Engine Logger object
 		static Logger*  CoreLogger;
+
+		//Stores refrences to created log objects
 		static std::vector<Logger*> s_Loggers;
 	};
 

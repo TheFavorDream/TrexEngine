@@ -38,7 +38,7 @@ void ExampleLayer::OnUpdate(TrexEngine::Shader * p_Shader)
 
 void ExampleLayer::OnDettach()
 {
-
+	Log.Shutdown();
 }
 
 

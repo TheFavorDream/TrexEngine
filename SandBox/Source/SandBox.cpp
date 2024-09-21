@@ -28,6 +28,7 @@ public:
 	~Application() 
 	{
 		ApplicationLogger.SetInfo("SandBox Destructor called");
+		ApplicationLogger.Shutdown();
 	}
 
 

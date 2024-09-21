@@ -21,6 +21,8 @@ namespace TrexEngine
 		delete m_Shader;
 		delete Renderer::s_RenderInstance;
 		delete m_Window;
+
+		m_Log.Shutdown();
 	}
 
 	void Engine::run()

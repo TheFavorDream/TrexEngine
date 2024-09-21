@@ -10,3 +10,8 @@
 #else
 	#error Trex Engine Only Supports Windows
 #endif
+
+
+#ifdef PLATFORM_WINDOWS
+	#include <windows.h>
+#endif

@@ -20,8 +20,13 @@ namespace TrexEngine
 		TX_API void PopLayer();
 		TX_API void PopOverLayer();
 
-		TX_API std::vector<Layer*>::iterator begin() { return m_Layers.begin(); }
-		TX_API std::vector<Layer*>::iterator end() { return m_Layers.end(); }
+
+		TX_API inline Layer* GetOverLayer() { return *m_OverLayerPointer; }
+
+	public:
+
+		std::vector<Layer*>::iterator begin() { return m_Layers.begin(); }
+		std::vector<Layer*>::iterator end() { return m_Layers.end(); }
 
 	private:
 		std::vector<Layer*> m_Layers;

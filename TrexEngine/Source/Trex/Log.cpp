@@ -1,22 +1,29 @@
 #include "../Include/Log.h"
 
 #include "GL/glew.h"
+
+
 //Implementation for Logging system:
 namespace TrexEngine
 {
+
 	Logger*  Logger::CoreLogger = nullptr;
+
 	std::vector<Logger*> Logger::s_Loggers;
 
 	Logger::Logger(std::string p_Profile): m_Profile(p_Profile)
 	{
+
+		
 		if (p_Profile == "Core")
 			CoreLogger = this;
 
 		s_Loggers.push_back(this);
 		
-
+		//Create or open the log file
 		LogFilePath = (m_Profile + "_RuntimeLog.txt");
-		LogFile.open(LogFilePath, std::ios::out | std::ios::ate);
+		LogFile.open(LogFilePath, std::ios::out | std::ios::trunc);
+
 
 		if (LogFile.fail())
 		{
@@ -25,12 +32,19 @@ namespace TrexEngine
 
 	}
 
+	TX_API void Logger::Shutdown()
+	{
+		WriteLogEvents();
+	}
+
 	Logger::~Logger()
 	{
 
-
+		Shutdown();
+		//Closes the Log file
 		LogFile.close();
 
+		//removes this object from vector
 		for (int i = 0; i < s_Loggers.size(); ++i)
 		{
 			if (s_Loggers[i]->m_Profile == m_Profile)
@@ -38,10 +52,6 @@ namespace TrexEngine
 				s_Loggers.erase(s_Loggers.begin() + i);
 			}
 		}
-
-		if (s_Loggers.empty())
-			s_Loggers.clear();
-
 	}
 
 
@@ -79,21 +89,32 @@ namespace TrexEngine
 		return true;
 	}
 
+
 	void Logger::LogMessage(MessageType p_Type, const char * p_Message)
 	{
 
+		//push an log event
 		m_Logs.push({p_Type, p_Message, std::chrono::high_resolution_clock::now()});
 
-		std::cout << '[' << m_Profile <<
-			"][" << Timer::GetElapsedTime(std::chrono::high_resolution_clock::now())
-			<< "ms]" << ToString(p_Type)  <<
-			p_Message << "\n\n";
+		//print
+		std::cout << '[' << m_Profile << "][" <<
+			Timer::GetElapsedTime(std::chrono::high_resolution_clock::now())<< "ms]" <<
+			ToString(p_Type)  << p_Message << "\n\n";
+	}
 
+	void Logger::WriteLogEvents()
+	{
+		while (!m_Logs.empty())
+		{
+			auto Current = m_Logs.front();
+			
+			LogFile << '[' << m_Profile <<
+				"][" << Timer::GetElapsedTime(std::chrono::high_resolution_clock::now())
+				<< "ms]" << ToString(Current.m_Type) <<
+				Current.m_Message << "\n\n";
 
-		LogFile << '[' << m_Profile <<
-			"][" << Timer::GetElapsedTime(std::chrono::high_resolution_clock::now())
-			<< "ms]" << ToString(p_Type) << 
-			p_Message << "\n\n";
+			m_Logs.pop();
+		}
 	}
 
 
@@ -109,7 +130,6 @@ namespace TrexEngine
 
 		return nullptr;
 	}
-
 
 
 };
