@@ -27,7 +27,6 @@ namespace TrexEngine
 
 		m_Layers.push_back(p_NewLayer);
 
-		p_NewLayer->OnAttach();
 	}
 	void LayerContainer::PushOverLayer(Layer* p_NewLayer)
 	{
@@ -41,8 +40,6 @@ namespace TrexEngine
 		m_OverLayerPointer = &p_NewLayer;
 
 		m_Layers.push_back(p_NewLayer);
-
-		p_NewLayer->OnAttach();
 	}
 
 	void LayerContainer::PopLayer()

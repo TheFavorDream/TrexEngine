@@ -9,7 +9,6 @@
 #include <chrono>
 #include <string>
 #include <iostream>
-#include <vector>
 
 
 #define ASSERT(x) if (!(x)) __debugbreak()
@@ -64,7 +63,7 @@ namespace TrexEngine
 		std::string LogFilePath;
 		std::fstream LogFile;
 
-
+		std::queue<LogEvent> m_Logs;
 
 	public:
 		static Logger*  CoreLogger;

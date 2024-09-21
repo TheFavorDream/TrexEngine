@@ -11,9 +11,11 @@ ImGuiExampleLayer::~ImGuiExampleLayer()
 
 }
 
-
-void ImGuiExampleLayer::OnAttach()
+void ImGuiExampleLayer::OnAttach(TrexEngine::Window* p_Window)
 {
+
+	m_Window = p_Window;
+
 	glfwInit();
 
 	// Setup Dear ImGui context
@@ -29,10 +31,10 @@ void ImGuiExampleLayer::OnAttach()
 
 
 	// Setup Platform/Renderer backends
-	GLFWwindow* window = TrexEngine::WindowManager::GetInstance()->GetWindow();
+
 	ImGui_ImplOpenGL3_Init("#version 330");
 
-	ImGui_ImplGlfw_InitForOpenGL(window, true);
+	ImGui_ImplGlfw_InitForOpenGL(m_Window->GetWindow(), true);
 }
 
 void ImGuiExampleLayer::OnDettach()
@@ -58,7 +60,7 @@ void ImGuiExampleLayer::OnRender()
 		ImGui::NewFrame();
 
 		ImGuiIO& io = ImGui::GetIO();
-		io.DisplaySize = ImVec2(TrexEngine::WindowManager::GetInstance()->GetW(), TrexEngine::WindowManager::GetInstance()->GetH());
+		io.DisplaySize = ImVec2(m_Window->GetW(), m_Window->GetH());
 
 
 
@@ -81,7 +83,11 @@ void ImGuiExampleLayer::OnRender()
 			ImGui::InputFloat("ScaleX", &ScaleX);
 			if (Sync)
 				ScaleY = ScaleX;
-			ImGui::SliderFloat("Transparensy", &i, 0.0f, 2.0f);
+
+			ImGui::SliderFloat("Transparensy", &i, 0.0f, 256.0f);
+			ImGui::SliderFloat("Red", &R, 0.0f, 256.0f);
+			ImGui::SliderFloat("Green", &G, 0.0f, 256.0f);
+			ImGui::SliderFloat("Blue", &B, 0.0f, 256.0f);
 
 			if (ImGui::Button("Invert"))
 			{
@@ -101,17 +107,21 @@ void ImGuiExampleLayer::OnRender()
 
 		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 		{
-			GLFWwindow* current_context = TrexEngine::WindowManager::GetInstance()->GetWindow();
+
 			ImGui::UpdatePlatformWindows();
 			ImGui::RenderPlatformWindowsDefault();
-			glfwMakeContextCurrent(current_context);
+			glfwMakeContextCurrent(m_Window->GetWindow());
 		}
 
 }
 
-void ImGuiExampleLayer::OnUpdate()
+void ImGuiExampleLayer::OnUpdate(TrexEngine::Shader* P_Shader)
 {
-	TrexEngine::Shader::GetInstance()->SetUniformF("ScaleX", ScaleX);
-	TrexEngine::Shader::GetInstance()->SetUniformF("ScaleY", ScaleY);
-	TrexEngine::Shader::GetInstance()->SetUniformF("u_Color", i);
+	P_Shader->SetUniformF("ScaleX", ScaleX);
+	P_Shader->SetUniformF("ScaleY", ScaleY);
+
+	P_Shader->SetUniformF("u_A", i / 256.0);
+	P_Shader->SetUniformF("u_R", R / 256.0);
+	P_Shader->SetUniformF("u_G", G / 256.0);
+	P_Shader->SetUniformF("u_B", B/256.0);
 }

@@ -15,8 +15,11 @@ public:
 	{
 		ApplicationLogger.SetInfo("SandBox Constructor Called");
 
-		Layers.PushLayer(new ExampleLayer);
-		Layers.PushLayer(new ImGuiExampleLayer);
+		PushLayer(new ExampleLayer());
+		PushLayer(new ImGuiExampleLayer());
+
+
+		ApplicationLogger.SetInfo("This is some Text");
 	}
 
 

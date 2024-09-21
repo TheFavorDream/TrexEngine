@@ -1,22 +1,21 @@
 #pragma once
 
 #include "Core.h"
+#include "GL/glew.h"
 #include "GLFW/glfw3.h"
 
 namespace TrexEngine
 {
 
-	class  WindowManager
+	class  Window
 	{
 	public:
 
-		TX_API static WindowManager* GetInstance();
+		TX_API Window();
+		TX_API ~Window();
 
-		WindowManager(const WindowManager& obj) = delete;
-		TX_API ~WindowManager();
 
-		TX_API int InitWindow(const char* p_Title, int p_Width, int p_Height);
-
+		TX_API int Init(const char* p_Title, int p_Width, int p_Height);
 		TX_API int Shutdown();
 
 
@@ -32,11 +31,7 @@ namespace TrexEngine
 
 
 	public:
-
 		static void SetViewportSizeCallBack(GLFWwindow* window, int width, int height);
-	private:
-		WindowManager();
-
 	private:
 
 		GLFWwindow* window = NULL;
@@ -48,7 +43,7 @@ namespace TrexEngine
 		int HeightInPixels = 0;
 
 		const char* Title = NULL;
-	public:
-		static WindowManager* s_WindowManager;
+
 	};
+
 };

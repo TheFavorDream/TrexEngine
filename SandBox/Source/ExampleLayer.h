@@ -10,13 +10,14 @@ public:
 
 	ExampleLayer();
 
-	void OnAttach() override;
+	void OnAttach(TrexEngine::Window* p_Window) override;
+
 
 	void OnEvent() override;
 
-	void OnUpdate() override;
-
 	void OnRender() override;
+
+	void OnUpdate(TrexEngine::Shader* p_Shader) override;
 
 	void OnDettach() override;
 
@@ -34,10 +35,10 @@ private:
 
 	float Vertices[20] =
 	{
-		-0.5f, -0.5f,		1.0f, 1.0f, 1.0f,
-		 0.5f, -0.5f,		0.9f, 0.8f, 0.7f,
-		-0.5f,  0.5f,		0.8f, 0.6f, 0.4f,
-		 0.5f,  0.5f,		0.7f, 0.4f, 0.1f
+		-0.5f, -0.5f,		
+		 0.5f, -0.5f,		
+		-0.5f,  0.5f,		
+		 0.5f,  0.5f
 	};
 
 	float i = 0.0f;

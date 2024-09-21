@@ -2,7 +2,6 @@
 #include "GL/glew.h"
 #include "../Core.h"
 
-#include "WindowManager.h"
 #include "./OpenGL/IndexBuffer.h"
 #include "./OpenGL/VertexArray.h"
 #include "./OpenGL/VertexBuffer.h"
@@ -14,17 +13,14 @@
 namespace TrexEngine
 {
 
+	
 	class  Renderer
 	{
 	public:
 
-		TX_API static Renderer* GetInstance();
+		TX_API static  Renderer* GetInstance();
 
-		Renderer(const Renderer& obj) = delete;
-
-		TX_API int InitGLFW();
-
-		TX_API int InitGLEW();
+		TX_API int Init();
 
 		TX_API void DrawArrays(const VertexBuffer& VBO,  const VertexArray& VAO) const;
 
@@ -35,10 +31,10 @@ namespace TrexEngine
 		TX_API ~Renderer();
 
 	private:
-		Renderer();
-
+		Renderer() {};
 	public:
-		static Renderer* Render;
+		static Renderer* s_RenderInstance;
 	};
+
 
 };

@@ -1,8 +1,10 @@
 #pragma once
+#include "GL/glew.h"
+
 #include "Log.h"
 #include "Core.h"
 #include "Renderer/Renderer.h"
-#include "Renderer/WindowManager.h"
+#include "Renderer/Window.h"
 #include "Timer.h"
 #include "LayerContainer.h"
 #include "Renderer/OpenGL/Shader.h"
@@ -23,15 +25,24 @@ namespace TrexEngine
 		//game loop
 		TX_API void run();
 
+		void PushLayer(Layer* p_NewLayer)
+		{
+			Layers.PushLayer(p_NewLayer);
+			p_NewLayer->OnAttach(m_Window);
+		}
+
 	private:
 		Logger   m_Log;
+
 	protected:
+
+
+		Window *m_Window   = NULL;
+		Shader *m_Shader = NULL;
 		Timer			timer;
 		LayerContainer  Layers;
 
-		WindowManager *Window   = NULL;
-		Renderer      *Renderer = NULL;
-		Shader		  *Shader	= NULL;
+
 
 
 	};

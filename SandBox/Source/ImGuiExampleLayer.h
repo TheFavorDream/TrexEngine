@@ -15,11 +15,11 @@ public:
 	~ImGuiExampleLayer();
 
 
-	void OnAttach() override;
+	void OnAttach(TrexEngine::Window* p_Window) override;
 	void OnDettach() override;
 
 	void OnRender() override;
-	void OnUpdate()	  override;
+	void OnUpdate(TrexEngine::Shader* P_Shader)	  override;
 	void OnEvent()    override;
 
 private:
@@ -31,5 +31,9 @@ private:
 
 	float ScaleX = 1.0f;
 	float ScaleY = 1.0f;
-	float i = 1.0f;
+	float i = 255.0f;
+
+	float R = 0.0f;
+	float G = 0.0f;
+	float B = 0.0f;
 };

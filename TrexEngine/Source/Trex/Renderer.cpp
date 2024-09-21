@@ -4,39 +4,20 @@
 namespace TrexEngine
 {
 
-	Renderer::Renderer()
-	{
-
-	}
-
-	Renderer *Renderer::Render;
+	Renderer* Renderer::s_RenderInstance = NULL;
 
 	TX_API Renderer* Renderer::GetInstance()
 	{
-		if (Render == NULL)
+		if (s_RenderInstance == NULL)
 		{
-			Render = new Renderer;
+			s_RenderInstance = new Renderer;
 		}
 
-
-		return Render;
+		return s_RenderInstance;
 	}
 
-	int Renderer::InitGLFW()
-	{
-		if (!glfwInit())
-		{
-			Logger::CoreLogger->SetError("Unable to Init GLFW");
-			return 1;
-		}
-		Logger::CoreLogger->SetError("Init GLFW");
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-		return 0;
-	}
 
-	int Renderer::InitGLEW()
+	int Renderer::Init()
 	{
 		if (glewInit() != GLEW_OK)
 		{
@@ -69,7 +50,7 @@ namespace TrexEngine
 
 	int Renderer::Shutdown()
 	{
-		glfwTerminate();
+
 		return 0;
 	}
 

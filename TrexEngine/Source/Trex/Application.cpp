@@ -5,44 +5,43 @@ namespace TrexEngine
 {
 
 	Engine::Engine(const char* p_Title, int p_Width, int p_Height):
-		m_Log("Core"), Renderer(Renderer::GetInstance()), Window(WindowManager::GetInstance()), Shader(Shader::GetInstance())
+		m_Log("Core"), m_Window(new Window), m_Shader(new Shader)
 	{
 
-		Renderer->InitGLFW();
+		m_Window->Init(p_Title, p_Width, p_Height);
+		
+		Renderer::GetInstance()->Init();
 
-		Window->InitWindow(p_Title, p_Width, p_Height);
-	
-		Renderer->InitGLEW();
-
-		Shader->CreateShaderProgram(VertexShaderSource, FragmentShaderSource);
-		Shader->Bind();
+		m_Shader->CreateShaderProgram(VertexShaderSource, FragmentShaderSource);
+		m_Shader->Bind();
 	}
 
 	Engine::~Engine()
 	{
-
-		delete Shader::shader;
-		delete WindowManager::s_WindowManager;
-		delete Renderer::Render;
+		delete m_Shader;
+		delete Renderer::s_RenderInstance;
+		delete m_Window;
 	}
 
 	void Engine::run()
 	{
-		while (!WindowManager::GetInstance()->WindowShouldClose())
+		while (!m_Window->WindowShouldClose())
 		{
 			GLCall(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
 			GLCall(glClear(GL_COLOR_BUFFER_BIT));
 
 			for (auto& i : Layers)
 			{
-				i->OnUpdate();
+				i->OnUpdate(m_Shader);
 				i->OnRender();
 			}
 
-			WindowManager::GetInstance()->SwapBuffers();
+			m_Window->SwapBuffers();
 			glfwPollEvents();
 		}
 	}
+
+
 
 
 };

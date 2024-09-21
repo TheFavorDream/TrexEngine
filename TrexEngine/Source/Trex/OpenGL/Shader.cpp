@@ -6,20 +6,9 @@ namespace TrexEngine
 
 	Shader::Shader()
 	{
-
+		Shader_Ref = this;
 	}
 
-	Shader* Shader::shader;
-
-	TX_API Shader * Shader::GetInstance()
-	{
-
-		if (shader == NULL)
-		{
-			shader = new Shader;
-		}
-		return shader;
-	}
 
 	Shader::~Shader()
 	{
@@ -144,6 +133,19 @@ namespace TrexEngine
 		GLCall(glUniform1i(Location, p_Value));
 
 		return 0;
+	}
+
+	TX_API int Shader::SetUniformF3(const char * p_UniformName, int p_Value1, int p_Value2, int p_Value3) const
+	{
+		int Location = glGetUniformLocation(ProgramID, p_UniformName);
+
+		if (Location == -1)
+		{
+			Logger::CoreLogger->SetError("Cannot Find the Location of the uniform");
+			return 1;
+		}
+
+		GLCall(glUniform3f(Location, p_Value1, p_Value2, p_Value3));
 	}
 
 

@@ -16,7 +16,7 @@ namespace TrexEngine
 		
 
 		LogFilePath = (m_Profile + "_RuntimeLog.txt");
-		LogFile.open(LogFilePath, std::ios::out);
+		LogFile.open(LogFilePath, std::ios::out | std::ios::ate);
 
 		if (LogFile.fail())
 		{
@@ -81,10 +81,14 @@ namespace TrexEngine
 
 	void Logger::LogMessage(MessageType p_Type, const char * p_Message)
 	{
+
+		m_Logs.push({p_Type, p_Message, std::chrono::high_resolution_clock::now()});
+
 		std::cout << '[' << m_Profile <<
 			"][" << Timer::GetElapsedTime(std::chrono::high_resolution_clock::now())
 			<< "ms]" << ToString(p_Type)  <<
 			p_Message << "\n\n";
+
 
 		LogFile << '[' << m_Profile <<
 			"][" << Timer::GetElapsedTime(std::chrono::high_resolution_clock::now())

@@ -17,11 +17,14 @@ static std::string VertexShaderSource =
 "out vec4 Our_Color;\n"
 "uniform float ScaleY = 1;\n"
 "uniform float ScaleX = 1;\n"
-"uniform float u_Color = 1;\n"
+"uniform float u_A = 1;\n"
+"uniform float u_R = 1;\n"
+"uniform float u_G = 1;\n"
+"uniform float u_B = 1;\n"
 "void main()\n"
 "{\n"
 "	gl_Position	 = vec4(aPos.x*ScaleX, aPos.y*ScaleY, 0.0f, 1.0f);\n"
-"	Our_Color = vec4(m_Color.x * u_Color, m_Color.y*u_Color, m_Color.z*u_Color, 1.0f);\n"
+"	Our_Color = vec4(u_R*u_A ,u_G*u_A, u_B*u_A, 1.0f);\n"
 "}\n";
 
 
@@ -47,9 +50,7 @@ namespace TrexEngine
 
 	public:
 
-		TX_API static Shader* GetInstance();
-
-		Shader(const Shader& obj) = delete;
+		TX_API Shader();
 
 		TX_API ~Shader();
 
@@ -60,11 +61,10 @@ namespace TrexEngine
 
 		TX_API int SetUniformF(const char* p_UniformName, float p_Value) const;
 		TX_API int SetUniformI(const char* p_UniformName, int p_Value)   const;
-
+		TX_API int SetUniformF3(const char* p_UniformName, int p_Value1, int p_Value2, int p_Value3)   const;
 
 	private:
 		TX_API unsigned int CompileShader(unsigned int Type, const std::string& ShaderSource);
-		TX_API Shader();
 
 	private:
 
@@ -72,8 +72,8 @@ namespace TrexEngine
 
 		unsigned int ProgramID = 0;
 		const char* ShaderFilePath = 0;
-	public:
-		static Shader* shader;
 	};
+
+	static Shader* Shader_Ref = NULL;
 
 };
