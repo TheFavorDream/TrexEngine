@@ -33,7 +33,7 @@ private:
 	float ScaleY = 1.0f;
 	float i = 255.0f;
 
-	float R = 0.0f;
-	float G = 0.0f;
-	float B = 0.0f;
+	float R = 256.0f;
+	float G = 256.0f;
+	float B = 256.0f;
 };

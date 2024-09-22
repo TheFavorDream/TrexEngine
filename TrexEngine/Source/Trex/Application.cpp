@@ -32,10 +32,13 @@ namespace TrexEngine
 			GLCall(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
 			GLCall(glClear(GL_COLOR_BUFFER_BIT));
 
-			for (auto& i : Layers)
+			for (auto &i : Layers)
 			{
-				i->OnUpdate(m_Shader);
-				i->OnRender();
+				if (!i.Enable)
+					continue;
+				
+				i.m_Layer->OnUpdate(m_Shader);
+				i.m_Layer->OnRender();
 			}
 
 			m_Window->SwapBuffers();

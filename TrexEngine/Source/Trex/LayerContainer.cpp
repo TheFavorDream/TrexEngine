@@ -24,8 +24,14 @@ namespace TrexEngine
 			return;
 		}
 
+		if (m_OverLayerPointer == NULL) 
+		{
+			m_Layers.push_back({p_NewLayer, true});
+			return;
+		}
 
-		m_Layers.push_back(p_NewLayer);
+		m_Layers.push_back(*m_OverLayerPointer);
+		m_Layers[m_Layers.size()-2] = {p_NewLayer, true};
 
 	}
 	void LayerContainer::PushOverLayer(Layer* p_NewLayer)
@@ -37,41 +43,60 @@ namespace TrexEngine
 			return;
 		}
 
-		m_OverLayerPointer = &p_NewLayer;
 
-		m_Layers.push_back(p_NewLayer);
+		m_Layers.push_back({p_NewLayer, true});
+
+		m_OverLayerPointer = &m_Layers[m_Layers.size() - 1];
 	}
 
 	void LayerContainer::PopLayer()
 	{
+		//if the vector was empty, there is nothing to delete
 		if (m_Layers.empty())
+			return;
+
+		if (m_OverLayerPointer == NULL)
 		{
+			m_Layers[m_Layers.size() - 1].m_Layer->OnDettach();
+			delete m_Layers[m_Layers.size() - 1].m_Layer;
+			m_Layers.pop_back();
 			return;
 		}
-
-		if (m_OverLayerPointer != NULL)
-		{
-			m_Layers.at(m_Layers.size() - 2)->OnDettach();
-			delete m_Layers.at(m_Layers.size() - 2);
-			m_Layers.emplace(m_Layers.end() - 1, *m_OverLayerPointer);
-		}
-
-		m_Layers.at(m_Layers.size() - 1)->OnDettach();
-		delete m_Layers.at(m_Layers.size()-1);
-		m_Layers.pop_back();
-
 	}
 
 	void LayerContainer::PopOverLayer()
 	{
-		if (m_Layers.empty())
+		
+	}
+
+	TX_API void LayerContainer::EnableLayer(std::string p_LayerName)
+	{
+		for (auto &i : m_Layers)
 		{
-			return;
+			if (i.m_Layer->GetLayerName() == p_LayerName)
+			{
+				i.Enable = true;
+				Logger::CoreLogger->SetWarning(p_LayerName + " Layer got enabled");
+				return;
+			}
 		}
 
-		m_Layers.pop_back();
-		delete *m_OverLayerPointer;
-		m_OverLayerPointer = NULL;
+		Logger::CoreLogger->SetWarning(p_LayerName + " Layer not found to enable");
+	}
+
+	TX_API void LayerContainer::DisableLayer(std::string p_LayerName)
+	{
+		for (auto &i : m_Layers)
+		{
+			if (i.m_Layer->GetLayerName() == p_LayerName)
+			{
+				i.Enable = false;
+				Logger::CoreLogger->SetWarning(p_LayerName + " Layer got Disabled");
+				return;
+			}
+		}
+		Logger::CoreLogger->SetWarning(p_LayerName + " Layer not found to disable");
+
 	}
 
 };

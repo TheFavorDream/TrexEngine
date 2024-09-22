@@ -31,6 +31,12 @@ namespace TrexEngine
 			p_NewLayer->OnAttach(m_Window);
 		}
 
+		void PushOverLayer(Layer* p_NewLayer)
+		{
+			Layers.PushOverLayer(p_NewLayer);
+			p_NewLayer->OnAttach(m_Window);
+		}
+
 	private:
 		Logger   m_Log;
 
