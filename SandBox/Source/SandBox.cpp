@@ -11,15 +11,15 @@ class Application : public TrexEngine::Engine
 public:
 	Application(const char* p_Title, int p_Width, int p_Height)
 		: Engine(p_Title, p_Width, p_Height),
-		ApplicationLogger("SandBox")
+		ApplicationLogger("SandBox"),
+		m_ExampleLayer(new ExampleLayer()),
+		m_ImguiExampleLayer(new ImGuiExampleLayer())
 	{
 		ApplicationLogger.SetInfo("SandBox Constructor Called");
 
-		PushOverLayer(new ImGuiExampleLayer());
-		PushLayer(new ExampleLayer());
+		PushOverLayer(m_ImguiExampleLayer);
+		PushLayer(m_ExampleLayer);
 		
-
-		Layers.PopLayer();
 		ApplicationLogger.SetInfo("This is some Text");
 		
 	}
@@ -27,6 +27,9 @@ public:
 
 	~Application() 
 	{
+		delete m_ExampleLayer;
+		delete m_ImguiExampleLayer;
+
 		ApplicationLogger.SetInfo("SandBox Destructor called");
 		ApplicationLogger.Shutdown();
 	}
@@ -35,6 +38,8 @@ public:
 private:
 	TrexEngine::Logger ApplicationLogger;
 
+	ExampleLayer *m_ExampleLayer = NULL;
+	ImGuiExampleLayer* m_ImguiExampleLayer = NULL;
 };
 
 

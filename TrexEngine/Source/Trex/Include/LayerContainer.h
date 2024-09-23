@@ -33,7 +33,7 @@ namespace TrexEngine
 
 		TX_API void DisableLayer(std::string p_LayerName);
 
-		TX_API inline LayerStructure* GetOverLayer() { return m_OverLayerPointer; }
+		TX_API inline Layer* GetOverLayer() { return m_OverLayerPointer; }
 
 		TX_API inline std::vector<LayerStructure>& GetLayers() { return m_Layers; }
 
@@ -45,7 +45,7 @@ namespace TrexEngine
 	private:
 
 		std::vector<LayerStructure> m_Layers;
-		LayerStructure* m_OverLayerPointer = NULL;
+		Layer* m_OverLayerPointer = NULL;
 	};
 
 };

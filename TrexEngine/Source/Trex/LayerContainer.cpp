@@ -30,7 +30,7 @@ namespace TrexEngine
 			return;
 		}
 
-		m_Layers.push_back(*m_OverLayerPointer);
+		m_Layers.push_back({m_OverLayerPointer, true});
 		m_Layers[m_Layers.size()-2] = {p_NewLayer, true};
 
 	}
@@ -43,10 +43,13 @@ namespace TrexEngine
 			return;
 		}
 
+		if (m_OverLayerPointer == NULL)
+		{
+			m_Layers.push_back({ p_NewLayer, true });
+			m_OverLayerPointer = m_Layers[m_Layers.size() - 1].m_Layer;
+			return;
+		}
 
-		m_Layers.push_back({p_NewLayer, true});
-
-		m_OverLayerPointer = &m_Layers[m_Layers.size() - 1];
 	}
 
 	void LayerContainer::PopLayer()
@@ -58,15 +61,25 @@ namespace TrexEngine
 		if (m_OverLayerPointer == NULL)
 		{
 			m_Layers[m_Layers.size() - 1].m_Layer->OnDettach();
-			delete m_Layers[m_Layers.size() - 1].m_Layer;
 			m_Layers.pop_back();
 			return;
 		}
+
+		m_Layers[m_Layers.size() - 2].m_Layer->OnDettach();
+
+		m_Layers.pop_back();
+		m_Layers[m_Layers.size() - 1].m_Layer = m_OverLayerPointer;
+
 	}
 
 	void LayerContainer::PopOverLayer()
 	{
-		
+		if (m_OverLayerPointer == NULL)
+			return;
+
+		m_Layers.pop_back();
+		m_OverLayerPointer->OnDettach();
+		m_OverLayerPointer = NULL;
 	}
 
 	TX_API void LayerContainer::EnableLayer(std::string p_LayerName)
