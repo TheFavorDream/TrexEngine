@@ -43,6 +43,19 @@ void ExampleLayer::OnDettach()
 	Log.Shutdown();
 }
 
+void ExampleLayer::EnableLayer()
+{
+	Enable = true;
+	Log.SetWarning(LayerName + " got enabled");
+}
+
+void ExampleLayer::DisableLayer()
+{
+	Enable = false;
+	Log.SetWarning(LayerName + " got disabled");
+
+}
+
 
 
 

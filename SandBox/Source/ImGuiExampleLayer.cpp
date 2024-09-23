@@ -1,7 +1,7 @@
 #include "ImGuiExampleLayer.h"
 
-ImGuiExampleLayer::ImGuiExampleLayer()
-	: Layer("ImGuiExample"), Log("ImGuiExample")
+ImGuiExampleLayer::ImGuiExampleLayer(ExampleLayer** p_ExampleLayer)
+	: Layer("ImGuiExample"), Log("ImGuiExample"), m_ExampleLayer(p_ExampleLayer)
 {
 
 }
@@ -51,6 +51,19 @@ void ImGuiExampleLayer::OnEvent()
 {
 
 }
+
+void ImGuiExampleLayer::EnableLayer()
+{
+	Enable = true;
+	Log.SetWarning(LayerName + " got enabled");
+}
+
+void ImGuiExampleLayer::DisableLayer()
+{
+	Enable = false;
+	Log.SetWarning(LayerName + " got disabled");
+}
+
 
 void ImGuiExampleLayer::OnRender()
 {
@@ -102,6 +115,11 @@ void ImGuiExampleLayer::OnRender()
 			ImGui::End();
 		}
 
+		ImGui::Begin("Layer Stack");
+
+		ImGui::Checkbox("Enable Example Layer", &EnableExLayer);
+
+		ImGui::End();
 
 		// Rendering
 		ImGui::Render();
@@ -119,6 +137,12 @@ void ImGuiExampleLayer::OnRender()
 
 void ImGuiExampleLayer::OnUpdate(TrexEngine::Shader* P_Shader)
 {
+
+	if (EnableExLayer)
+		(*m_ExampleLayer)->EnableLayer();
+	else 
+		(*m_ExampleLayer)->DisableLayer();
+
 	P_Shader->SetUniformF("ScaleX", ScaleX);
 	P_Shader->SetUniformF("ScaleY", ScaleY);
 

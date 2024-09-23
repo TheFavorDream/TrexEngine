@@ -34,11 +34,11 @@ namespace TrexEngine
 
 			for (auto &i : Layers)
 			{
-				if (!i.Enable)
+				if (!i->GetEnableState())
 					continue;
 				
-				i.m_Layer->OnUpdate(m_Shader);
-				i.m_Layer->OnRender();
+				i->OnUpdate(m_Shader);
+				i->OnRender();
 			}
 
 			m_Window->SwapBuffers();

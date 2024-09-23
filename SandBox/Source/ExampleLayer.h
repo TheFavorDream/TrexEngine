@@ -21,6 +21,9 @@ public:
 
 	void OnDettach() override;
 
+	void EnableLayer() override;
+	void DisableLayer() override;
+
 	~ExampleLayer();
 
 private:

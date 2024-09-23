@@ -20,12 +20,18 @@ namespace TrexEngine
 		TX_API virtual void OnRender ()  = 0;
 		TX_API virtual void OnEvent  ()  = 0;
 
+		TX_API virtual void EnableLayer() = 0;
+		TX_API virtual void DisableLayer() = 0;
+
+		TX_API inline bool GetEnableState() const { return Enable; }
+
 		TX_API inline std::string& GetLayerName() { return LayerName; }
 	protected:
 
+		Window* m_Window;
 		//For Debugging
 		std::string LayerName;
-		Window* m_Window;
+		bool Enable = true;
 	};
 
 };

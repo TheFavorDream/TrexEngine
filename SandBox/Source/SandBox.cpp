@@ -13,13 +13,13 @@ public:
 		: Engine(p_Title, p_Width, p_Height),
 		ApplicationLogger("SandBox"),
 		m_ExampleLayer(new ExampleLayer()),
-		m_ImguiExampleLayer(new ImGuiExampleLayer())
+		m_ImguiExampleLayer(new ImGuiExampleLayer(&m_ExampleLayer))
 	{
 		ApplicationLogger.SetInfo("SandBox Constructor Called");
 
 		PushOverLayer(m_ImguiExampleLayer);
 		PushLayer(m_ExampleLayer);
-		
+
 		ApplicationLogger.SetInfo("This is some Text");
 		
 	}

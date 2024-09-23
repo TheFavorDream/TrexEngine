@@ -26,12 +26,12 @@ namespace TrexEngine
 
 		if (m_OverLayerPointer == NULL) 
 		{
-			m_Layers.push_back({p_NewLayer, true});
+			m_Layers.push_back(p_NewLayer);
 			return;
 		}
 
-		m_Layers.push_back({m_OverLayerPointer, true});
-		m_Layers[m_Layers.size()-2] = {p_NewLayer, true};
+		m_Layers.push_back(m_OverLayerPointer);
+		m_Layers[m_Layers.size()-2] = p_NewLayer;
 
 	}
 	void LayerContainer::PushOverLayer(Layer* p_NewLayer)
@@ -45,8 +45,8 @@ namespace TrexEngine
 
 		if (m_OverLayerPointer == NULL)
 		{
-			m_Layers.push_back({ p_NewLayer, true });
-			m_OverLayerPointer = m_Layers[m_Layers.size() - 1].m_Layer;
+			m_Layers.push_back(p_NewLayer);
+			m_OverLayerPointer = m_Layers[m_Layers.size() - 1];
 			return;
 		}
 
@@ -60,15 +60,15 @@ namespace TrexEngine
 
 		if (m_OverLayerPointer == NULL)
 		{
-			m_Layers[m_Layers.size() - 1].m_Layer->OnDettach();
+			m_Layers[m_Layers.size() - 1]->OnDettach();
 			m_Layers.pop_back();
 			return;
 		}
 
-		m_Layers[m_Layers.size() - 2].m_Layer->OnDettach();
+		m_Layers[m_Layers.size() - 2]->OnDettach();
 
 		m_Layers.pop_back();
-		m_Layers[m_Layers.size() - 1].m_Layer = m_OverLayerPointer;
+		m_Layers[m_Layers.size() - 1] = m_OverLayerPointer;
 
 	}
 
@@ -80,36 +80,6 @@ namespace TrexEngine
 		m_Layers.pop_back();
 		m_OverLayerPointer->OnDettach();
 		m_OverLayerPointer = NULL;
-	}
-
-	TX_API void LayerContainer::EnableLayer(std::string p_LayerName)
-	{
-		for (auto &i : m_Layers)
-		{
-			if (i.m_Layer->GetLayerName() == p_LayerName)
-			{
-				i.Enable = true;
-				Logger::CoreLogger->SetWarning(p_LayerName + " Layer got enabled");
-				return;
-			}
-		}
-
-		Logger::CoreLogger->SetWarning(p_LayerName + " Layer not found to enable");
-	}
-
-	TX_API void LayerContainer::DisableLayer(std::string p_LayerName)
-	{
-		for (auto &i : m_Layers)
-		{
-			if (i.m_Layer->GetLayerName() == p_LayerName)
-			{
-				i.Enable = false;
-				Logger::CoreLogger->SetWarning(p_LayerName + " Layer got Disabled");
-				return;
-			}
-		}
-		Logger::CoreLogger->SetWarning(p_LayerName + " Layer not found to disable");
-
 	}
 
 };
