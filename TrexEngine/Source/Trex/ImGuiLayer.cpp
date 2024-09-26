@@ -14,21 +14,19 @@ namespace TrexEngine
 
 	int ImGuiLayer::InitImGui()
 	{
-		Log.SetInfo("Init the ImGui");
-		glfwInit();
 
 		// Setup Dear ImGui context
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
 		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls     
-		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
-		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+		Defualt_Config = io.ConfigFlags;
+
+		ImGuiEnableDocking();
 
 		// Setup Dear ImGui style
-		ImGui::StyleColorsLight();
-		ImGui::StyleColorsDark();
-
+		
+		ImGuiSetDarkStyle();
 
 		// Setup Platform/Renderer backends
 
@@ -46,6 +44,34 @@ namespace TrexEngine
 		ImGui::DestroyContext();
 		Log.SetWarning("ImGui got Destroyed");
 		return 0;
+	}
+
+	TX_API void ImGuiLayer::ImGuiEnableDocking()
+	{
+		Log.SetInfo("Enable ImGui Docking and Multi View Ports");
+		ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+		ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+	}
+
+	TX_API void ImGuiLayer::ImGuiDisableDocking()
+	{
+		Log.SetInfo("Disable ImGui Docking and Multi View Ports");
+		ImGui::GetIO().ConfigFlags = Defualt_Config;
+	}
+
+	TX_API void ImGuiLayer::ImGuiSetDarkStyle()
+	{
+		ImGui::StyleColorsDark();
+	}
+
+	TX_API void ImGuiLayer::ImGuiSetLightStyle()
+	{
+		ImGui::StyleColorsLight();
+	}
+
+	TX_API void ImGuiLayer::ImGuiSetClassicStyle()
+	{
+		TX_API void ImGuiSetLightStyle();
 	}
 
 	void ImGuiLayer::StartNewFrame()
@@ -71,14 +97,65 @@ namespace TrexEngine
 		}
 	}
 
-	TX_API void ImGuiLayer::ImGuiBegin(std::string p_Name)
+	TX_API bool ImGuiLayer::ImGuiBegin(std::string p_Name)
 	{
-		ImGui::Begin(p_Name.c_str());
+		return ImGui::Begin(p_Name.c_str());
 	}
 
 	TX_API void ImGuiLayer::ImGuiText(std::string p_Text)
 	{
 		ImGui::Text(p_Text.c_str());
+	}
+
+	TX_API bool ImGuiLayer::ImGuiBeginMenuBar()
+	{
+		return ImGui::BeginMainMenuBar();
+	}
+
+	TX_API void ImGuiLayer::ImGuiEndMenuBar()
+	{
+		ImGui::EndMainMenuBar();
+	}
+
+	TX_API bool ImGuiLayer::ImGuiBeginMenu(std::string p_Name)
+	{
+		return ImGui::BeginMenu(p_Name.c_str());
+	}
+
+	TX_API void ImGuiLayer::ImGuiEndMenu()
+	{
+		ImGui::EndMenu();
+	}
+
+	TX_API bool ImGuiLayer::ImGuiMenuItem(std::string p_Name)
+	{
+		return ImGui::MenuItem(p_Name.c_str());
+	}
+
+	TX_API void ImGuiLayer::ImGuiSameLine()
+	{
+		ImGui::SameLine();
+	}
+
+	TX_API void ImGuiLayer::ImGuiSliderFloat(std::string p_Label, float * p_Float, float p_Start, float p_End)
+	{
+		ImGui::SliderFloat(p_Label.c_str(), p_Float, p_Start, p_End);
+	}
+
+	TX_API void ImGuiLayer::ImGuiSliderInt(std::string p_Label, int * p_Int, int p_Start, int p_End)
+	{
+		ImGui::SliderInt(p_Label.c_str(), p_Int, p_Start, p_End);
+	}
+
+	TX_API bool ImGuiLayer::ImGuiCheckBox(std::string p_Label, bool * p_Bool)
+	{
+		ImGui::Checkbox(p_Label.c_str(), p_Bool);
+		return *p_Bool;
+	}
+
+	TX_API bool ImGuiLayer::ImGuiPushButton(std::string p_Label)
+	{
+		return ImGui::Button(p_Label.c_str());
 	}
 
 	TX_API void ImGuiLayer::ImGuiEnd()

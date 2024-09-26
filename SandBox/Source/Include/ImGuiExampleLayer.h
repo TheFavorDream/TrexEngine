@@ -11,6 +11,10 @@ public:
 	~ImGuiExample();
 
 
+	void RenderUniformSettingWedget();
+	void RenderMenuBarItems();
+	void RenderImGuiSettingsWedget();
+
 	void OnAttach(TrexEngine::Window* p_Window, TrexEngine::Shader* p_Shader) override;
 	void OnEvent() override;
 	void OnUpdate() override;
@@ -20,5 +24,19 @@ public:
 	void DisableLayer() override;
 
 private:
+
+	float R			   = 255.0f;
+	float G            = 255.0f;
+	float B			   = 255.0f;
+	float Transparency = 255.0f;
+
+	bool RenderUniformWedget      = false;
+	bool RenderImGuiSettingWedget = false;
+
+	bool Dark_Style = true;
+	bool Prev_Dark_Style = Dark_Style;
+
+	bool Enable_Docking = true;
+	bool Prev_EnableState = Enable_Docking;
 
 };

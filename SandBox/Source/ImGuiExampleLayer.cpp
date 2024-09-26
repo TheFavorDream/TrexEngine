@@ -11,6 +11,85 @@ ImGuiExample::~ImGuiExample()
 
 }
 
+void ImGuiExample::RenderUniformSettingWedget()
+{
+
+	ImGuiBegin("Shader Uniform Settings");
+
+	ImGuiText("This is some Text");
+
+	ImGuiSliderFloat("Transparency", &Transparency, 0.0f, 255.0f);
+	ImGuiSliderFloat("Red", &R, 0.0f, 255.0f);
+	ImGuiSliderFloat("Green", &G, 0.0f, 255.0f);
+	ImGuiSliderFloat("Blue", &B, 0.0f, 255.0f);
+	ImGuiEnd();
+}
+
+void ImGuiExample::RenderMenuBarItems()
+{
+	if (ImGuiBeginMenuBar())
+	{
+
+		if (ImGuiBeginMenu("File"))
+		{
+			if (ImGuiMenuItem("Uniforms"))
+			{
+				RenderUniformWedget = !RenderUniformWedget;
+			}
+
+			if (ImGuiMenuItem("Settings"))
+			{
+				RenderImGuiSettingWedget = !RenderImGuiSettingWedget;
+			}
+
+			ImGuiEndMenu();
+		}
+
+		if (ImGuiBeginMenu("Edit"))
+		{
+
+			ImGuiEndMenu();
+		}
+
+		if (ImGuiBeginMenu("Tools"))
+		{
+
+			ImGuiEndMenu();
+		}
+
+		ImGuiEndMenuBar();
+	}
+}
+
+void ImGuiExample::RenderImGuiSettingsWedget()
+{
+	ImGuiBegin("ImGui Settings");
+
+	ImGuiCheckBox("Enable Docking", &Enable_Docking);
+
+	if (Prev_EnableState != Enable_Docking)
+	{
+		if (Enable_Docking)
+			ImGuiEnableDocking();
+		else
+			ImGuiDisableDocking();
+		Prev_EnableState = Enable_Docking;
+	}
+
+	ImGuiSameLine();
+	ImGuiCheckBox("Dark Style", &Dark_Style);
+
+	if (Prev_Dark_Style != Dark_Style)
+	{
+		if (Dark_Style)
+			ImGuiSetDarkStyle();
+		else
+			ImGuiSetLightStyle();
+		Prev_Dark_Style = Dark_Style;
+	}
+	ImGuiEnd();
+}
+
 void ImGuiExample::OnAttach(TrexEngine::Window * p_Window, TrexEngine::Shader* p_Shader)
 {
 
@@ -31,31 +110,25 @@ void ImGuiExample::OnEvent()
 
 void ImGuiExample::OnUpdate()
 {
+
+	m_Shader->SetUniformF("u_R", R / 256.0f);
+	m_Shader->SetUniformF("u_G", G / 256.0f);
+	m_Shader->SetUniformF("u_B", B / 256.0f);
+	m_Shader->SetUniformF("u_A", Transparency / 256.0f);
+
+
 }
 
 void ImGuiExample::OnRender()
 {
 	StartNewFrame();
 
-	ImGuiBegin("Hello, World");
+	RenderMenuBarItems();
 
-	ImGuiText("This is some Text");
-	ImGuiText("This is some Text");
-	ImGuiText("This is some Text");
-
-	ImGuiText("This is some Text");
-
-	ImGuiText("This is some Text");
-	ImGuiText("This is some Text");
-	ImGuiText("This is some Text");
-	ImGuiText("This is some Text");
-	ImGuiText("This is some Text");
-	ImGuiText("This is some Text");
-	ImGuiText("This is some Text");
-
-
-
-	ImGuiEnd();
+	if (RenderUniformWedget)
+		RenderUniformSettingWedget();
+	if (RenderImGuiSettingWedget)
+		RenderImGuiSettingsWedget();
 
 	EndNewFrame();
 }
