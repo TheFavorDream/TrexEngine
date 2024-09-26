@@ -10,14 +10,14 @@ public:
 
 	ExampleLayer();
 
-	void OnAttach(TrexEngine::Window* p_Window) override;
+	void OnAttach(TrexEngine::Window* p_Window, TrexEngine::Shader* p_Shader) override;
 
 
 	void OnEvent() override;
 
 	void OnRender() override;
 
-	void OnUpdate(TrexEngine::Shader* p_Shader) override;
+	void OnUpdate() override;
 
 	void OnDettach() override;
 

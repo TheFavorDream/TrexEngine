@@ -1,8 +1,8 @@
 
 #include <iostream>
 
-#include "ExampleLayer.h"
-#include "ImGuiExampleLayer.h"
+#include ".\Include\ExampleLayer.h"
+#include ".\Include\ImGuiExampleLayer.h"
 
 #include "EntryPoint.h"
 
@@ -13,22 +13,23 @@ public:
 		: Engine(p_Title, p_Width, p_Height),
 		ApplicationLogger("SandBox"),
 		m_ExampleLayer(new ExampleLayer()),
-		m_ImguiExampleLayer(new ImGuiExampleLayer(&m_ExampleLayer))
+		m_ImGuiExample(new ImGuiExample())
 	{
 		ApplicationLogger.SetInfo("SandBox Constructor Called");
 
-		PushOverLayer(m_ImguiExampleLayer);
 		PushLayer(m_ExampleLayer);
-
-		ApplicationLogger.SetInfo("This is some Text");
+		PushOverLayer(m_ImGuiExample);
 		
 	}
 
 
 	~Application() 
 	{
+		PopLayer();
+		PopOverLayer();
+
 		delete m_ExampleLayer;
-		delete m_ImguiExampleLayer;
+		delete m_ImGuiExample;
 
 		ApplicationLogger.SetInfo("SandBox Destructor called");
 		ApplicationLogger.Shutdown();
@@ -39,7 +40,7 @@ private:
 	TrexEngine::Logger ApplicationLogger;
 
 	ExampleLayer *m_ExampleLayer = NULL;
-	ImGuiExampleLayer* m_ImguiExampleLayer = NULL;
+	ImGuiExample *m_ImGuiExample = NULL;
 };
 
 

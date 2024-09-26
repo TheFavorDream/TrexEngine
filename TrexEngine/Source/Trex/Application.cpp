@@ -14,6 +14,8 @@ namespace TrexEngine
 
 		m_Shader->CreateShaderProgram(VertexShaderSource, FragmentShaderSource);
 		m_Shader->Bind();
+
+		
 	}
 
 	Engine::~Engine()
@@ -37,7 +39,7 @@ namespace TrexEngine
 				if (!i->GetEnableState())
 					continue;
 				
-				i->OnUpdate(m_Shader);
+				i->OnUpdate();
 				i->OnRender();
 			}
 
@@ -45,8 +47,5 @@ namespace TrexEngine
 			glfwPollEvents();
 		}
 	}
-
-
-
 
 };

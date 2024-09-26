@@ -1,13 +1,15 @@
-#include "ExampleLayer.h"
+#include ".\Include\ExampleLayer.h"
+
 ExampleLayer::ExampleLayer()
 	: Layer("ExampleLayer"), Log("ExampleLayer")
 {
 
 }
 
-void ExampleLayer::OnAttach(TrexEngine::Window* p_Window)
+void ExampleLayer::OnAttach(TrexEngine::Window* p_Window, TrexEngine::Shader* p_Shader)
 {
 	m_Window = p_Window;
+	m_Shader = p_Shader;
 
 	VBL.push<float>(2);
 	//VBL.push<float>(3);
@@ -30,7 +32,7 @@ void ExampleLayer::OnRender()
 	TrexEngine::Renderer::GetInstance()->DrawElements(VBO, EBO, VAO);
 }
 
-void ExampleLayer::OnUpdate(TrexEngine::Shader * p_Shader)
+void ExampleLayer::OnUpdate()
 {
 
 }

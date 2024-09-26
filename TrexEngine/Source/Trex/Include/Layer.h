@@ -14,9 +14,9 @@ namespace TrexEngine
 		TX_API Layer(std::string p_LayerName);
 		TX_API virtual ~Layer();
 
-		TX_API virtual void OnAttach (Window* p_Window)  = 0;
+		TX_API virtual void OnAttach (Window* p_Window, Shader* p_Shader)  = 0;
 		TX_API virtual void OnDettach()  = 0;
-		TX_API virtual void OnUpdate (Shader* P_Shader)  = 0;
+		TX_API virtual void OnUpdate ()  = 0;
 		TX_API virtual void OnRender ()  = 0;
 		TX_API virtual void OnEvent  ()  = 0;
 
@@ -29,6 +29,7 @@ namespace TrexEngine
 	protected:
 
 		Window* m_Window;
+		Shader* m_Shader;
 		//For Debugging
 		std::string LayerName;
 		bool Enable = true;

@@ -8,6 +8,7 @@
 #include "Timer.h"
 #include "LayerContainer.h"
 #include "Renderer/OpenGL/Shader.h"
+#include "ImGuiLayer.h"
 
 namespace TrexEngine
 {
@@ -28,13 +29,23 @@ namespace TrexEngine
 		void PushLayer(Layer* p_NewLayer)
 		{
 			Layers.PushLayer(p_NewLayer);
-			p_NewLayer->OnAttach(m_Window);
+			p_NewLayer->OnAttach(m_Window, m_Shader);
+		}
+
+		void PopLayer()
+		{
+			Layers.PopLayer();
 		}
 
 		void PushOverLayer(Layer* p_NewLayer)
 		{
 			Layers.PushOverLayer(p_NewLayer);
-			p_NewLayer->OnAttach(m_Window);
+			p_NewLayer->OnAttach(m_Window, m_Shader);
+		}
+
+		void PopOverLayer()
+		{
+			Layers.PopOverLayer();
 		}
 
 	private:
@@ -48,7 +59,7 @@ namespace TrexEngine
 		Timer			timer;
 		LayerContainer  Layers;
 
-
+		Layer* m_ImGuiLayer = NULL;
 
 
 	};

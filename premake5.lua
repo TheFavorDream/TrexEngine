@@ -146,7 +146,7 @@ workspace "TrexEngine"
 		}
 			
 		links {
-			"TrexEngine", "ImGui", "glfw"
+			"TrexEngine"
 		}
 			
 		filter ("system:windows")

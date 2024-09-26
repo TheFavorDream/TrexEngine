@@ -1,153 +1,78 @@
-#include "ImGuiExampleLayer.h"
+#include "./Include/ImGuiExampleLayer.h"
 
-ImGuiExampleLayer::ImGuiExampleLayer(ExampleLayer** p_ExampleLayer)
-	: Layer("ImGuiExample"), Log("ImGuiExample"), m_ExampleLayer(p_ExampleLayer)
+ImGuiExample::ImGuiExample() : ImGuiLayer("ImGuiExampleLayer")
 {
 
 }
 
-ImGuiExampleLayer::~ImGuiExampleLayer()
+ImGuiExample::~ImGuiExample()
 {
+
 
 }
 
-void ImGuiExampleLayer::OnAttach(TrexEngine::Window* p_Window)
+void ImGuiExample::OnAttach(TrexEngine::Window * p_Window, TrexEngine::Shader* p_Shader)
 {
 
-	m_Window = p_Window;
+	Log.SetInfo("OnAttach Called. Init the Layer");
 
-	glfwInit();
-
-	// Setup Dear ImGui context
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO(); (void)io;
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls     
-	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
-	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-
-	// Setup Dear ImGui style
-	ImGui::StyleColorsDark();
-
-
-	// Setup Platform/Renderer backends
-
-	ImGui_ImplOpenGL3_Init("#version 330");
-
-	ImGui_ImplGlfw_InitForOpenGL(m_Window->GetWindow(), true);
+	if (p_Window != NULL && p_Shader != NULL)
+	{
+		m_Window = p_Window;
+		m_Shader = p_Shader;
+	}
+	//Init the ImGui
+	InitImGui();
 }
 
-void ImGuiExampleLayer::OnDettach()
+void ImGuiExample::OnEvent()
 {
-
-	ImGui_ImplOpenGL3_Shutdown();
-	ImGui_ImplGlfw_Shutdown();
-	ImGui::DestroyContext();
-
-	Log.Shutdown();
 }
 
-void ImGuiExampleLayer::OnEvent()
+void ImGuiExample::OnUpdate()
 {
-
 }
 
-void ImGuiExampleLayer::EnableLayer()
+void ImGuiExample::OnRender()
+{
+	StartNewFrame();
+
+	ImGuiBegin("Hello, World");
+
+	ImGuiText("This is some Text");
+	ImGuiText("This is some Text");
+	ImGuiText("This is some Text");
+
+	ImGuiText("This is some Text");
+
+	ImGuiText("This is some Text");
+	ImGuiText("This is some Text");
+	ImGuiText("This is some Text");
+	ImGuiText("This is some Text");
+	ImGuiText("This is some Text");
+	ImGuiText("This is some Text");
+	ImGuiText("This is some Text");
+
+
+
+	ImGuiEnd();
+
+	EndNewFrame();
+}
+
+void ImGuiExample::OnDettach()
+{
+	Log.SetInfo("OnDettach Called. Shuting down the layer");
+	ShutdownImGui();
+}
+
+void ImGuiExample::EnableLayer()
 {
 	Enable = true;
-	Log.SetWarning(LayerName + " got enabled");
 }
 
-void ImGuiExampleLayer::DisableLayer()
+void ImGuiExample::DisableLayer()
 {
 	Enable = false;
-	Log.SetWarning(LayerName + " got disabled");
 }
 
-
-void ImGuiExampleLayer::OnRender()
-{
-	
-
-		// Start the Dear ImGui frame
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui_ImplGlfw_NewFrame();
-		ImGui::NewFrame();
-
-		ImGuiIO& io = ImGui::GetIO();
-		io.DisplaySize = ImVec2(m_Window->GetW(), m_Window->GetH());
-
-
-
-		static bool Sync = false;
-
-
-		{
-
-			ImGui::Begin("Shape Settings");
-			ImGui::Text("ImGui On TrexEngine");
-
-			ImGui::SliderFloat("Y", &ScaleY, -1.0f, 1.0f);
-			ImGui::SameLine();
-			ImGui::InputFloat("ScaleY", &ScaleY);
-			if (Sync)
-				ScaleX = ScaleY;
-
-			ImGui::SliderFloat("X", &ScaleX, -1.0f, 1.0f);
-			ImGui::SameLine();
-			ImGui::InputFloat("ScaleX", &ScaleX);
-			if (Sync)
-				ScaleY = ScaleX;
-
-			ImGui::SliderFloat("Transparensy", &i, 0.0f, 256.0f);
-			ImGui::SliderFloat("Red", &R, 0.0f, 256.0f);
-			ImGui::SliderFloat("Green", &G, 0.0f, 256.0f);
-			ImGui::SliderFloat("Blue", &B, 0.0f, 256.0f);
-
-			if (ImGui::Button("Invert"))
-			{
-				ScaleX *= -1;
-				ScaleY *= -1;
-			}
-
-			ImGui::SameLine();
-			ImGui::Checkbox("Sync", &Sync);
-			ImGui::End();
-		}
-
-		ImGui::Begin("Layer Stack");
-
-		ImGui::Checkbox("Enable Example Layer", &EnableExLayer);
-
-		ImGui::End();
-
-		// Rendering
-		ImGui::Render();
-		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-		{
-
-			ImGui::UpdatePlatformWindows();
-			ImGui::RenderPlatformWindowsDefault();
-			glfwMakeContextCurrent(m_Window->GetWindow());
-		}
-
-}
-
-void ImGuiExampleLayer::OnUpdate(TrexEngine::Shader* P_Shader)
-{
-
-	if (EnableExLayer)
-		(*m_ExampleLayer)->EnableLayer();
-	else 
-		(*m_ExampleLayer)->DisableLayer();
-
-	P_Shader->SetUniformF("ScaleX", ScaleX);
-	P_Shader->SetUniformF("ScaleY", ScaleY);
-
-	P_Shader->SetUniformF("u_A", i / 256.0);
-	P_Shader->SetUniformF("u_R", R / 256.0);
-	P_Shader->SetUniformF("u_G", G / 256.0);
-	P_Shader->SetUniformF("u_B", B/256.0);
-}

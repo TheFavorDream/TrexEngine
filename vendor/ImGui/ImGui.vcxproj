@@ -102,7 +102,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\imgui.cpp" />
-    <ClCompile Include="Src\imgui_demo.cpp" />
     <ClCompile Include="Src\imgui_draw.cpp" />
     <ClCompile Include="Src\imgui_impl_glfw.cpp" />
     <ClCompile Include="Src\imgui_impl_opengl3.cpp" />

@@ -12,4 +12,5 @@
 #include "Trex/Include/Renderer/OpenGL/VertexBufferLayout.h"
 #include "Trex/Include/Renderer/OpenGL/Shader.h"
 #include "Trex/Include/Layer.h"
+#include "Trex/Include/ImGuiLayer.h"
 #include "Trex/Include/Timer.h"

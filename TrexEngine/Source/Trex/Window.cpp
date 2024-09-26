@@ -22,7 +22,7 @@ namespace TrexEngine
 			Logger::CoreLogger->SetError("Unable to Init GLFW");
 			return 1;
 		}
-		Logger::CoreLogger->SetError("Init GLFW");
+		Logger::CoreLogger->SetInfo("Init the GLFW");
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);

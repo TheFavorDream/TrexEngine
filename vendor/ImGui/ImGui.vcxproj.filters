@@ -41,9 +41,6 @@
     <ClCompile Include="Src\imgui.cpp">
       <Filter>Src</Filter>
     </ClCompile>
-    <ClCompile Include="Src\imgui_demo.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
     <ClCompile Include="Src\imgui_draw.cpp">
       <Filter>Src</Filter>
     </ClCompile>
