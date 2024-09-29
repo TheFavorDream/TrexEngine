@@ -2,7 +2,7 @@
 
 #include "../Core/Core.h"
 #include "../3rdparty/GL/glew.h"
-#include "GLFW/glfw3.h"
+#include "../3rdparty/glfw/Include/GLFW/glfw3.h"
 
 namespace TrexEngine
 {
