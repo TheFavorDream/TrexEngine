@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Layer.h"
-#include "Renderer/Window.h"
+#include "../Window/Window.h"
 
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"

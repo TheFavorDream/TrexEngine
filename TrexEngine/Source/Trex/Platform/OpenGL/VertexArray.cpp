@@ -1,5 +1,5 @@
-#include "../Include/Renderer/OpenGL/VertexArray.h"
-#include "../Include/Log.h"
+#include "VertexArray.h"
+#include "Log.h"
 
 namespace TrexEngine
 {

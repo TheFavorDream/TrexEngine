@@ -11,12 +11,15 @@ ImGuiExample::~ImGuiExample()
 
 }
 
-void ImGuiExample::RenderUniformSettingWedget()
+void ImGuiExample::RenderUniformSettingWidget()
 {
 
 	ImGuiBegin("Shader Uniform Settings");
 
-	ImGuiText("This is some Text");
+	if (ImGuiPushButton("Close"))
+	{
+		RenderUniformWidget = false;
+	}
 
 	ImGuiSliderFloat("Transparency", &Transparency, 0.0f, 255.0f);
 	ImGuiSliderFloat("Red", &R, 0.0f, 255.0f);
@@ -34,12 +37,12 @@ void ImGuiExample::RenderMenuBarItems()
 		{
 			if (ImGuiMenuItem("Uniforms"))
 			{
-				RenderUniformWedget = !RenderUniformWedget;
+				RenderUniformWidget = !RenderUniformWidget;
 			}
 
 			if (ImGuiMenuItem("Settings"))
 			{
-				RenderImGuiSettingWedget = !RenderImGuiSettingWedget;
+				RenderImGuiSettingWidget = !RenderImGuiSettingWidget;
 			}
 
 			ImGuiEndMenu();
@@ -61,7 +64,7 @@ void ImGuiExample::RenderMenuBarItems()
 	}
 }
 
-void ImGuiExample::RenderImGuiSettingsWedget()
+void ImGuiExample::RenderImGuiSettingsWidget()
 {
 	ImGuiBegin("ImGui Settings");
 
@@ -125,10 +128,10 @@ void ImGuiExample::OnRender()
 
 	RenderMenuBarItems();
 
-	if (RenderUniformWedget)
-		RenderUniformSettingWedget();
-	if (RenderImGuiSettingWedget)
-		RenderImGuiSettingsWedget();
+	if (RenderUniformWidget)
+		RenderUniformSettingWidget();
+	if (RenderImGuiSettingWidget)
+		RenderImGuiSettingsWidget();
 
 	EndNewFrame();
 }

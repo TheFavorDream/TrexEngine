@@ -1,5 +1,5 @@
-#include "../Include/Renderer/OpenGL/IndexBuffer.h"
-#include "../Include/Log.h"
+#include "IndexBuffer.h"
+#include "Log.h"
 
 namespace TrexEngine
 {

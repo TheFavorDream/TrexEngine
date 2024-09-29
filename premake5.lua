@@ -22,8 +22,13 @@ workspace "TrexEngine"
 		}
 
 		includedirs {
-			"./TrexEngine/Source/Trex/Include",
-			"/TrexEngine/Source/Trex/Include/GL",
+			"./TrexEngine/Source/Trex/3rdparty/GL",
+			"./TrexEngine/Source/Trex/Renderer/",
+			"./TrexEngine/Source/Trex/Window/",
+			"./TrexEngine/Source/Trex/Core/",
+			"./TrexEngine/Source/Trex/Debug/",
+			"./TrexEngine/Source/Trex/Application/",
+			"./TrexEngine/Source/Trex/Platform/",
 			"./vendor/glfw/include",
 			"./vendor/ImGui/Include"
 		}

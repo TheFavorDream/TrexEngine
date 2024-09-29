@@ -1,8 +1,8 @@
 #pragma once
 
 
-#include "Core.h"
-#include "Timer.h"
+#include "../Core/Core.h"
+#include "../Core/Timer.h"
 
 #include <fstream>
 #include <queue>

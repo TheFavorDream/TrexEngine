@@ -1,5 +1,5 @@
-#include "../Include/Renderer/OpenGL/VertexBuffer.h"
-#include "../Include/Log.h"
+#include "VertexBuffer.h"
+#include "Log.h"
 
 namespace TrexEngine
 {

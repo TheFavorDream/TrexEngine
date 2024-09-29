@@ -1,4 +1,4 @@
-#include "../Include/Renderer/OpenGL/Shader.h"
+#include "Shader.h"
 
 
 namespace TrexEngine

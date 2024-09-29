@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Trex/Include/Application.h"
+#include "./Trex/Application/Application.h"
 
 
 extern TrexEngine::Engine* TrexEngine::CreateApplication();

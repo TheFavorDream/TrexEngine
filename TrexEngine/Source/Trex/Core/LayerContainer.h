@@ -1,8 +1,8 @@
 #pragma once
 
 #include <vector>
-#include "Core.h"
-#include "Layer.h"
+#include "../Core/Core.h"
+#include "../Application/Layer.h"
 
 namespace TrexEngine
 { 

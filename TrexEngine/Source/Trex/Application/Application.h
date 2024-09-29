@@ -1,14 +1,14 @@
 #pragma once
-#include "GL/glew.h"
+#include "../3rdparty/GL/glew.h"
 
-#include "Log.h"
-#include "Core.h"
-#include "Renderer/Renderer.h"
-#include "Renderer/Window.h"
-#include "Timer.h"
-#include "LayerContainer.h"
-#include "Renderer/OpenGL/Shader.h"
-#include "ImGuiLayer.h"
+#include "../Debug/Log.h"
+#include "../Core/Core.h"
+#include "../Renderer/Renderer.h"
+#include "../Window/Window.h"
+#include "../Core/Timer.h"
+#include "../Core/LayerContainer.h"
+#include "../Platform/OpenGL/Shader.h"
+#include "../Application/ImGuiLayer.h"
 
 namespace TrexEngine
 {

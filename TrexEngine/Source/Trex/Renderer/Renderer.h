@@ -1,10 +1,10 @@
 #pragma once
-#include "GL/glew.h"
-#include "../Core.h"
+#include "../3rdparty/GL/glew.h"
+#include "../Core/Core.h"
 
-#include "./OpenGL/IndexBuffer.h"
-#include "./OpenGL/VertexArray.h"
-#include "./OpenGL/VertexBuffer.h"
+#include "../Platform/OpenGL/IndexBuffer.h"
+#include "../Platform/OpenGL/VertexArray.h"
+#include "../Platform/OpenGL/VertexBuffer.h"
 
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"

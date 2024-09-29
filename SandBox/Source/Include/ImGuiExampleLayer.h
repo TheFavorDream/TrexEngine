@@ -11,16 +11,16 @@ public:
 	~ImGuiExample();
 
 
-	void RenderUniformSettingWedget();
+	void RenderUniformSettingWidget();
 	void RenderMenuBarItems();
-	void RenderImGuiSettingsWedget();
+	void RenderImGuiSettingsWidget();
 
 	void OnAttach(TrexEngine::Window* p_Window, TrexEngine::Shader* p_Shader) override;
-	void OnEvent() override;
-	void OnUpdate() override;
-	void OnRender() override;
-	void OnDettach() override;
-	void EnableLayer() override;
+	void OnEvent()      override;
+	void OnUpdate()     override;
+	void OnRender()     override;
+	void OnDettach()    override;
+	void EnableLayer()  override;
 	void DisableLayer() override;
 
 private:
@@ -30,8 +30,8 @@ private:
 	float B			   = 255.0f;
 	float Transparency = 255.0f;
 
-	bool RenderUniformWedget      = false;
-	bool RenderImGuiSettingWedget = false;
+	bool RenderUniformWidget      = false;
+	bool RenderImGuiSettingWidget = false;
 
 	bool Dark_Style = true;
 	bool Prev_Dark_Style = Dark_Style;

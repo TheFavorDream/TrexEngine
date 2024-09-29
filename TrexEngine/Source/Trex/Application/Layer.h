@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Core.h"
-#include "Renderer/Window.h"
-#include "Renderer/OpenGL/Shader.h"
+#include "../Core/Core.h"
+#include "../Window/Window.h"
+#include "../Platform/OpenGL/Shader.h"
 #include <string>
 
 namespace TrexEngine

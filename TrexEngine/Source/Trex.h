@@ -2,15 +2,22 @@
 
 //For Client Use
 
-#include "Trex/Include/Application.h"
-#include "Trex/Include/Log.h"
-#include "Trex/Include/Renderer/Renderer.h"
-#include "Trex/Include/Renderer/Window.h"
-#include "Trex/Include/Renderer/OpenGL/VertexBuffer.h"
-#include "Trex/Include/Renderer/OpenGL/IndexBuffer.h"
-#include "Trex/Include/Renderer/OpenGL/VertexArray.h"
-#include "Trex/Include/Renderer/OpenGL/VertexBufferLayout.h"
-#include "Trex/Include/Renderer/OpenGL/Shader.h"
-#include "Trex/Include/Layer.h"
-#include "Trex/Include/ImGuiLayer.h"
-#include "Trex/Include/Timer.h"
+#include "./Trex/Application/Application.h"
+#include "./Trex/Application/Layer.h"
+#include "./Trex/Application/ImGuiLayer.h"
+
+#include "./Trex/Core/Core.h"
+#include "./Trex/Core/Timer.h"
+#include "./Trex/Core/LayerContainer.h"
+
+#include "./Trex/Debug/Log.h"
+
+#include "./Trex/Platform/OpenGL/IndexBuffer.h"
+#include "./Trex/Platform/OpenGL/Shader.h"
+#include "./Trex/Platform/OpenGL/VertexArray.h"
+#include "./Trex/Platform/OpenGL/VertexBuffer.h"
+#include "./Trex/Platform/OpenGL/VertexBufferLayout.h"
+
+#include "./Trex/Renderer/Renderer.h"
+
+#include "./Trex/Window/Window.h"

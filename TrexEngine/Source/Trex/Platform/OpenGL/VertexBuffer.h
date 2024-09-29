@@ -1,8 +1,8 @@
 #pragma once
 
 
-#include "../../Core.h"
-#include "../../GL/glew.h"
+#include "../Core/Core.h"
+#include "../3rdparty/GL/glew.h"
 
 namespace TrexEngine
 {

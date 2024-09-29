@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../../Core.h"
-#include "../../GL/glew.h"
-#include "VertexBuffer.h"
-#include "VertexBufferLayout.h"
+#include "../Core/Core.h"
+#include "../3rdparty/GL/glew.h"
+#include "../Platform/OpenGL/VertexBuffer.h"
+#include "../Platform/OpenGL/VertexBufferLayout.h"
 
 namespace TrexEngine
 {

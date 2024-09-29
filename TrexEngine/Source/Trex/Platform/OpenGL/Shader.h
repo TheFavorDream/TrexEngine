@@ -1,9 +1,9 @@
 #pragma once
 
 
-#include "../../Core.h"
-#include "../../GL/glew.h"
-#include "../../Log.h"
+#include "../Core/Core.h"
+#include "../3rdparty/GL/glew.h"
+#include "../Debug/Log.h"
 
 
 

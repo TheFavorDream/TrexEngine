@@ -1,6 +1,6 @@
-#include "../Include/Log.h"
+#include "Log.h"
 
-#include "GL/glew.h"
+#include "glew.h"
 
 
 //Implementation for Logging system:

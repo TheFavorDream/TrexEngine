@@ -1,4 +1,4 @@
-#include "Include/Renderer/Renderer.h"
+#include "Renderer.h"
 #include "Log.h"
 
 namespace TrexEngine
