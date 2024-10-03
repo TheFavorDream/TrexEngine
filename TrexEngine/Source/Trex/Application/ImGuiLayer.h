@@ -20,8 +20,9 @@ namespace TrexEngine
 		TX_API int InitImGui();
 		TX_API int ShutdownImGui();
 
-		TX_API void ImGuiEnableDocking();
-		TX_API void ImGuiDisableDocking();
+		
+		TX_API void ImGuiEnableMultiViewports();
+		TX_API void ImGuiDisableMultiViewports();
 
 		TX_API void ImGuiSetDarkStyle();
 		TX_API void ImGuiSetLightStyle();
@@ -59,6 +60,8 @@ namespace TrexEngine
 
 	protected:
 		Logger Log;
-		ImGuiConfigFlags Defualt_Config;
+		ImGuiConfigFlags NoDocking_Config;
+		ImGuiConfigFlags NoViewports_Config;
+
 	};
 };

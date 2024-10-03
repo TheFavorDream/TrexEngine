@@ -21,3 +21,6 @@
 #include "./Trex/Renderer/Renderer.h"
 
 #include "./Trex/Window/Window.h"
+
+#include "./Trex/Events/Input.h"
+#include "./Trex/Events/Keyboard.h"

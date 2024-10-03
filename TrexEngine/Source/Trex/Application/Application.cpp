@@ -15,7 +15,7 @@ namespace TrexEngine
 		m_Shader->CreateShaderProgram(VertexShaderSource, FragmentShaderSource);
 		m_Shader->Bind();
 
-		
+		Keyboard::SetKeyCallBack(m_Window->GetWindow());
 	}
 
 	Engine::~Engine()
@@ -44,7 +44,7 @@ namespace TrexEngine
 			}
 
 			m_Window->SwapBuffers();
-			glfwPollEvents();
+			Input::PollEvents();
 		}
 	}
 
