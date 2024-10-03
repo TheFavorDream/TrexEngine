@@ -29,8 +29,8 @@ workspace "TrexEngine"
 			"./TrexEngine/Source/Trex/Debug/",
 			"./TrexEngine/Source/Trex/Application/",
 			"./TrexEngine/Source/Trex/Platform/",
-			"./vendor/glfw/include",
-			"./vendor/ImGui/Include"
+			"./TrexEngine/Source/Trex/3rdparty/glfw/include",
+			"./TrexEngine/Source/Trex/3rdparty/ImGui/Include"
 		}
 
 		libdirs {
@@ -62,7 +62,7 @@ workspace "TrexEngine"
 			
 -- --------------------------------------------------GLFW-------------------------------------------------------
 	project "glfw"
-		location "./vendor/glfw"
+		location "./TrexEngine/Source/Trex/3rdparty/glfw"
 		kind "StaticLib"
 		language "C"
 
@@ -70,8 +70,8 @@ workspace "TrexEngine"
 		objdir ("./bin-in/" .. OutputDir .. "/glfw")
 
 		files {
-			"./vendor/glfw/include/**.h",
-			"./vendor/glfw/src/**.c"
+			"./TrexEngine/Source/Trex/3rdparty/glfw/include/**.h",
+			"./TrexEngine/Source/Trex/3rdparty/glfw/src/**.c"
 		}
 
 		filter ("system:windows")
@@ -93,19 +93,19 @@ workspace "TrexEngine"
 ----------------------------------ImGui--------------------------------------------------------
 
 		project "ImGui"
-			location "./vendor/ImGui"
+			location "./TrexEngine/Source/Trex/3rdparty/ImGui"
 			kind "StaticLib"
 			language "C++"
 			targetdir ("./bin/" .. OutputDir .. "/ImGui")
 			objdir ("./bin-in/" .. OutputDir .. "/ImGui")
 	
 			includedirs {
-				"./vendor/glfw/include"
+				"./TrexEngine/Source/Trex/3rdparty/glfw/include/"
 			}
 
 			files {
-				"./vendor/ImGui/Include/**.h",
-				"./vendor/ImGui/Src/**.cpp"
+				"./TrexEngine/Source/Trex/3rdparty/ImGui/Include/**.h",
+				"./TrexEngine/Source/Trex/3rdparty/ImGui/Src/**.cpp"
 			}
 	
 			filter ("system:windows")
@@ -140,10 +140,7 @@ workspace "TrexEngine"
 		}
 			
 		includedirs {
-			"./TrexEngine/Source/",
-			"./TrexEngine/Source/Trex/Include",
-			"./vendor/glfw/include",
-			"./vendor/ImGui/Include"
+			"./TrexEngine/Source/"
 		}
 			
 		libdirs {
