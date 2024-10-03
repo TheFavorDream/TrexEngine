@@ -9,6 +9,8 @@
 #include "../Core/LayerContainer.h"
 #include "../Platform/OpenGL/Shader.h"
 #include "../Application/ImGuiLayer.h"
+#include "../Events/Input.h"
+#include "../Events/Keyboard.h"
 
 namespace TrexEngine
 {
@@ -56,6 +58,7 @@ namespace TrexEngine
 
 		Window *m_Window   = NULL;
 		Shader *m_Shader = NULL;
+
 		Timer			timer;
 		LayerContainer  Layers;
 

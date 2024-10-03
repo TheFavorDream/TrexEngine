@@ -34,7 +34,7 @@ void ExampleLayer::OnRender()
 
 void ExampleLayer::OnUpdate()
 {
-
+	
 }
 
 
@@ -57,8 +57,6 @@ void ExampleLayer::DisableLayer()
 	Log.SetWarning(LayerName + " got disabled");
 
 }
-
-
 
 
 ExampleLayer::~ExampleLayer()

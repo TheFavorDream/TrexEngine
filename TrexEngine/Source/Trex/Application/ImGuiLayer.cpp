@@ -20,9 +20,10 @@ namespace TrexEngine
 		ImGui::CreateContext();
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
 		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls     
-		Defualt_Config = io.ConfigFlags;
+		NoDocking_Config = io.ConfigFlags;
+		NoViewports_Config = io.ConfigFlags;
 
-		ImGuiEnableDocking();
+		ImGuiEnableMultiViewports();
 
 		// Setup Dear ImGui style
 		
@@ -45,18 +46,19 @@ namespace TrexEngine
 		Log.SetWarning("ImGui got Destroyed");
 		return 0;
 	}
+	
 
-	TX_API void ImGuiLayer::ImGuiEnableDocking()
+	TX_API void ImGuiLayer::ImGuiEnableMultiViewports()
 	{
-		Log.SetInfo("Enable ImGui Docking and Multi View Ports");
-		ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
-		ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+		Log.SetInfo("MutlView Ports got Enabled");
+		ImGui::GetIO().ConfigFlags = ImGuiConfigFlags_ViewportsEnable;
 	}
 
-	TX_API void ImGuiLayer::ImGuiDisableDocking()
+	TX_API void ImGuiLayer::ImGuiDisableMultiViewports()
 	{
-		Log.SetInfo("Disable ImGui Docking and Multi View Ports");
-		ImGui::GetIO().ConfigFlags = Defualt_Config;
+		Log.SetInfo("MutlView Ports got Disabled");
+		ImGui::GetIO().ConfigFlags = NoViewports_Config;
+
 	}
 
 	TX_API void ImGuiLayer::ImGuiSetDarkStyle()

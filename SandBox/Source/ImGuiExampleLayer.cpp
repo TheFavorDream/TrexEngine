@@ -68,14 +68,14 @@ void ImGuiExample::RenderImGuiSettingsWidget()
 {
 	ImGuiBegin("ImGui Settings");
 
-	ImGuiCheckBox("Enable Docking", &Enable_Docking);
+	ImGuiCheckBox("Enable Multi View ports", &Enable_Docking);
 
 	if (Prev_EnableState != Enable_Docking)
 	{
 		if (Enable_Docking)
-			ImGuiEnableDocking();
+			ImGuiEnableMultiViewports();
 		else
-			ImGuiDisableDocking();
+			ImGuiDisableMultiViewports();
 		Prev_EnableState = Enable_Docking;
 	}
 
@@ -113,6 +113,15 @@ void ImGuiExample::OnEvent()
 
 void ImGuiExample::OnUpdate()
 {
+
+	if (!TrexEngine::Keyboard::KeyQueueEmpty())
+	{
+		TrexEngine::KeyEvent Event = TrexEngine::Keyboard::GetEvent();
+		if (Event.key == 32 && Event.action == 0)
+		{
+			RenderUniformWidget = !RenderUniformWidget;
+		}
+	}
 
 	m_Shader->SetUniformF("u_R", R / 256.0f);
 	m_Shader->SetUniformF("u_G", G / 256.0f);
