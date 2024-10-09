@@ -4,14 +4,14 @@
 
 using namespace TrexEngine;
 
+
 class ExampleLayer : public TrexEngine::Layer
 {
 public:
 
 	ExampleLayer();
 
-	void OnAttach(TrexEngine::Window* p_Window, TrexEngine::Shader* p_Shader) override;
-
+	void OnAttach(TrexEngine::Window* p_Window, TrexEngine::Shader* p_Shader, TrexEngine::Input* p_Events) override;
 
 	void OnEvent() override;
 
@@ -24,10 +24,12 @@ public:
 	void EnableLayer() override;
 	void DisableLayer() override;
 
+
 	~ExampleLayer();
 
 private:
 
+	friend void Test();
 
 	TrexEngine::Logger Log;
 
@@ -36,12 +38,12 @@ private:
 	TrexEngine::VertexBuffer       VBO;
 	TrexEngine::IndexBuffer        EBO;
 
-	float Vertices[20] =
+	float Vertices[8] =
 	{
-		-0.5f, -0.5f,		
-		 0.5f, -0.5f,		
-		-0.5f,  0.5f,		
-		 0.5f,  0.5f
+		-0.9f, -0.9f,		
+		 0.0f, -0.9f,		
+		-0.9f,  0.0f,		
+		 0.0f,  0.0f
 	};
 
 	float i = 0.0f;

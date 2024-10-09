@@ -82,4 +82,12 @@ namespace TrexEngine
 		m_OverLayerPointer = NULL;
 	}
 
+	TX_API Layer * LayerContainer::GetLayer(int index)
+	{
+		if (index > m_Layers.size() - 1)
+			ASSERT("Out of Range");
+
+		return m_Layers[index];
+	}
+
 };

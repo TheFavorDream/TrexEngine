@@ -48,7 +48,7 @@ namespace TrexEngine
 		TX_API void ImGuiSameLine();
 
 		TX_API void ImGuiText(std::string p_Text);
-		TX_API void ImGuiSliderFloat(std::string p_Label, float* p_Float, float p_Start, float p_End);
+		TX_API bool ImGuiSliderFloat(std::string p_Label, float* p_Float, float p_Start, float p_End);
 		TX_API void ImGuiSliderInt(std::string p_Label, int* p_Int, int p_Start, int p_End);
 
 		TX_API bool ImGuiCheckBox(std::string p_Label, bool* p_Bool);

@@ -21,10 +21,11 @@ void ImGuiExample::RenderUniformSettingWidget()
 		RenderUniformWidget = false;
 	}
 
-	ImGuiSliderFloat("Transparency", &Transparency, 0.0f, 255.0f);
-	ImGuiSliderFloat("Red", &R, 0.0f, 255.0f);
-	ImGuiSliderFloat("Green", &G, 0.0f, 255.0f);
-	ImGuiSliderFloat("Blue", &B, 0.0f, 255.0f);
+	if (ImGuiSliderFloat("Transparency", &Transparency, 0.0f, 255.0f)) ShouldUpdate = true;
+	if (ImGuiSliderFloat("Red", &R, 0.0f, 255.0f))     ShouldUpdate = true;
+	if (ImGuiSliderFloat("Green", &G, 0.0f, 255.0f))   ShouldUpdate = true;
+	if (ImGuiSliderFloat("Blue", &B, 0.0f, 255.0f))    ShouldUpdate = true;
+
 	ImGuiEnd();
 }
 
@@ -93,8 +94,9 @@ void ImGuiExample::RenderImGuiSettingsWidget()
 	ImGuiEnd();
 }
 
-void ImGuiExample::OnAttach(TrexEngine::Window * p_Window, TrexEngine::Shader* p_Shader)
+void ImGuiExample::OnAttach(TrexEngine::Window * p_Window, TrexEngine::Shader* p_Shader, TrexEngine::Input* p_Events)
 {
+	m_Events = p_Events;
 
 	Log.SetInfo("OnAttach Called. Init the Layer");
 
@@ -109,25 +111,28 @@ void ImGuiExample::OnAttach(TrexEngine::Window * p_Window, TrexEngine::Shader* p
 
 void ImGuiExample::OnEvent()
 {
+	if (m_Events->keyboard.GetKeyState(KEY_Q) == TrexEngine::PRESS)
+	{
+		RenderUniformWidget = !RenderUniformWidget;
+	}
+
+	if (m_Events->keyboard.GetKeyState(KEY_E) == TrexEngine::PRESS)
+	{
+		RenderMenuBar = !RenderMenuBar;
+	}
 }
 
 void ImGuiExample::OnUpdate()
 {
 
-	if (!TrexEngine::Keyboard::KeyQueueEmpty())
+	if (ShouldUpdate)
 	{
-		TrexEngine::KeyEvent Event = TrexEngine::Keyboard::GetEvent();
-		if (Event.key == 32 && Event.action == 0)
-		{
-			RenderUniformWidget = !RenderUniformWidget;
-		}
+		m_Shader->SetUniformF("u_R", R / 256.0f);
+		m_Shader->SetUniformF("u_G", G / 256.0f);
+		m_Shader->SetUniformF("u_B", B / 256.0f);
+		m_Shader->SetUniformF("u_A", Transparency / 256.0f);
+		ShouldUpdate = false;
 	}
-
-	m_Shader->SetUniformF("u_R", R / 256.0f);
-	m_Shader->SetUniformF("u_G", G / 256.0f);
-	m_Shader->SetUniformF("u_B", B / 256.0f);
-	m_Shader->SetUniformF("u_A", Transparency / 256.0f);
-
 
 }
 
@@ -135,7 +140,8 @@ void ImGuiExample::OnRender()
 {
 	StartNewFrame();
 
-	RenderMenuBarItems();
+	if (RenderMenuBar)
+		RenderMenuBarItems();
 
 	if (RenderUniformWidget)
 		RenderUniformSettingWidget();

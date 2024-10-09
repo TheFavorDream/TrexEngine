@@ -4,7 +4,7 @@
 namespace TrexEngine
 {
 
-	TX_API std::queue<KeyEvent> Keyboard::KeyQueue;
+	TX_API std::unordered_map<int, Key> Keyboard::Key_Table;
 
 
 	TX_API void Keyboard::SetKeyCallBack(GLFWwindow* p_window) 
@@ -14,20 +14,57 @@ namespace TrexEngine
 
 	TX_API void Keyboard::KeyCallBack(GLFWwindow* p_window, int key, int scancode, int action, int mode)
 	{
-		
-		KeyQueue.push({key, scancode, action, mode});
+
+		switch (action)
+		{
+		case PRESS:
+			if (Key_Table[key].OnPress != NULL)
+				Key_Table[key].OnPress();
+			break;
+
+		case HOLD:
+			if (Key_Table[key].OnHold != NULL)
+				Key_Table[key].OnHold();
+			break;
+
+		case RELEASE:
+			if (Key_Table[key].OnRelease != NULL)
+				Key_Table[key].OnRelease();
+
+			break;
+		}
+
+		Key_Table[key].State = action;
 	}
 
-	TX_API bool Keyboard::KeyQueueEmpty()
+	TX_API int Keyboard::GetKeyState(int Key, bool Restore) const
 	{
-		return KeyQueue.empty();
+		int State = Key_Table[Key].State;
+
+		if (Restore)
+			Key_Table[Key].State = NONE;
+
+		return State;
 	}
 
-	TX_API KeyEvent Keyboard::GetEvent()
+	TX_API void Keyboard::SetKeyStateNone(int Key)
 	{
-		KeyEvent p_event = KeyQueue.front();
-		KeyQueue.pop();
-		return p_event;
+		Key_Table[Key].State = NONE;
+	}
+
+	TX_API void Keyboard::SetKeyPressCallBack(int Key, void(*CallBackFunction)(void))
+	{
+		Key_Table[Key].OnPress = CallBackFunction;
+	}
+
+	TX_API void Keyboard::SetKeyReleaseCallBack(int Key, void(*CallBackFunction)(void))
+	{
+		Key_Table[Key].OnRelease = CallBackFunction;
+	}
+
+	TX_API void Keyboard::SetKeyHoldCallBack(int Key, void(*CallBackFunction)(void))
+	{
+		Key_Table[Key].OnHold = CallBackFunction;
 	}
 
 };

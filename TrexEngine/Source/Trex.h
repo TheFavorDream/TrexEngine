@@ -24,3 +24,4 @@
 
 #include "./Trex/Events/Input.h"
 #include "./Trex/Events/Keyboard.h"
+#include "./Trex/Events/Keys.h"

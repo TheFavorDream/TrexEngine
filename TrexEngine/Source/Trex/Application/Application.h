@@ -32,7 +32,7 @@ namespace TrexEngine
 		void PushLayer(Layer* p_NewLayer)
 		{
 			Layers.PushLayer(p_NewLayer);
-			p_NewLayer->OnAttach(m_Window, m_Shader);
+			p_NewLayer->OnAttach(m_Window, m_Shader, &events);
 		}
 
 		void PopLayer()
@@ -43,7 +43,7 @@ namespace TrexEngine
 		void PushOverLayer(Layer* p_NewLayer)
 		{
 			Layers.PushOverLayer(p_NewLayer);
-			p_NewLayer->OnAttach(m_Window, m_Shader);
+			p_NewLayer->OnAttach(m_Window, m_Shader, &events);
 		}
 
 		void PopOverLayer()
@@ -59,7 +59,7 @@ namespace TrexEngine
 
 		Window *m_Window   = NULL;
 		Shader *m_Shader = NULL;
-
+		Input events;
 		Timer			timer;
 		LayerContainer  Layers;
 

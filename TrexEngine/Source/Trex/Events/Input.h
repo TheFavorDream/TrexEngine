@@ -15,7 +15,7 @@ namespace TrexEngine
 		TX_API static void PollEvents();
 
 	public:
-		static Keyboard keyboard;
+		TX_API static Keyboard keyboard;
 	};
 
 };

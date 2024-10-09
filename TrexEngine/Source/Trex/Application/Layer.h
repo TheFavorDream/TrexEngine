@@ -3,6 +3,7 @@
 #include "../Core/Core.h"
 #include "../Window/Window.h"
 #include "../Platform/OpenGL/Shader.h"
+#include "../Events/Input.h"
 #include <string>
 
 namespace TrexEngine
@@ -14,11 +15,11 @@ namespace TrexEngine
 		TX_API Layer(std::string p_LayerName);
 		TX_API virtual ~Layer();
 
-		TX_API virtual void OnAttach (Window* p_Window, Shader* p_Shader)  = 0;
+		TX_API virtual void OnAttach (Window* p_Window, Shader* p_Shader, Input* p_Events)  = 0;
 		TX_API virtual void OnDettach()  = 0;
 		TX_API virtual void OnUpdate ()  = 0;
 		TX_API virtual void OnRender ()  = 0;
-		TX_API virtual void OnEvent  ()  = 0;
+		TX_API virtual void OnEvent  () = 0;
 
 		TX_API virtual void EnableLayer() = 0;
 		TX_API virtual void DisableLayer() = 0;
@@ -30,6 +31,8 @@ namespace TrexEngine
 
 		Window* m_Window;
 		Shader* m_Shader;
+		Input*  m_Events;
+
 		//For Debugging
 		std::string LayerName;
 		bool Enable = true;

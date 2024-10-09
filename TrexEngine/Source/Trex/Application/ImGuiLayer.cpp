@@ -139,9 +139,9 @@ namespace TrexEngine
 		ImGui::SameLine();
 	}
 
-	TX_API void ImGuiLayer::ImGuiSliderFloat(std::string p_Label, float * p_Float, float p_Start, float p_End)
+	TX_API bool ImGuiLayer::ImGuiSliderFloat(std::string p_Label, float * p_Float, float p_Start, float p_End)
 	{
-		ImGui::SliderFloat(p_Label.c_str(), p_Float, p_Start, p_End);
+		return ImGui::SliderFloat(p_Label.c_str(), p_Float, p_Start, p_End);
 	}
 
 	TX_API void ImGuiLayer::ImGuiSliderInt(std::string p_Label, int * p_Int, int p_Start, int p_End)

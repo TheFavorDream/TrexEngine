@@ -4,6 +4,7 @@
 namespace TrexEngine
 {
 
+
 	Engine::Engine(const char* p_Title, int p_Width, int p_Height):
 		m_Log("Core"), m_Window(new Window), m_Shader(new Shader)
 	{
@@ -15,7 +16,8 @@ namespace TrexEngine
 		m_Shader->CreateShaderProgram(VertexShaderSource, FragmentShaderSource);
 		m_Shader->Bind();
 
-		Keyboard::SetKeyCallBack(m_Window->GetWindow());
+		events.keyboard.SetKeyCallBack(m_Window->GetWindow());
+
 	}
 
 	Engine::~Engine()
@@ -33,6 +35,13 @@ namespace TrexEngine
 		{
 			GLCall(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
 			GLCall(glClear(GL_COLOR_BUFFER_BIT));
+
+			for (int i = Layers.GetLayersNumber()-1; i >= 0; --i)
+			{
+				if (!Layers.GetLayer(i)->GetEnableState())
+					continue;
+				Layers.GetLayer(i)->OnEvent();
+			}
 
 			for (auto &i : Layers)
 			{

@@ -42,9 +42,6 @@ namespace TrexEngine
 		VBO.Bind();
 		EBO.Bind();
 		GLCall(glDrawElements(GL_TRIANGLES, EBO.GetCount(), GL_UNSIGNED_INT, NULL));
-		VAO.Unbind();
-		VBO.Unbind();
-		EBO.Unbind();
 		return;
 	}
 

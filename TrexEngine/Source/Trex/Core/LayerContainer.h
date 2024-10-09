@@ -21,7 +21,9 @@ namespace TrexEngine
 		TX_API void PopOverLayer();
 
 		TX_API inline Layer* GetOverLayer() const { return m_OverLayerPointer; }
+		TX_API Layer* GetLayer(int index);
 		TX_API inline std::vector<Layer*>& GetLayers() { return m_Layers; }
+		TX_API inline size_t GetLayersNumber() const { return m_Layers.size(); }
 
 	public:
 
