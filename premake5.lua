@@ -50,9 +50,9 @@ workspace "TrexEngine"
 			
 		filter ("configurations:Debug")
 			symbols "On"
-			defines {"DEBUG"}
+			defines {"TX_DEBUG"}
 		filter ("configurations:Release")
-			defines {"RELEASE"}
+			defines {"TX_RELEASE"}
 			optimize "On"
 			
 		filter {"configurations:Debug", "system:windows"}

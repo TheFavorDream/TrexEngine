@@ -111,14 +111,19 @@ void ImGuiExample::OnAttach(TrexEngine::Window * p_Window, TrexEngine::Shader* p
 
 void ImGuiExample::OnEvent()
 {
-	if (m_Events->keyboard.GetKeyState(KEY_Q) == TrexEngine::PRESS)
+	if (m_Events->keyboard.IsKeyPressed(KEY_W))
 	{
 		RenderUniformWidget = !RenderUniformWidget;
 	}
 
-	if (m_Events->keyboard.GetKeyState(KEY_E) == TrexEngine::PRESS)
+	if (m_Events->keyboard.IsKeyPressed(KEY_E))
 	{
-		RenderMenuBar = !RenderMenuBar;
+		RenderMenuBar = true;
+	}
+
+	if (m_Events->keyboard.IsKeyPressed(KEY_ESCAPE))
+	{
+		RenderMenuBar = false;
 	}
 }
 

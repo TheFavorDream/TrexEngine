@@ -26,35 +26,26 @@ void ExampleLayer::OnAttach(TrexEngine::Window* p_Window, TrexEngine::Shader* p_
 
 void ExampleLayer::OnEvent()
 {
-	if (m_Events->keyboard.GetKeyState(KEY_R) == TrexEngine::PRESS)
+	static std::string Str;
+
+
+	if (m_Events->keyboard.IsKeyPressed(KEY_S))
 	{
-		m_Shader->SetUniformF("u_R", 1.0f);
-		m_Shader->SetUniformF("u_B", 0.0f);
-		m_Shader->SetUniformF("u_G", 0.0f);
+		m_Events->keyboard.StartTextInput(Str);
+		Log.SetInfo("Text Inputing Started");
 	}
 
-	if (m_Events->keyboard.GetKeyState(KEY_G) == TrexEngine::PRESS)
+
+	if (m_Events->keyboard.IsInputingText())
 	{
-		m_Shader->SetUniformF("u_R", 0.0f);
-		m_Shader->SetUniformF("u_B", 0.0f);
-		m_Shader->SetUniformF("u_G", 1.0f);
+		if (m_Events->keyboard.IsKeyPressed(KEY_ENTER))
+		{
+			m_Events->keyboard.StopTextInput();
+			Log.SetInfo("Text Inputing Stoped: " + Str);
+			Str = "";
+		}
 	}
 
-	if (m_Events->keyboard.GetKeyState(KEY_B) == TrexEngine::PRESS)
-	{
-		m_Shader->SetUniformF("u_R", 0.0f);
-		m_Shader->SetUniformF("u_B", 1.0f);
-		m_Shader->SetUniformF("u_G", 0.0f);
-	}
-
-	if (m_Events->keyboard.GetKeyState(KEY_T) == TrexEngine::PRESS)
-	{
-		m_Shader->SetUniformF("u_A", 1.0f);
-	}
-	if (m_Events->keyboard.GetKeyState(KEY_Y) == TrexEngine::PRESS)
-	{
-		m_Shader->SetUniformF("u_A", 0.0f);
-	}
 }
 
 
