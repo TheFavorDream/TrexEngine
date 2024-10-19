@@ -14,6 +14,8 @@ public:
 	void RenderUniformSettingWidget();
 	void RenderMenuBarItems();
 	void RenderImGuiSettingsWidget();
+	void RenderTextBox();
+	void RenderMouseWiget();
 
 	void OnAttach(TrexEngine::Window* p_Window, TrexEngine::Shader* p_Shader, TrexEngine::Input* p_Events) override;
 	void OnEvent()      override;
@@ -25,6 +27,8 @@ public:
 
 private:
 
+	std::string Text;
+
 	float R			   = 255.0f;
 	float G            = 255.0f;
 	float B			   = 255.0f;
@@ -32,6 +36,7 @@ private:
 
 	bool ShouldUpdate = false;
 
+	bool RenderMouse = false;
 	bool RenderUniformWidget      = false;
 	bool RenderImGuiSettingWidget = false;
 	bool RenderMenuBar = true;

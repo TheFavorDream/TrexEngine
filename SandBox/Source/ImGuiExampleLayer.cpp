@@ -49,14 +49,12 @@ void ImGuiExample::RenderMenuBarItems()
 			ImGuiEndMenu();
 		}
 
-		if (ImGuiBeginMenu("Edit"))
-		{
-
-			ImGuiEndMenu();
-		}
-
 		if (ImGuiBeginMenu("Tools"))
 		{
+			if (ImGuiMenuItem("Mouse"))
+			{
+				RenderMouse = !RenderMouse;
+			}
 
 			ImGuiEndMenu();
 		}
@@ -94,6 +92,29 @@ void ImGuiExample::RenderImGuiSettingsWidget()
 	ImGuiEnd();
 }
 
+void ImGuiExample::RenderTextBox()
+{
+	ImGuiBegin("Text Inputing");
+
+	ImGuiText(Text);
+
+	ImGuiEnd();
+}
+
+void ImGuiExample::RenderMouseWiget()
+{
+	ImGuiBegin("Mouse");
+
+	ImGuiText("Mouse Position: " + std::to_string(m_Events->mouse.GetMouseX()) + "X, " + std::to_string(m_Events->mouse.GetMouseY()) + "Y.");
+
+	if (ImGuiPushButton("Close"))
+	{
+		RenderMouse = false;
+	}
+
+	ImGuiEnd();
+}
+
 void ImGuiExample::OnAttach(TrexEngine::Window * p_Window, TrexEngine::Shader* p_Shader, TrexEngine::Input* p_Events)
 {
 	m_Events = p_Events;
@@ -125,6 +146,20 @@ void ImGuiExample::OnEvent()
 	{
 		RenderMenuBar = false;
 	}
+
+
+	if (m_Events->keyboard.IsKeyPressed(KEY_S))
+	{
+		m_Events->keyboard.StartTextInput(Text);
+	}
+
+	if (m_Events->keyboard.IsInputingText())
+	{
+		if (m_Events->keyboard.IsKeyPressed(KEY_ENTER))
+		{
+			m_Events->keyboard.StopTextInput();
+		}
+	}
 }
 
 void ImGuiExample::OnUpdate()
@@ -152,6 +187,13 @@ void ImGuiExample::OnRender()
 		RenderUniformSettingWidget();
 	if (RenderImGuiSettingWidget)
 		RenderImGuiSettingsWidget();
+	if (RenderMouse)
+		RenderMouseWiget();
+
+	if (m_Events->keyboard.IsInputingText())
+	{
+		RenderTextBox();
+	}
 
 	EndNewFrame();
 }

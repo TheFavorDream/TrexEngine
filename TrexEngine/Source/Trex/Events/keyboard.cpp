@@ -11,11 +11,11 @@ namespace TrexEngine
 	TX_API bool Keyboard::IsCapsLockOn = false;
 	TX_API bool Keyboard::IsNumPadOn = false;
 
-
 	TX_API void Keyboard::SetKeyCallBack(GLFWwindow* p_window) 
 	{
 		glfwSetKeyCallback(p_window, KeyCallBack);
 		glfwSetCharCallback(p_window, CharacterCallBack);
+
 	}
 
 	TX_API void Keyboard::KeyCallBack(GLFWwindow* p_window, int key, int scancode, int action, int mode)
@@ -51,6 +51,7 @@ namespace TrexEngine
 
 	TX_API void Keyboard::CharacterCallBack(GLFWwindow * p_window, unsigned int codepoint)
 	{
+
 		if (IsReadingText)
 		{
 			*Current_String += char(codepoint);
@@ -63,7 +64,20 @@ namespace TrexEngine
 		return Key_Table[Key].State;
 	}
 
-	TX_API bool Keyboard::IsKeyPressed(int Key) 
+
+	TX_API void Keyboard::PopTheLastChar()
+	{
+		if (IsReadingText)
+		{
+			if ((*Current_String) != "")
+				Current_String->pop_back();
+			return;
+		}
+
+		Logger::CoreLogger->SetError("Unable to Pop char while not on reading mode!");
+	}
+
+	TX_API bool Keyboard::IsKeyPressed(int Key)
 	{
 		if (GetKeyCurrentState(Key) == PRESS)
 		{
@@ -123,6 +137,9 @@ namespace TrexEngine
 		{
 			Current_String = &p_Text;
 			IsReadingText = true;
+
+			Key_Table[KEY_BACKSPACE].OnPress = PopTheLastChar;
+			Key_Table[KEY_BACKSPACE].OnHold = PopTheLastChar;
 		}
 
 		else		

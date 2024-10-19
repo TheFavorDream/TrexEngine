@@ -51,6 +51,7 @@ namespace TrexEngine
 		TX_API static int GetKeyCurrentState(int Key) ;
 
 		//*Recomended*
+		TX_API static void PopTheLastChar();
 		TX_API static bool IsKeyPressed(int Key) ;
 		TX_API static bool IsKeyReleased(int Key) ;
 		TX_API static bool IsKeyHold(int Key) ;

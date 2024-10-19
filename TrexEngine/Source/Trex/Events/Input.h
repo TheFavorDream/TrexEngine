@@ -5,6 +5,7 @@
 #include "../3rdparty/glfw/include/GLFW/glfw3.h"
 
 #include "Keyboard.h"
+#include  "Mouse.h"
 
 namespace TrexEngine
 {
@@ -16,6 +17,7 @@ namespace TrexEngine
 
 	public:
 		TX_API static Keyboard keyboard;
+		TX_API static Mouse    mouse;
 	};
 
 };

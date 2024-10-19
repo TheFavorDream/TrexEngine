@@ -17,7 +17,7 @@ namespace TrexEngine
 		m_Shader->Bind();
 
 		events.keyboard.SetKeyCallBack(m_Window->GetWindow());
-
+		events.mouse.SetCursorPositionCallBack(m_Window->GetWindow());
 	}
 
 	Engine::~Engine()

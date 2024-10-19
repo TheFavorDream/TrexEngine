@@ -26,25 +26,7 @@ void ExampleLayer::OnAttach(TrexEngine::Window* p_Window, TrexEngine::Shader* p_
 
 void ExampleLayer::OnEvent()
 {
-	static std::string Str;
-
-
-	if (m_Events->keyboard.IsKeyPressed(KEY_S))
-	{
-		m_Events->keyboard.StartTextInput(Str);
-		Log.SetInfo("Text Inputing Started");
-	}
-
-
-	if (m_Events->keyboard.IsInputingText())
-	{
-		if (m_Events->keyboard.IsKeyPressed(KEY_ENTER))
-		{
-			m_Events->keyboard.StopTextInput();
-			Log.SetInfo("Text Inputing Stoped: " + Str);
-			Str = "";
-		}
-	}
+	
 
 }
 
