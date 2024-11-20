@@ -24,8 +24,6 @@ namespace TrexEngine
 {
 
 
-	//Key States 
-	enum KeyState {NONE=-1, RELEASE , PRESS , HOLD};
 
 	//A Structure for storing the State and Call Back functions
 	struct Key 

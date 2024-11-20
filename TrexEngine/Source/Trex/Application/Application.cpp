@@ -6,32 +6,32 @@ namespace TrexEngine
 
 
 	Engine::Engine(const char* p_Title, int p_Width, int p_Height):
-		m_Log("Core"), m_Window(new Window), m_Shader(new Shader)
+		m_Log("Core"), WindowManager(new Window), m_Shader(new Shader)
 	{
 
-		m_Window->Init(p_Title, p_Width, p_Height);
+		WindowManager->CreateNewWindow(p_Title, p_Width, p_Height);
 		
 		Renderer::GetInstance()->Init();
 
 		m_Shader->CreateShaderProgram(VertexShaderSource, FragmentShaderSource);
 		m_Shader->Bind();
 
-		events.keyboard.SetKeyCallBack(m_Window->GetWindow());
-		events.mouse.SetCursorPositionCallBack(m_Window->GetWindow());
+		events.keyboard.SetKeyCallBack(WindowManager->GetWindow());
+		events.mouse.SetMouseCallBacks(WindowManager->GetWindow());
 	}
 
 	Engine::~Engine()
 	{
 		delete m_Shader;
 		delete Renderer::s_RenderInstance;
-		delete m_Window;
+		delete WindowManager;
 
 		m_Log.Shutdown();
 	}
 
 	void Engine::run()
 	{
-		while (!m_Window->WindowShouldClose())
+		while (!WindowManager->WindowShouldClose())
 		{
 			GLCall(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
 			GLCall(glClear(GL_COLOR_BUFFER_BIT));
@@ -52,7 +52,7 @@ namespace TrexEngine
 				i->OnRender();
 			}
 
-			m_Window->SwapBuffers();
+			WindowManager->SwapBuffers();
 			Input::PollEvents();
 		}
 	}

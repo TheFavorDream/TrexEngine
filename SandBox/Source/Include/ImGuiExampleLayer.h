@@ -32,7 +32,9 @@ private:
 	float R			   = 255.0f;
 	float G            = 255.0f;
 	float B			   = 255.0f;
-	float Transparency = 255.0f;
+	float ScaleX = 1.0f;
+	float ScaleY = 1.0f;
+
 
 	bool ShouldUpdate = false;
 

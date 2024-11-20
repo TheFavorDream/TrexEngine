@@ -21,10 +21,13 @@ void ImGuiExample::RenderUniformSettingWidget()
 		RenderUniformWidget = false;
 	}
 
-	if (ImGuiSliderFloat("Transparency", &Transparency, 0.0f, 255.0f)) ShouldUpdate = true;
 	if (ImGuiSliderFloat("Red", &R, 0.0f, 255.0f))     ShouldUpdate = true;
 	if (ImGuiSliderFloat("Green", &G, 0.0f, 255.0f))   ShouldUpdate = true;
 	if (ImGuiSliderFloat("Blue", &B, 0.0f, 255.0f))    ShouldUpdate = true;
+
+	if (ImGuiSliderFloat("Scale X", &ScaleX, 0.0f, 1.0f)) ShouldUpdate = true;
+	if (ImGuiSliderFloat("Scale Y", &ScaleY, 0.0f, 1.0f)) ShouldUpdate = true;
+
 
 	ImGuiEnd();
 }
@@ -170,7 +173,7 @@ void ImGuiExample::OnUpdate()
 		m_Shader->SetUniformF("u_R", R / 256.0f);
 		m_Shader->SetUniformF("u_G", G / 256.0f);
 		m_Shader->SetUniformF("u_B", B / 256.0f);
-		m_Shader->SetUniformF("u_A", Transparency / 256.0f);
+		m_Shader->SetUniformF("u_ScaleX", ScaleX);		m_Shader->SetUniformF("u_ScaleY", ScaleY);
 		ShouldUpdate = false;
 	}
 

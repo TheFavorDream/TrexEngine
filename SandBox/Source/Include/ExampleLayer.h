@@ -29,8 +29,6 @@ public:
 
 private:
 
-	friend void Test();
-
 	TrexEngine::Logger Log;
 
 	TrexEngine::VertexArray        VAO;
@@ -38,21 +36,19 @@ private:
 	TrexEngine::VertexBuffer       VBO;
 	TrexEngine::IndexBuffer        EBO;
 
-	float Vertices[8] =
+	float Vertices[15] =
 	{
-		-0.9f, -0.9f,		
-		 0.0f, -0.9f,		
-		-0.9f,  0.0f,		
-		 0.0f,  0.0f
+		-0.5f, -0.5f,	 1.0f, 0.5f, 0.0f, 		
+		 0.0f,  0.0f,	 0.0f, 1.0f, 0.5f,		
+		-0.9f,  0.0f,	 0.0f , 0.0f, 1.0f
 	};
 
 	float i = 0.0f;
 	bool Increace = true;
 
-	unsigned int Indicies[6] =
+	unsigned int Indicies[3] =
 	{
-		0, 1, 2,
-		1, 2, 3
+		0, 1, 2
 	};
 
 

@@ -26,13 +26,13 @@ namespace TrexEngine
 		//Distructor
 		TX_API virtual ~Engine();
 
-		//game loop
+		//loop
 		TX_API void run();
 
 		void PushLayer(Layer* p_NewLayer)
 		{
 			Layers.PushLayer(p_NewLayer);
-			p_NewLayer->OnAttach(m_Window, m_Shader, &events);
+			p_NewLayer->OnAttach(WindowManager, m_Shader, &events);
 		}
 
 		void PopLayer()
@@ -43,7 +43,7 @@ namespace TrexEngine
 		void PushOverLayer(Layer* p_NewLayer)
 		{
 			Layers.PushOverLayer(p_NewLayer);
-			p_NewLayer->OnAttach(m_Window, m_Shader, &events);
+			p_NewLayer->OnAttach(WindowManager, m_Shader, &events);
 		}
 
 		void PopOverLayer()
@@ -57,7 +57,7 @@ namespace TrexEngine
 	protected:
 
 
-		Window *m_Window   = NULL;
+		Window *WindowManager   = NULL;
 		Shader *m_Shader = NULL;
 		Input events;
 		Timer			timer;

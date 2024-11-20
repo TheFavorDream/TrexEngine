@@ -15,16 +15,15 @@ static std::string VertexShaderSource =
 "layout(location = 0) in vec2 aPos;\n"
 "layout(location = 1) in vec3 m_Color;\n"
 "out vec4 Our_Color;\n"
-"uniform float ScaleY = 1;\n"
-"uniform float ScaleX = 1;\n"
-"uniform float u_A = 1;\n"
+"uniform float u_ScaleY = 1;\n"
+"uniform float u_ScaleX = 1;\n"
 "uniform float u_R = 1;\n"
 "uniform float u_G = 1;\n"
 "uniform float u_B = 1;\n"
 "void main()\n"
 "{\n"
-"	gl_Position	 = vec4(aPos.x*ScaleX, aPos.y*ScaleY, 0.0f, 1.0f);\n"
-"	Our_Color = vec4(u_R*u_A ,u_G*u_A, u_B*u_A, 1.0f);\n"
+"	gl_Position	 = vec4(aPos.x+u_ScaleX, aPos.y+u_ScaleY, 0.0f, 1.0f);\n"
+"	Our_Color = vec4(m_Color.x*u_R, m_Color.y*u_G, m_Color.z*u_B, 1.0f);\n"
 "}\n";
 
 

@@ -112,7 +112,7 @@ namespace TrexEngine
 
 		if (Location == -1)
 		{
-			Logger::CoreLogger->SetError("Cannot Find the Location of the uniform");
+			Logger::CoreLogger->SetError("Cannot Find the Location of the " + std::string(p_UniformName) + " uniform");
 			return 1;
 		}
 
@@ -126,7 +126,7 @@ namespace TrexEngine
 
 		if (Location == -1)
 		{
-			Logger::CoreLogger->SetError("Cannot Find the Location of the uniform");
+			Logger::CoreLogger->SetError("Cannot Find the Location of the " + std::string(p_UniformName) + " uniform");
 			return 1;
 		}
 
@@ -141,7 +141,7 @@ namespace TrexEngine
 
 		if (Location == -1)
 		{
-			Logger::CoreLogger->SetError("Cannot Find the Location of the uniform");
+			Logger::CoreLogger->SetError("Cannot Find the Location of the " + std::string(p_UniformName) + " uniform");
 			return 1;
 		}
 

@@ -14,12 +14,14 @@ void ExampleLayer::OnAttach(TrexEngine::Window* p_Window, TrexEngine::Shader* p_
 	m_Events = p_Events;
 
 	VBL.push<float>(2);
+	VBL.push<float>(3);
+
 
 	VBO.BufferData(Vertices, sizeof(Vertices));
 
 	VAO.AddLayouts(VBO, VBL);
 
-	EBO.BufferData(Indicies, 6);
+	EBO.BufferData(Indicies, 3);
 
 }
 
@@ -27,6 +29,13 @@ void ExampleLayer::OnAttach(TrexEngine::Window* p_Window, TrexEngine::Shader* p_
 void ExampleLayer::OnEvent()
 {
 	
+
+	if (m_Events->mouse.IsRightClickPressed())
+	{
+		Log.SetInfo("Right Click was pressed");
+	}
+
+
 
 }
 
