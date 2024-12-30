@@ -149,6 +149,16 @@ namespace TrexEngine
 		ImGui::SliderInt(p_Label.c_str(), p_Int, p_Start, p_End);
 	}
 
+	TX_API void ImGuiLayer::ImGuiTextInt(std::string pLabel, int* pVal, int pStep, int pStepFast)
+	{
+		ImGui::InputInt(pLabel.c_str(), pVal, pStep, pStepFast);
+	}
+
+	TX_API void ImGuiLayer::ImGuiTextFloat(std::string pLabel, float * pVal, int pStep, int pStepFast)
+	{
+		ImGui::InputFloat(pLabel.c_str(), pVal, pStep, pStepFast);
+	}
+
 	TX_API bool ImGuiLayer::ImGuiCheckBox(std::string p_Label, bool * p_Bool)
 	{
 		ImGui::Checkbox(p_Label.c_str(), p_Bool);

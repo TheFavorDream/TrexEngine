@@ -11,26 +11,6 @@ ImGuiExample::~ImGuiExample()
 
 }
 
-void ImGuiExample::RenderUniformSettingWidget()
-{
-
-	ImGuiBegin("Shader Uniform Settings");
-
-	if (ImGuiPushButton("Close"))
-	{
-		RenderUniformWidget = false;
-	}
-
-	if (ImGuiSliderFloat("Red", &R, 0.0f, 255.0f))     ShouldUpdate = true;
-	if (ImGuiSliderFloat("Green", &G, 0.0f, 255.0f))   ShouldUpdate = true;
-	if (ImGuiSliderFloat("Blue", &B, 0.0f, 255.0f))    ShouldUpdate = true;
-
-	if (ImGuiSliderFloat("Scale X", &ScaleX, 0.0f, 1.0f)) ShouldUpdate = true;
-	if (ImGuiSliderFloat("Scale Y", &ScaleY, 0.0f, 1.0f)) ShouldUpdate = true;
-
-
-	ImGuiEnd();
-}
 
 void ImGuiExample::RenderMenuBarItems()
 {
@@ -39,9 +19,10 @@ void ImGuiExample::RenderMenuBarItems()
 
 		if (ImGuiBeginMenu("File"))
 		{
-			if (ImGuiMenuItem("Uniforms"))
+
+			if (ImGuiMenuItem("Window"))
 			{
-				RenderUniformWidget = !RenderUniformWidget;
+				RenderWindowWidget = !RenderWindowWidget;
 			}
 
 			if (ImGuiMenuItem("Settings"))
@@ -57,6 +38,16 @@ void ImGuiExample::RenderMenuBarItems()
 			if (ImGuiMenuItem("Mouse"))
 			{
 				RenderMouse = !RenderMouse;
+			}
+
+			if (ImGuiMenuItem("Resources"))
+			{
+				RenderResourceWidget = !RenderResourceWidget;
+			}
+
+			if (ImGuiMenuItem("Shaders"))
+			{
+				RenderShaderWedget = !RenderShaderWedget;
 			}
 
 			ImGuiEndMenu();
@@ -95,6 +86,56 @@ void ImGuiExample::RenderImGuiSettingsWidget()
 	ImGuiEnd();
 }
 
+void ImGuiExample::RenderWindowControlWidget()
+{
+	ImGuiBegin("Window Control");
+
+	ImGuiText("Background Color:");
+	
+	ImGuiSliderFloat("Red", &WBG_R, 0.0f, 255.0f);
+	ImGuiSliderFloat("Green", &WBG_G, 0.0f, 255.0f);
+	ImGuiSliderFloat("Blue", &WBG_B, 0.0f, 255.0f);
+
+	m_Window->SetWindowBackground(WBG_R/255.0f, WBG_G / 255.0f, WBG_B / 255.0f, 1.0f);
+
+	ImGuiEnd();
+}
+
+void ImGuiExample::RenderShaderControlWidget()
+{
+	ImGuiBegin("Shader Control");
+
+	const std::vector<std::string>& List = m_ShadersMG->GetShaderList();
+	
+	for (auto &i : List)
+	{
+		TrexEngine::Shader* Current = m_ShadersMG->GetShader(i);
+
+		ImGuiText(i);
+		ImGuiSameLine();
+		if (ImGuiPushButton(("Use " + i)))
+		{
+			Current->Bind();
+		}
+		ImGuiSameLine();
+		if (ImGuiPushButton(("Reload " + i)))
+		{
+			Current->ReloadShader();
+		}
+
+		auto Uni_list = Current->GetShaderUniformList();
+
+		for (auto &uniform : Uni_list)
+		{
+			float Val = 0.0f;
+			ImGuiTextFloat(i + " " + uniform.Name, &Val);
+		}
+
+	}
+
+	ImGuiEnd();
+}
+
 void ImGuiExample::RenderTextBox()
 {
 	ImGuiBegin("Text Inputing");
@@ -118,16 +159,36 @@ void ImGuiExample::RenderMouseWiget()
 	ImGuiEnd();
 }
 
-void ImGuiExample::OnAttach(TrexEngine::Window * p_Window, TrexEngine::Shader* p_Shader, TrexEngine::Input* p_Events)
+void ImGuiExample::ResourceControlWidget()
+{
+
+	ImGuiBegin("Resource Table");
+
+	ImGuiText("Current Resources:");
+
+
+	std::string CurrentID;
+	for (int i = 0; i < m_Resources->NumberOfResources(); i++)
+	{
+		auto Current = m_Resources->GetResourceByIndex(i, CurrentID);
+		ImGuiText(CurrentID + ": Size:" + std::to_string(Current.Size) + " Number Of Acesses:" + std::to_string(Current.AccessTime));
+	}
+
+	ImGuiEnd();
+}
+
+void ImGuiExample::OnAttach(TrexEngine::Window * p_Window, TrexEngine::ShaderManager* p_ShadersMG, TrexEngine::Input* p_Events, TrexEngine::ResourceManager* p_Resources)
 {
 	m_Events = p_Events;
+	m_Resources = p_Resources;
+	m_ShadersMG = p_ShadersMG;
 
 	Log.SetInfo("OnAttach Called. Init the Layer");
 
-	if (p_Window != NULL && p_Shader != NULL)
+	if (p_Window != NULL)
 	{
 		m_Window = p_Window;
-		m_Shader = p_Shader;
+
 	}
 	//Init the ImGui
 	InitImGui();
@@ -135,10 +196,7 @@ void ImGuiExample::OnAttach(TrexEngine::Window * p_Window, TrexEngine::Shader* p
 
 void ImGuiExample::OnEvent()
 {
-	if (m_Events->keyboard.IsKeyPressed(KEY_W))
-	{
-		RenderUniformWidget = !RenderUniformWidget;
-	}
+
 
 	if (m_Events->keyboard.IsKeyPressed(KEY_E))
 	{
@@ -163,19 +221,17 @@ void ImGuiExample::OnEvent()
 			m_Events->keyboard.StopTextInput();
 		}
 	}
+
+	if (m_Events->keyboard.IsKeyPressed(KEY_R))
+	{
+		RenderResourceWidget = !RenderResourceWidget;
+	}
 }
 
 void ImGuiExample::OnUpdate()
 {
 
-	if (ShouldUpdate)
-	{
-		m_Shader->SetUniformF("u_R", R / 256.0f);
-		m_Shader->SetUniformF("u_G", G / 256.0f);
-		m_Shader->SetUniformF("u_B", B / 256.0f);
-		m_Shader->SetUniformF("u_ScaleX", ScaleX);		m_Shader->SetUniformF("u_ScaleY", ScaleY);
-		ShouldUpdate = false;
-	}
+
 
 }
 
@@ -186,12 +242,16 @@ void ImGuiExample::OnRender()
 	if (RenderMenuBar)
 		RenderMenuBarItems();
 
-	if (RenderUniformWidget)
-		RenderUniformSettingWidget();
 	if (RenderImGuiSettingWidget)
 		RenderImGuiSettingsWidget();
 	if (RenderMouse)
 		RenderMouseWiget();
+	if (RenderResourceWidget)
+		ResourceControlWidget();
+	if (RenderWindowWidget)
+		RenderWindowControlWidget();
+	if (RenderShaderWedget)
+		RenderShaderControlWidget();
 
 	if (m_Events->keyboard.IsInputingText())
 	{

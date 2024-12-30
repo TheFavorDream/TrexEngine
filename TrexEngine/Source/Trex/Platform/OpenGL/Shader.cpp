@@ -4,30 +4,17 @@
 namespace TrexEngine
 {
 
-	Shader::Shader()
+	Shader::Shader(const char* p_FilePath)
 	{
-		Shader_Ref = this;
+		ShaderFilePath = p_FilePath;
+		ReadShaderFile(p_FilePath);
+		CreateShaderProgram();
 	}
 
 
 	Shader::~Shader()
 	{
-	
 		GLCall(glDeleteProgram(ProgramID));
-
-		int State = 0;
-
-		GLCall(glGetProgramiv(ProgramID, GL_DELETE_STATUS, &State));
-
-		if (State == GL_TRUE)
-		{
-			Logger::CoreLogger->SetWarning("Shader Program is seted to deletion");
-		}
-		else
-		{
-			Logger::CoreLogger->SetWarning("Shader Program is NOT seted to deletion");
-		}
-
 	}
 
 
@@ -42,6 +29,59 @@ namespace TrexEngine
 		GLCall(glUseProgram(0));
 	}
 
+
+	TX_API void Shader::ReadShaderFile(const char* p_FileFile)
+	{
+		VertexShaderSource = "";
+		FragmentShaderSource = "";
+
+		std::ifstream SourceFile(p_FileFile, std::ios::in);
+
+		if (SourceFile.fail())
+		{
+			Logger::CoreLogger->SetError("Shader File at Path :" + std::string(p_FileFile) + " Does Not Exist");
+			return;
+		}
+
+
+		bool IsReading = false;
+		std::string* Current;
+		std::string Line;
+
+		while (!SourceFile.eof())
+		{
+			std::getline(SourceFile, Line, '\n');
+
+			if (Line == "//Vertex Shader")
+			{
+				IsReading = true;
+				Current = &VertexShaderSource;
+				Line = "";
+			}
+
+			else if (Line == "//Fragment Shader")
+			{
+				IsReading = true;
+				Current = &FragmentShaderSource;
+				Line = "";
+			}
+
+			if (IsReading)
+			{
+				(*Current) += Line + "\n";
+				
+
+				if (Line.length() > 8 && Line.substr(0, 7) == "uniform")
+				{
+					CreateNewUniform(Line);
+				}
+				
+
+			}
+		}
+
+		SourceFile.close();
+	}
 
 	unsigned int Shader::CompileShader(unsigned int Type, const std::string& ShaderSource)
 	{
@@ -70,10 +110,10 @@ namespace TrexEngine
 		return Shader;
 	}
 
-	void Shader::CreateShaderProgram(const std::string& VertexShader, const std::string& FragmentShader)
+	void Shader::CreateShaderProgram()
 	{
-		unsigned int VS = CompileShader(GL_VERTEX_SHADER, VertexShader);
-		unsigned int FS = CompileShader(GL_FRAGMENT_SHADER, FragmentShader);
+		unsigned int VS = CompileShader(GL_VERTEX_SHADER, VertexShaderSource);
+		unsigned int FS = CompileShader(GL_FRAGMENT_SHADER, FragmentShaderSource);
 
 		ProgramID = glCreateProgram();
 		GLCall(glAttachShader(ProgramID, VS));
@@ -104,6 +144,67 @@ namespace TrexEngine
 		GLCall(glDeleteShader(FS));
 
 		Bind();
+	}
+
+	TX_API int Shader::CreateNewUniform(const std::string & pLine)
+	{
+
+		std::string tmp;
+		Uniform New;
+
+		for (int i = 8; i < pLine.length() ; i++)
+		{
+			char c = pLine[i];
+
+			if (c == '=' || c== ';')
+			{ 
+				break;
+			}
+
+			else if (c != ' ')
+			{
+				tmp += c;
+			}
+
+			else
+			{
+				if (tmp == "float")
+				{
+					New.Type = FLOAT;
+				}
+
+				else if (tmp == "int")
+				{
+					New.Type = INT;
+				}
+
+				else
+				{
+					New.Name = tmp;
+					Logger::CoreLogger->SetInfo(tmp);
+				}
+				
+				tmp = "";
+			}
+
+		}
+
+		m_UniformList.push_back(New);
+
+		return 0;
+	}
+
+	TX_API void Shader::ReloadShader()
+	{
+		//Delete the Old Shader
+		Unbind();
+		GLCall(glDeleteProgram(ProgramID));
+		m_UniformList.clear();
+
+		ReadShaderFile(ShaderFilePath);
+		CreateShaderProgram();
+		
+		Logger::CoreLogger->SetInfo("Shader Reloaded from " + std::string(ShaderFilePath));
 	}
 
 	int Shader::SetUniformF(const char * p_UniformName, float p_Value) const
@@ -146,6 +247,27 @@ namespace TrexEngine
 		}
 
 		GLCall(glUniform3f(Location, p_Value1, p_Value2, p_Value3));
+	}
+
+
+	TX_API const std::string & Shader::GetShaderSource(const char* Type)
+	{
+		if (Type == "Vertex Shader")
+		{
+			return VertexShaderSource;
+		}
+
+		else if (Type == "Fragment")
+		{
+			return FragmentShaderSource;
+		}
+
+		return "Not Found";
+	}
+
+	TX_API const std::vector<TrexEngine::Shader::Uniform>& Shader::GetShaderUniformList()
+	{
+		return m_UniformList;
 	}
 
 

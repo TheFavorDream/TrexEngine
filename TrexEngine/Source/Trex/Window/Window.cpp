@@ -81,6 +81,14 @@ namespace TrexEngine
 	}
 
 
+	TX_API void Window::SetWindowBackground(float x, float y, float z, float a)
+	{
+		WindowBackGround.x = x;
+		WindowBackGround.y = y;
+		WindowBackGround.z = z;
+		WindowBackGround.a = a;
+	}
+
 	void Window::GetWindowSize(uint32 &Width, uint32 &Height)
 	{
 		Width = this->Width;

@@ -3,6 +3,7 @@
 
 #include "../Debug/Log.h"
 #include "../Core/Core.h"
+#include "../Core/ResourceManager.h"
 #include "../Renderer/Renderer.h"
 #include "../Window/Window.h"
 #include "../Core/Timer.h"
@@ -11,6 +12,7 @@
 #include "../Application/ImGuiLayer.h"
 #include "../Events/Input.h"
 #include "../Events/Keyboard.h"
+#include "../Core/ShaderManager.h"
 
 
 namespace TrexEngine
@@ -32,7 +34,7 @@ namespace TrexEngine
 		void PushLayer(Layer* p_NewLayer)
 		{
 			Layers.PushLayer(p_NewLayer);
-			p_NewLayer->OnAttach(WindowManager, m_Shader, &events);
+			p_NewLayer->OnAttach(WindowManager, ShadersManager, &events, &Resources);
 		}
 
 		void PopLayer()
@@ -43,7 +45,7 @@ namespace TrexEngine
 		void PushOverLayer(Layer* p_NewLayer)
 		{
 			Layers.PushOverLayer(p_NewLayer);
-			p_NewLayer->OnAttach(WindowManager, m_Shader, &events);
+			p_NewLayer->OnAttach(WindowManager, ShadersManager, &events, &Resources);
 		}
 
 		void PopOverLayer()
@@ -56,15 +58,13 @@ namespace TrexEngine
 
 	protected:
 
-
+		ResourceManager Resources;
 		Window *WindowManager   = NULL;
-		Shader *m_Shader = NULL;
+		ShaderManager* ShadersManager = NULL;
 		Input events;
 		Timer			timer;
 		LayerContainer  Layers;
-
 		Layer* m_ImGuiLayer = NULL;
-
 
 	};
 

@@ -7,6 +7,11 @@
 namespace TrexEngine
 {
 
+	//Tempoary:
+	struct vec4
+	{
+		float x, y, z, a;
+	};
 
 	class  Window
 	{
@@ -25,9 +30,12 @@ namespace TrexEngine
 		TX_API inline const char* GetTitle() const { return Title; }
 		TX_API inline int GetW() { return Width; }
 		TX_API inline int GetH() { return Height; }
+		TX_API inline const vec4& GetBackground() { return WindowBackGround; }
 
 		TX_API void SwapBuffers();
 
+
+		TX_API void SetWindowBackground(float x, float y, float z, float a=1.0f);
 		TX_API void GetWindowSize(uint32 &Width, uint32 &Height);
 		TX_API void SetWindowSize(uint32 Width, uint32 Height);
 
@@ -48,6 +56,9 @@ namespace TrexEngine
 		
 		uint32 WidthInPixels = 0;
 		uint32 HeightInPixels = 0;
+
+
+		vec4 WindowBackGround;
 
 		const char* Title = NULL;
 

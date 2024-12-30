@@ -7,11 +7,12 @@ ExampleLayer::ExampleLayer()
 }
 
 
-void ExampleLayer::OnAttach(TrexEngine::Window* p_Window, TrexEngine::Shader* p_Shader, TrexEngine::Input* p_Events)
+void ExampleLayer::OnAttach(TrexEngine::Window* p_Window, TrexEngine::ShaderManager* p_ShadersMG, TrexEngine::Input* p_Events, TrexEngine::ResourceManager* p_Resources)
 {
 	m_Window = p_Window;
-	m_Shader = p_Shader;
 	m_Events = p_Events;
+	m_Resources = p_Resources;
+	m_ShadersMG = p_ShadersMG;
 
 	VBL.push<float>(2);
 	VBL.push<float>(3);
@@ -21,8 +22,7 @@ void ExampleLayer::OnAttach(TrexEngine::Window* p_Window, TrexEngine::Shader* p_
 
 	VAO.AddLayouts(VBO, VBL);
 
-	EBO.BufferData(Indicies, 3);
-
+	EBO.BufferData(Indicies, sizeof(Indicies)/sizeof(unsigned int));
 }
 
 
@@ -48,7 +48,7 @@ void ExampleLayer::OnRender()
 
 void ExampleLayer::OnUpdate()
 {
-	
+
 }
 
 
