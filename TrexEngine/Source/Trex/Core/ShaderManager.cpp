@@ -72,6 +72,7 @@ namespace TrexEngine
 
 	TX_API int ShaderManager::BindShader(std::string p_Name)
 	{
+
 		m_Current = m_Shaders[p_Name];
 		m_Shaders[p_Name]->Bind();
 		return 0;

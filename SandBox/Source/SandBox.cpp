@@ -20,17 +20,17 @@ public:
 	{
 		ApplicationLogger.SetInfo("SandBox Constructor Called");
 
-		WindowManager->SetWindowBackground(0.1f, 0.2f, 0.9f);
+		WindowManager->SetWindowBackground(0.0f, 0.0f, 0.0f);
+
+
+		ShadersManager->AddShader("Main", new TrexEngine::Shader("G:\\Dev\\TrexEngine\\SandBox\\Shaders\\Def.glsl"));
+		ShadersManager->AddShader("Test1", new TrexEngine::Shader("G:\\Dev\\TrexEngine\\SandBox\\Shaders\\Def2.glsl"));
+		ShadersManager->AddShader("Test2", new TrexEngine::Shader("G:\\Dev\\TrexEngine\\SandBox\\Shaders\\Def3.glsl"));
+
+		ShadersManager->BindShader("Main");
 
 		PushLayer(m_ExampleLayer);
 		PushOverLayer(m_ImGuiExample);
-
-		ShadersManager->AddShader("Test1", new TrexEngine::Shader("G:\\Dev\\TrexEngine\\SandBox\\Shaders\\Def.glsl"));
-		ShadersManager->AddShader("Test2", new TrexEngine::Shader("G:\\Dev\\TrexEngine\\SandBox\\Shaders\\Def2.glsl"));
-		ShadersManager->AddShader("Test3", new TrexEngine::Shader("G:\\Dev\\TrexEngine\\SandBox\\Shaders\\Def3.glsl"));
-
-		ShadersManager->BindShader("Test1");
-
 
 	}
 

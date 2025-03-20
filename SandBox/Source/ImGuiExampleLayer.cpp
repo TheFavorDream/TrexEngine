@@ -115,22 +115,25 @@ void ImGuiExample::RenderShaderControlWidget()
 		ImGuiSameLine();
 		if (ImGuiPushButton(("Use " + i)))
 		{
-			Current->Bind();
+			m_ShadersMG->BindShader(i);
+			
 		}
 		ImGuiSameLine();
 		if (ImGuiPushButton(("Reload " + i)))
 		{
 			Current->ReloadShader();
 		}
+	}
 
-		auto Uni_list = Current->GetShaderUniformList();
+	ImGuiText("Current Shader Uniforms:");
 
-		for (auto &uniform : Uni_list)
-		{
-			float Val = 0.0f;
-			ImGuiTextFloat(i + " " + uniform.Name, &Val);
-		}
+	TrexEngine::Shader* Current = m_ShadersMG->GetCurrentShader();
+	auto UniList = Current->GetShaderUniformList();
 
+	for (auto &i : UniList)
+	{
+		ImGuiTextFloat(i.Name, &(Current->GetUniform(i.Name)->Data), 0.1f);
+		Current->SetUniformF1(i.Name.c_str(), Current->GetUniform(i.Name)->Data);
 	}
 
 	ImGuiEnd();
@@ -167,12 +170,6 @@ void ImGuiExample::ResourceControlWidget()
 	ImGuiText("Current Resources:");
 
 
-	std::string CurrentID;
-	for (int i = 0; i < m_Resources->NumberOfResources(); i++)
-	{
-		auto Current = m_Resources->GetResourceByIndex(i, CurrentID);
-		ImGuiText(CurrentID + ": Size:" + std::to_string(Current.Size) + " Number Of Acesses:" + std::to_string(Current.AccessTime));
-	}
 
 	ImGuiEnd();
 }

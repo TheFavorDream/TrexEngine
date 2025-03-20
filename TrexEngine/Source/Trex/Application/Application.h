@@ -55,7 +55,7 @@ namespace TrexEngine
 
 	private:
 		Logger   m_Log;
-
+		bool m_IsRunning = false;
 	protected:
 
 		ResourceManager Resources;

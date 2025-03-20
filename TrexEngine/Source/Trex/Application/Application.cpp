@@ -10,11 +10,12 @@ namespace TrexEngine
 	{
 
 		WindowManager->CreateNewWindow(p_Title, p_Width, p_Height);
-		
 		Renderer::GetInstance()->Init();
 
 		events.keyboard.SetKeyCallBack(WindowManager->GetWindow());
 		events.mouse.SetMouseCallBacks(WindowManager->GetWindow());
+	
+		m_IsRunning = true;
 	}
 
 	Engine::~Engine()
@@ -28,7 +29,7 @@ namespace TrexEngine
 
 	void Engine::run()
 	{
-		while (!WindowManager->WindowShouldClose())
+		while (m_IsRunning)
 		{
 			GLCall(glClearColor(WindowManager->GetBackground().x, WindowManager->GetBackground().y, WindowManager->GetBackground().z, WindowManager->GetBackground().a));
 			GLCall(glClear(GL_COLOR_BUFFER_BIT));
@@ -51,6 +52,9 @@ namespace TrexEngine
 
 			WindowManager->SwapBuffers();
 			Input::PollEvents();
+
+
+			m_IsRunning = !WindowManager->WindowShouldClose();
 		}
 	}
 

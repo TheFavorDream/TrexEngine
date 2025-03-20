@@ -1,12 +1,12 @@
 #pragma once
-
-
 #include "../Core/Core.h"
 #include "../3rdparty/GL/glew.h"
 #include "../Debug/Log.h"
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <unordered_map>
+
 
 namespace TrexEngine
 {
@@ -21,6 +21,20 @@ namespace TrexEngine
 		{
 			uint16 Type;
 			std::string Name;
+			float Data = 0.0f;
+			bool Changed = false;
+
+			inline bool IsChanged()
+			{ 
+				bool t = Changed;
+				Changed = false;
+				return t; 
+			}
+			void SetData(float pData) 
+			{ 
+				Data = pData; 
+				Changed = true;
+			}
 		};
 
 	public:
@@ -38,12 +52,19 @@ namespace TrexEngine
 
 		//This method gets an uniform definition as a string and convertes it to "Uniform" and stroes it in m_UniformList
 		TX_API int CreateNewUniform(const std::string& pLine);
+		TX_API Uniform* GetUniform(std::string pName);
 
 		TX_API void ReloadShader();
 
-		TX_API int SetUniformF(const char* p_UniformName, float p_Value) const;
-		TX_API int SetUniformI(const char* p_UniformName, int p_Value)   const;
-		TX_API int SetUniformF3(const char* p_UniformName, int p_Value1, int p_Value2, int p_Value3)   const;
+		TX_API bool DoesUniformExist(const char* p_UniformName) const;
+		TX_API int GetUniformLocation(std::string Name)    const;
+
+		TX_API int SetUniformF1(const char* p_UniformName, float p_Value) const;
+		TX_API int SetUniformF2(const char* p_UniformName, float p_Value1, float p_Value2)   const;
+		TX_API int SetUniformF3(const char* p_UniformName, float p_Value1, float p_Value2, float p_Value3)   const;
+		TX_API int SetUniformF4(const char* p_UniformName, float p_Value1, float p_Value2, float p_Value3, float p_Value4)   const;
+
+		TX_API int SetUniformI1(const char* p_UniformName, int p_Value)   const;
 
 		TX_API const std::string& GetShaderSource(const char* Type);
 		TX_API const std::vector<Uniform>& GetShaderUniformList();
@@ -52,11 +73,12 @@ namespace TrexEngine
 
 	private:
 
-
 		GLuint ProgramID = 0;
 		const char* ShaderFilePath = 0;
 		std::string VertexShaderSource = "";
 		std::string FragmentShaderSource = "";
+
+		mutable std::unordered_map<std::string, unsigned int> m_ShaderUniforms;
 		std::vector<Uniform> m_UniformList;
 	};
 

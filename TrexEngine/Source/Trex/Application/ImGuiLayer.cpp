@@ -154,7 +154,7 @@ namespace TrexEngine
 		ImGui::InputInt(pLabel.c_str(), pVal, pStep, pStepFast);
 	}
 
-	TX_API void ImGuiLayer::ImGuiTextFloat(std::string pLabel, float * pVal, int pStep, int pStepFast)
+	TX_API void ImGuiLayer::ImGuiTextFloat(std::string pLabel, float * pVal, float pStep, int pStepFast)
 	{
 		ImGui::InputFloat(pLabel.c_str(), pVal, pStep, pStepFast);
 	}

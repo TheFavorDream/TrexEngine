@@ -35,61 +35,20 @@ private:
 	TrexEngine::VertexBufferLayout VBL;
 	TrexEngine::VertexBuffer       VBO;
 	TrexEngine::IndexBuffer        EBO;
-
-	float Vertices[120] =
+	TrexEngine::Texture            texture;
+	
+	float Vertex[28] =
 	{
-		0.9f,  0.2f,		1.0f, 0.0f, 0.0f, 		//UP Right
-		0.9f, -0.2f,		1.0f, 0.0f, 0.0f,		//Down Right
-	    0.6f,  0.2f,		1.0f, 0.0f, 0.0f,		// Up Left
-	    0.6f, -0.2f,		1.0f, 0.0f, 0.0f,		//Down Left
-
-	   -0.6f,   0.2f,		0.0f, 1.0f, 0.0f, 		//UP Right
-	   -0.6f,  -0.2f,		0.0f, 1.0f, 0.0f,		//Down Right
-	   -0.9f,   0.2f,		0.0f, 1.0f, 0.0f,		// Up Left
-	   -0.9f,  -0.2f,		0.0f ,1.0f, 0.0f,		//Down Left
-
-	   -0.2f,   0.2f,		0.0f, 0.0f, 1.0f, 		//UP Right
-	   -0.2f,  -0.2f,		0.0f, 0.0f, 1.0f,		//Down Right
-	    0.2f,   0.2f,		0.0f, 0.0f, 1.0f,		// Up Left
-	    0.2f,  -0.2f,		0.0f ,0.0f, 1.0f,		//Down Left
-
-		0.9f,  -0.3f,		1.0f, 1.0f, 0.0f, 		//UP Right
-		0.9f,  -0.7f,		1.0f, 1.0f, 0.0f,		//Down Right
-		0.6f,  -0.3f,		1.0f, 1.0f, 0.0f,		// Up Left
-		0.6f,  -0.7f,		1.0f, 1.0f, 0.0f,		//Down Left
-
-	   -0.6f,  -0.3f,		0.0f, 1.0f, 1.0f, 		//UP Right
-	   -0.6f,  -0.7f,		0.0f, 1.0f, 1.0f,		//Down Right
-	   -0.9f,  -0.3f,		0.0f, 1.0f, 1.0f,		// Up Left
-	   -0.9f,  -0.7f,		0.0f ,1.0f, 1.0f,		//Down Left
-
-	   -0.2f,  -0.3f,		1.0f, 0.0f, 1.0f, 		//UP Right
-	   -0.2f,  -0.7f,		1.0f, 0.0f, 1.0f,		//Down Right
-		0.2f,  -0.3f,		1.0f, 0.0f, 1.0f,		// Up Left
-		0.2f,  -0.7f,		1.0f ,0.0f, 1.0f		//Down Left
-	    
+		 0.25f,  0.5f,  1.0f, 0.0f, 0.0f,	 1.0f, 0.0f,
+		 0.25f, -0.5f,  0.0f, 1.0f, 0.0f,	 1.0f, 1.0f,
+		-0.25f,  0.5f,  0.0f, 0.0f, 1.0f,	 0.0f, 0.0f,
+		-0.25f, -0.5f,  1.0f, 1.0f, 1.0f,	 0.0f, 1.0f
 	};
 
-	unsigned int Indicies[36] =
+	unsigned int Indicies[6] =
 	{
 		0, 1, 2,
-		1, 2, 3,
-
-		4, 5, 6, 
-		5, 6, 7,
-
-		8, 9, 10, 
-		9, 10, 11,
-
-		12, 13, 14,
-		13, 14, 15,
-
-		16, 17, 18,
-		17, 18, 19,
-
-		20, 21, 22,
-		21, 22, 23
+		1, 2, 3
 	};
-
 
 };

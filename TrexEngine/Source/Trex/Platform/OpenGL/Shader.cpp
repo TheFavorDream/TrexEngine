@@ -110,6 +110,20 @@ namespace TrexEngine
 		return Shader;
 	}
 
+
+	//Temp
+	TX_API Shader::Uniform* Shader::GetUniform(std::string pName)
+	{
+		for (auto &i : m_UniformList)
+		{
+			if (i.Name == pName)
+			{
+				return &i;
+			}
+		}
+		return NULL;
+	}
+
 	void Shader::CreateShaderProgram()
 	{
 		unsigned int VS = CompileShader(GL_VERTEX_SHADER, VertexShaderSource);
@@ -143,7 +157,7 @@ namespace TrexEngine
 		GLCall(glDeleteShader(VS));
 		GLCall(glDeleteShader(FS));
 
-		Bind();
+
 	}
 
 	TX_API int Shader::CreateNewUniform(const std::string & pLine)
@@ -181,7 +195,6 @@ namespace TrexEngine
 				else
 				{
 					New.Name = tmp;
-					Logger::CoreLogger->SetInfo(tmp);
 				}
 				
 				tmp = "";
@@ -207,46 +220,97 @@ namespace TrexEngine
 		Logger::CoreLogger->SetInfo("Shader Reloaded from " + std::string(ShaderFilePath));
 	}
 
-	int Shader::SetUniformF(const char * p_UniformName, float p_Value) const
+	TX_API bool Shader::DoesUniformExist(const char * p_UniformName) const
 	{
-		int Location = glGetUniformLocation(ProgramID, p_UniformName);
+		for (auto &i : m_UniformList)
+		{
+			if (i.Name == p_UniformName)
+			{
+				return true;
+			}
+		}
 
+		return false;
+	}
+
+	TX_API int Shader::GetUniformLocation(std::string  Name) const
+	{
+
+		//Check if uniform existed:
+		if (m_ShaderUniforms.find(Name) != m_ShaderUniforms.end())
+		{
+			return m_ShaderUniforms[Name];
+		}
+
+		int Loc = glGetUniformLocation(ProgramID, Name.c_str());
+
+		if (Loc != -1)
+		{
+			m_ShaderUniforms[Name] = Loc;
+			return Loc;
+		}
+		return -1;
+	}
+
+
+	TX_API int Shader::SetUniformF1(const char * p_UniformName, float p_Value) const
+	{
+		int Location = GetUniformLocation(p_UniformName);
 		if (Location == -1)
 		{
 			Logger::CoreLogger->SetError("Cannot Find the Location of the " + std::string(p_UniformName) + " uniform");
 			return 1;
 		}
-
 		GLCall(glUniform1f(Location, p_Value));
 		return 0;
 	}
 
-	int Shader::SetUniformI(const char * p_UniformName, int p_Value) const
+	TX_API int Shader::SetUniformF2(const char * p_UniformName, float p_Value1, float p_Value2) const
 	{
-		int Location = glGetUniformLocation(ProgramID, p_UniformName);
-
+		int Location = GetUniformLocation(p_UniformName);
 		if (Location == -1)
 		{
 			Logger::CoreLogger->SetError("Cannot Find the Location of the " + std::string(p_UniformName) + " uniform");
 			return 1;
 		}
-
-		GLCall(glUniform1i(Location, p_Value));
-
+		GLCall(glUniform2f(Location, p_Value1, p_Value2));
 		return 0;
 	}
 
-	TX_API int Shader::SetUniformF3(const char * p_UniformName, int p_Value1, int p_Value2, int p_Value3) const
+	TX_API int Shader::SetUniformF3(const char * p_UniformName, float p_Value1, float p_Value2, float p_Value3) const
 	{
-		int Location = glGetUniformLocation(ProgramID, p_UniformName);
-
+		int Location = GetUniformLocation(p_UniformName);
 		if (Location == -1)
 		{
 			Logger::CoreLogger->SetError("Cannot Find the Location of the " + std::string(p_UniformName) + " uniform");
 			return 1;
 		}
-
 		GLCall(glUniform3f(Location, p_Value1, p_Value2, p_Value3));
+		return 0;
+	}
+
+	TX_API int Shader::SetUniformF4(const char * p_UniformName, float p_Value1, float p_Value2, float p_Value3, float p_Value4) const
+	{
+		int Location = GetUniformLocation(p_UniformName);
+		if (Location == -1)
+		{
+			Logger::CoreLogger->SetError("Cannot Find the Location of the " + std::string(p_UniformName) + " uniform");
+			return 1;
+		}
+		GLCall(glUniform4f(Location, p_Value1, p_Value2, p_Value3, p_Value4));
+		return 0;
+	}
+
+	TX_API int Shader::SetUniformI1(const char * p_UniformName, int p_Value) const
+	{
+		int Location = GetUniformLocation(p_UniformName);
+		if (Location == -1)
+		{
+			Logger::CoreLogger->SetError("Cannot Find the Location of the " + std::string(p_UniformName) + " uniform");
+			return 1;
+		}
+		GLCall(glUniform1i(Location, p_Value));
+		return 0;
 	}
 
 

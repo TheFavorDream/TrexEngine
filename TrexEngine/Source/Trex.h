@@ -18,6 +18,8 @@
 #include "./Trex/Platform/OpenGL/VertexArray.h"
 #include "./Trex/Platform/OpenGL/VertexBuffer.h"
 #include "./Trex/Platform/OpenGL/VertexBufferLayout.h"
+#include "./Trex/Platform/OpenGL/Texture.h"
+
 
 #include "./Trex/Renderer/Renderer.h"
 

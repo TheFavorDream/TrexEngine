@@ -99,7 +99,7 @@ namespace TrexEngine
 		//print
 		std::cout << '[' << m_Profile << "][" <<
 			Timer::GetElapsedTime(std::chrono::high_resolution_clock::now())<< "ms]" <<
-			ToString(p_Type)  << p_Message << "\n\n";
+			ToString(p_Type)  << p_Message << '\n';
 	}
 
 	void Logger::WriteLogEvents()
@@ -111,7 +111,7 @@ namespace TrexEngine
 			LogFile << '[' << m_Profile <<
 				"][" << Timer::GetElapsedTime(std::chrono::high_resolution_clock::now())
 				<< "ms]" << ToString(Current.m_Type) <<
-				Current.m_Message << "\n\n";
+				Current.m_Message << "\n";
 
 			m_Logs.pop();
 		}

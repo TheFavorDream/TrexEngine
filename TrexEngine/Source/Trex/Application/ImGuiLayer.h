@@ -51,7 +51,7 @@ namespace TrexEngine
 		TX_API bool ImGuiSliderFloat(std::string p_Label, float* p_Float, float p_Start, float p_End);
 		TX_API void ImGuiSliderInt(std::string p_Label, int* p_Int, int p_Start, int p_End);
 		TX_API void ImGuiTextInt(std::string pLabel, int* pVal, int pStep = 1, int pStepFast = 100);
-		TX_API void ImGuiTextFloat(std::string pLabel, float* pVal, int pStep = 1, int pStepFast = 100);
+		TX_API void ImGuiTextFloat(std::string pLabel, float* pVal, float pStep = 1, int pStepFast = 100);
 
 
 		TX_API bool ImGuiCheckBox(std::string p_Label, bool* p_Bool);

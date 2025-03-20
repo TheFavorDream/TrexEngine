@@ -1,7 +1,7 @@
 #include ".\Include\ExampleLayer.h"
 
 ExampleLayer::ExampleLayer()
-	: Layer("ExampleLayer"), Log("ExampleLayer")
+	: Layer("ExampleLayer"), Log("ExampleLayer"), texture("G:\\Dev\\TrexEngine\\SandBox\\Resources\\wall.jpg")
 {
 
 }
@@ -14,15 +14,18 @@ void ExampleLayer::OnAttach(TrexEngine::Window* p_Window, TrexEngine::ShaderMana
 	m_Resources = p_Resources;
 	m_ShadersMG = p_ShadersMG;
 
+
+	VBO.UploadData(GL_FLOAT, 7, 4, GL_STATIC_DRAW, (void*)Vertex);
+	VBO.Bind();
+
 	VBL.push<float>(2);
 	VBL.push<float>(3);
-
-
-	VBO.BufferData(Vertices, sizeof(Vertices));
+	VBL.push<float>(2);
 
 	VAO.AddLayouts(VBO, VBL);
+	EBO.BufferData(Indicies, 6);
 
-	EBO.BufferData(Indicies, sizeof(Indicies)/sizeof(unsigned int));
+	m_ShadersMG->GetCurrentShader()->SetUniformI1("Tex", 0);
 }
 
 
@@ -42,8 +45,9 @@ void ExampleLayer::OnEvent()
 
 void ExampleLayer::OnRender()
 {
+	//TrexEngine::Renderer::GetInstance()->DrawArrays(VBO, VAO);
+	texture.Bind(0);
 	TrexEngine::Renderer::GetInstance()->DrawElements(VBO, EBO, VAO);
-
 }
 
 void ExampleLayer::OnUpdate()

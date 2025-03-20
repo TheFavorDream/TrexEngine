@@ -5,26 +5,52 @@ namespace TrexEngine
 {
 	VertexBuffer::VertexBuffer()
 	{
-		GLCall(glGenBuffers(1, &VertexBufferID));
-		GLCall(glBindBuffer(GL_ARRAY_BUFFER, VertexBufferID));
+		GLCall(glGenBuffers(1, &m_VertexBufferID));
+		Bind();
 	}
-	void VertexBuffer::BufferData(void* p_Data, unsigned int p_Size)
+
+	VertexBuffer::VertexBuffer(GLenum MemberType, int MemberPerVertex, int NumberOfVertecies)
 	{
-		GLCall(glBufferData(GL_ARRAY_BUFFER, p_Size, p_Data, GL_STATIC_DRAW));
+		GLCall(glGenBuffers(1, &m_VertexBufferID));
+		Bind();
+	}
+
+	VertexBuffer::VertexBuffer(GLenum MemberType, int MemberPerVertex, int NumberOfVertecies, GLenum BufferUsage, void * Data)
+	{
+		GLCall(glGenBuffers(1, &m_VertexBufferID));
+		Bind();
+		UploadData(MemberType, MemberPerVertex, NumberOfVertecies, BufferUsage, Data);
 	}
 
 	VertexBuffer::~VertexBuffer()
 	{
-		GLCall(glDeleteBuffers(1, &VertexBufferID));
+		DeleteBuffer();
 	}
 
-	void VertexBuffer::Bind() const 
+	TX_API void VertexBuffer::UploadData(GLenum MemberType, int MemberPerVertex, int NumberOfVertecies, GLenum BufferUsage, void * Data)
 	{
-		GLCall(glBindBuffer(GL_ARRAY_BUFFER, VertexBufferID));
+		m_MemberType = MemberType;
+		m_MemberPerVertex = MemberPerVertex;
+		m_NumberOfVertecies = NumberOfVertecies;
+
+		GLCall(glBufferData(GL_ARRAY_BUFFER, (m_MemberPerVertex*m_NumberOfVertecies)*Layout::GetTypeSize(m_MemberType), Data, BufferUsage));
 	}
 
-	void VertexBuffer::Unbind() const 
+	TX_API void VertexBuffer::DeleteBuffer()
+	{
+		Unbind();
+		GLCall(glDeleteBuffers(1, &m_VertexBufferID));
+	}
+
+	TX_API void VertexBuffer::Bind() const
+	{
+		GLCall(glBindBuffer(GL_ARRAY_BUFFER, m_VertexBufferID));
+		m_IsBind = true;
+	}
+
+	TX_API void VertexBuffer::Unbind() const
 	{
 		GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
+		m_IsBind = false;
 	}
 }
