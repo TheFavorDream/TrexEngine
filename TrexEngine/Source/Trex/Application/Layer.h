@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Core/Core.h"
-#include "../Core/ResourceManager.h"
+#include "../Core/TextureManager.h"
 #include "../Window/Window.h"
 #include "../Platform/OpenGL/Shader.h"
 #include "../Events/Input.h"
@@ -17,7 +17,7 @@ namespace TrexEngine
 		TX_API Layer(std::string p_LayerName);
 		TX_API virtual ~Layer();
 
-		TX_API virtual void OnAttach (Window* p_Window, ShaderManager* p_ShadersMG, Input* p_Events, ResourceManager* p_Resources)  = 0;
+		TX_API virtual void OnAttach (Window* p_Window, ShaderManager* p_ShadersMG, Input* p_Events, TextureManager* p_Textures)  = 0;
 		TX_API virtual void OnDettach()  = 0;
 		TX_API virtual void OnUpdate ()  = 0;
 		TX_API virtual void OnRender ()  = 0;
@@ -33,8 +33,8 @@ namespace TrexEngine
 
 		Window* m_Window;
 		Input*  m_Events;
-		ResourceManager* m_Resources;
-		ShaderManager* m_ShadersMG;
+		TextureManager* m_Textures;
+		ShaderManager*  m_ShadersMG;
 
 		//For Debugging
 		std::string LayerName;

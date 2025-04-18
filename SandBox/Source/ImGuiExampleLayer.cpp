@@ -125,17 +125,6 @@ void ImGuiExample::RenderShaderControlWidget()
 		}
 	}
 
-	ImGuiText("Current Shader Uniforms:");
-
-	TrexEngine::Shader* Current = m_ShadersMG->GetCurrentShader();
-	auto UniList = Current->GetShaderUniformList();
-
-	for (auto &i : UniList)
-	{
-		ImGuiTextFloat(i.Name, &(Current->GetUniform(i.Name)->Data), 0.1f);
-		Current->SetUniformF1(i.Name.c_str(), Current->GetUniform(i.Name)->Data);
-	}
-
 	ImGuiEnd();
 }
 
@@ -169,15 +158,31 @@ void ImGuiExample::ResourceControlWidget()
 
 	ImGuiText("Current Resources:");
 
+	auto Table = m_Textures->GetTextureTable();
 
+	for (auto &i : Table)
+	{
+		ImGuiText(i.first);
+		ImGuiSameLine();
+		if (ImGuiPushButton("Load"))
+		{
+			m_Textures->GetTexture(i.first)->LoadTexture();
+		}
+		ImGuiSameLine();
+
+		if (ImGuiPushButton("Free"))
+		{
+			m_Textures->GetTexture(i.first)->FreeTexture();
+		}
+	}
 
 	ImGuiEnd();
 }
 
-void ImGuiExample::OnAttach(TrexEngine::Window * p_Window, TrexEngine::ShaderManager* p_ShadersMG, TrexEngine::Input* p_Events, TrexEngine::ResourceManager* p_Resources)
+void ImGuiExample::OnAttach(TrexEngine::Window * p_Window, TrexEngine::ShaderManager* p_ShadersMG, TrexEngine::Input* p_Events, TrexEngine::TextureManager* p_Textures)
 {
 	m_Events = p_Events;
-	m_Resources = p_Resources;
+	m_Textures = p_Textures;
 	m_ShadersMG = p_ShadersMG;
 
 	Log.SetInfo("OnAttach Called. Init the Layer");

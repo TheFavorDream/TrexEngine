@@ -3,7 +3,7 @@
 
 #include "../Debug/Log.h"
 #include "../Core/Core.h"
-#include "../Core/ResourceManager.h"
+#include "../Core/TextureManager.h"
 #include "../Renderer/Renderer.h"
 #include "../Window/Window.h"
 #include "../Core/Timer.h"
@@ -34,7 +34,7 @@ namespace TrexEngine
 		void PushLayer(Layer* p_NewLayer)
 		{
 			Layers.PushLayer(p_NewLayer);
-			p_NewLayer->OnAttach(WindowManager, ShadersManager, &events, &Resources);
+			p_NewLayer->OnAttach(WindowManager, ShadersManager, &events, TexturesManager);
 		}
 
 		void PopLayer()
@@ -45,7 +45,7 @@ namespace TrexEngine
 		void PushOverLayer(Layer* p_NewLayer)
 		{
 			Layers.PushOverLayer(p_NewLayer);
-			p_NewLayer->OnAttach(WindowManager, ShadersManager, &events, &Resources);
+			p_NewLayer->OnAttach(WindowManager, ShadersManager, &events, TexturesManager);
 		}
 
 		void PopOverLayer()
@@ -58,9 +58,10 @@ namespace TrexEngine
 		bool m_IsRunning = false;
 	protected:
 
-		ResourceManager Resources;
-		Window *WindowManager   = NULL;
-		ShaderManager* ShadersManager = NULL;
+		Window*         WindowManager   = NULL;
+		ShaderManager*  ShadersManager  = NULL;
+		TextureManager* TexturesManager = NULL;
+
 		Input events;
 		Timer			timer;
 		LayerContainer  Layers;

@@ -6,7 +6,7 @@ namespace TrexEngine
 
 
 	Engine::Engine(const char* p_Title, int p_Width, int p_Height):
-		m_Log("Core"), WindowManager(new Window), ShadersManager(new ShaderManager)
+		m_Log("Core"),  WindowManager(new Window), ShadersManager(new ShaderManager), TexturesManager(new TextureManager)
 	{
 
 		WindowManager->CreateNewWindow(p_Title, p_Width, p_Height);
@@ -20,6 +20,7 @@ namespace TrexEngine
 
 	Engine::~Engine()
 	{
+		delete TexturesManager;
 		delete ShadersManager;
 		delete Renderer::s_RenderInstance;
 		delete WindowManager;

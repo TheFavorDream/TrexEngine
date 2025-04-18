@@ -1,17 +1,17 @@
 #include ".\Include\ExampleLayer.h"
 
 ExampleLayer::ExampleLayer()
-	: Layer("ExampleLayer"), Log("ExampleLayer"), texture("G:\\Dev\\TrexEngine\\SandBox\\Resources\\wall.jpg")
+	: Layer("ExampleLayer"), Log("ExampleLayer")
 {
 
 }
 
 
-void ExampleLayer::OnAttach(TrexEngine::Window* p_Window, TrexEngine::ShaderManager* p_ShadersMG, TrexEngine::Input* p_Events, TrexEngine::ResourceManager* p_Resources)
+void ExampleLayer::OnAttach(TrexEngine::Window* p_Window, TrexEngine::ShaderManager* p_ShadersMG, TrexEngine::Input* p_Events, TrexEngine::TextureManager* p_Textures)
 {
 	m_Window = p_Window;
 	m_Events = p_Events;
-	m_Resources = p_Resources;
+	m_Textures = p_Textures;
 	m_ShadersMG = p_ShadersMG;
 
 
@@ -25,28 +25,24 @@ void ExampleLayer::OnAttach(TrexEngine::Window* p_Window, TrexEngine::ShaderMana
 	VAO.AddLayouts(VBO, VBL);
 	EBO.BufferData(Indicies, 6);
 
+	m_Textures->AddTexture("Wall", new Texture2D("G:\\Dev\\TrexEngine\\SandBox\\Resources\\wall.jpg"));
+
 	m_ShadersMG->GetCurrentShader()->SetUniformI1("Tex", 0);
+	m_Textures->GetTexture("Wall")->LoadTexture();
 }
 
 
 void ExampleLayer::OnEvent()
 {
 	
-
-	if (m_Events->mouse.IsRightClickPressed())
-	{
-		Log.SetInfo("Right Click was pressed");
-	}
-
-
-
+		
 }
 
 
 void ExampleLayer::OnRender()
 {
-	//TrexEngine::Renderer::GetInstance()->DrawArrays(VBO, VAO);
-	texture.Bind(0);
+
+	m_Textures->BindTexture("Wall");
 	TrexEngine::Renderer::GetInstance()->DrawElements(VBO, EBO, VAO);
 }
 
@@ -79,5 +75,4 @@ void ExampleLayer::DisableLayer()
 
 ExampleLayer::~ExampleLayer()
 {
-
 }

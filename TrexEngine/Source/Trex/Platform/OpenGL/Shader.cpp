@@ -4,23 +4,31 @@
 namespace TrexEngine
 {
 
-	Shader::Shader(const char* p_FilePath)
+	Shader::Shader(const std::string& pFilePath)
+		: m_ShaderFilePath(pFilePath)
 	{
-		ShaderFilePath = p_FilePath;
-		ReadShaderFile(p_FilePath);
+		std::string Content = ReadFile(pFilePath);
+		Process(Content);
 		CreateShaderProgram();
 	}
 
+	Shader::Shader(const std::string& pVertexShader, const std::string& pFragmentShader)
+	{
+		m_Shaders[GL_VERTEX_SHADER] = pVertexShader;
+		m_Shaders[GL_FRAGMENT_SHADER] = pFragmentShader;
+		CreateShaderProgram();
+	}
 
 	Shader::~Shader()
 	{
-		GLCall(glDeleteProgram(ProgramID));
+		if (m_ProgramID!=0)
+			GLCall(glDeleteProgram(m_ProgramID));
 	}
 
 
 	void Shader::Bind()
 	{
-		GLCall(glUseProgram(ProgramID));
+		GLCall(glUseProgram(m_ProgramID));
 	}
 
 
@@ -29,71 +37,71 @@ namespace TrexEngine
 		GLCall(glUseProgram(0));
 	}
 
-
-	TX_API void Shader::ReadShaderFile(const char* p_FileFile)
+	const std::string Shader::ReadFile(const std::string & pFilePath)
 	{
-		VertexShaderSource = "";
-		FragmentShaderSource = "";
+		//Opening the file
+		std::ifstream Source(pFilePath, std::ios::in | std::ios::binary);
 
-		std::ifstream SourceFile(p_FileFile, std::ios::in);
-
-		if (SourceFile.fail())
+		//Check if it opened
+		if (Source.fail())
 		{
-			Logger::CoreLogger->SetError("Shader File at Path :" + std::string(p_FileFile) + " Does Not Exist");
-			return;
+			Logger::CoreLogger->SetError("Could not open shader file");
+			return "";
 		}
 
+		std::string Content;
 
-		bool IsReading = false;
-		std::string* Current;
-		std::string Line;
+		//Allocate memory 
+		Source.seekg(0, Source.end);
+		Content.resize(Source.tellg());
+		Source.seekg(0, Source.beg);
 
-		while (!SourceFile.eof())
-		{
-			std::getline(SourceFile, Line, '\n');
+		//Read
+		Source.read(&Content[0], Content.size());
+		Source.close();
 
-			if (Line == "//Vertex Shader")
-			{
-				IsReading = true;
-				Current = &VertexShaderSource;
-				Line = "";
-			}
-
-			else if (Line == "//Fragment Shader")
-			{
-				IsReading = true;
-				Current = &FragmentShaderSource;
-				Line = "";
-			}
-
-			if (IsReading)
-			{
-				(*Current) += Line + "\n";
-				
-
-				if (Line.length() > 8 && Line.substr(0, 7) == "uniform")
-				{
-					CreateNewUniform(Line);
-				}
-				
-
-			}
-		}
-
-		SourceFile.close();
+		return Content;
 	}
 
-	unsigned int Shader::CompileShader(unsigned int Type, const std::string& ShaderSource)
+
+
+	GLenum Shader::GetShaderEnum(const std::string & pType)
+	{
+		if (!pType.compare("Vertex\r"))
+		{
+			return GL_VERTEX_SHADER;
+		}
+
+		else if (!pType.compare("Fragment\r"))
+		{
+			return GL_FRAGMENT_SHADER;
+		}
+
+		else if (!pType.compare("Pixel\r"))
+		{
+			return GL_FRAGMENT_SHADER;
+		}
+
+		else if (!pType.compare("Compute\r"))
+		{
+			return GL_COMPUTE_SHADER;
+		}
+
+		else
+		{
+			return -1;
+		}
+	}
+
+	unsigned int Shader::CompileShader(GLenum Type, const std::string& ShaderSource)
 	{
 		unsigned int Shader = glCreateShader(Type);
-
 		const char* Source = ShaderSource.c_str();
 
 		GLCall(glShaderSource(Shader, 1, &Source, NULL));
 		GLCall(glCompileShader(Shader));
 
 		int Succeed = 0;
-
 		GLCall(glGetShaderiv(Shader, GL_COMPILE_STATUS, &Succeed));
 
 		if (!Succeed)
@@ -111,129 +119,147 @@ namespace TrexEngine
 	}
 
 
-	//Temp
-	TX_API Shader::Uniform* Shader::GetUniform(std::string pName)
-	{
-		for (auto &i : m_UniformList)
-		{
-			if (i.Name == pName)
-			{
-				return &i;
-			}
-		}
-		return NULL;
-	}
+
 
 	void Shader::CreateShaderProgram()
 	{
-		unsigned int VS = CompileShader(GL_VERTEX_SHADER, VertexShaderSource);
-		unsigned int FS = CompileShader(GL_FRAGMENT_SHADER, FragmentShaderSource);
 
-		ProgramID = glCreateProgram();
-		GLCall(glAttachShader(ProgramID, VS));
-		GLCall(glAttachShader(ProgramID, FS));
+		//Create a new Program
+		m_ProgramID = glCreateProgram();
+		//Hold our shaders ID
+		std::vector<int> Shaders;
 
-		GLCall(glLinkProgram(ProgramID));
+		//we loop through Shaders in map
+		for (auto &i : m_Shaders)
+		{
+			//Compile each shader
+			int Shader = CompileShader(i.first, i.second);
 
-		GLCall(glValidateProgram(ProgramID));
+			//Check if it compiled successfuly
+			if (Shader == 0)
+			{
+				Logger::CoreLogger->SetWarning("Could not Compile Shader");
+				return;
+			}
 
+			//Attach the shader to our program
+			GLCall(glAttachShader(m_ProgramID, Shader));
+			//Push the id of the shader to vector
+			Shaders.push_back(Shader);
+		}
+
+		//Link the Shaders into Program & validate
+		GLCall(glLinkProgram(m_ProgramID));
+		GLCall(glValidateProgram(m_ProgramID));
+
+
+		//Check if the linking was successful 
 		int Succeed = 0;
-
-		GLCall(glGetProgramiv(ProgramID, GL_LINK_STATUS, &Succeed));
+		GLCall(glGetProgramiv(m_ProgramID, GL_LINK_STATUS, &Succeed));
+		//Detach and delete the compiled shaders
+		for (auto i : Shaders)
+		{
+			GLCall(glDetachShader(m_ProgramID, i));
+			GLCall(glDeleteShader(i));
+		}
 
 		if (!Succeed)
 		{
-
 			char Message[510];
-			GLCall(glGetProgramInfoLog(ProgramID, 510, NULL, Message));
-			GLCall(glDeleteProgram(ProgramID));
+			GLCall(glGetProgramInfoLog(m_ProgramID, 510, NULL, Message));
+			GLCall(glDeleteProgram(m_ProgramID));
 			Logger::CoreLogger->SetError(std::string(Message));
 			return;
 		}
 
-		GLCall(glDetachShader(ProgramID, VS));
-		GLCall(glDetachShader(ProgramID, FS));
-
-		GLCall(glDeleteShader(VS));
-		GLCall(glDeleteShader(FS));
-
-
 	}
 
-	TX_API int Shader::CreateNewUniform(const std::string & pLine)
+
+	void Shader::ReloadShader()
+	{
+		//Delete the Old Shader
+		Unbind();
+		GLCall(glDeleteProgram(m_ProgramID));
+		m_Shaders.clear();
+
+
+		std::string Content = ReadFile(m_ShaderFilePath);
+		Process(Content);
+		CreateShaderProgram();
+		Bind();
+		Logger::CoreLogger->SetInfo("Shader Reloaded from " + std::string(m_ShaderFilePath));
+	}
+
+	int Shader::Process(const std::string& pShaderContent)
 	{
 
-		std::string tmp;
-		Uniform New;
+		uint32 ContentSize = pShaderContent.size();
+		std::string Line;
+		std::string TypeToken = "Type";
 
-		for (int i = 8; i < pLine.length() ; i++)
+		GLenum CurrentShaderType = 0;
+
+		for (int i = 0; i <= ContentSize; ++i)
 		{
-			char c = pLine[i];
-
-			if (c == '=' || c== ';')
-			{ 
-				break;
-			}
-
-			else if (c != ' ')
+			if (pShaderContent[i] == '\n' || i == ContentSize)
 			{
-				tmp += c;
+				//if it was an empty line, we ignore it
+				if (Line.size() == 1 && Line[0] == char(13))
+				{
+					Line.clear();
+					continue;
+				}
+
+				//We ignore comments:
+				if (Line.find("//") < Line.size())
+				{
+					Line.clear();
+					continue;
+				}
+
+				//We Process the meta datas
+				int Pos = Line.find("#");
+				if (Pos < Line.size())
+				{
+					if (Line.substr(Pos + 1, TypeToken.length()) == TypeToken)
+					{
+						std::string T = Line.substr((Pos + TypeToken.length() + 2), Line.find(char(13)));
+						
+						CurrentShaderType = Shader::GetShaderEnum(T);
+						if (CurrentShaderType == -1)
+						{
+							Logger::CoreLogger->SetError("Invalid Shader type:" + T);
+							return 1;
+						}
+
+						Line.clear();
+						continue;
+					}
+				}
+
+				//at this point we have processed shader code
+				if (CurrentShaderType!=0)
+					m_Shaders[CurrentShaderType] += Line;
+				Line.clear();
 			}
 
 			else
 			{
-				if (tmp == "float")
-				{
-					New.Type = FLOAT;
-				}
-
-				else if (tmp == "int")
-				{
-					New.Type = INT;
-				}
-
-				else
-				{
-					New.Name = tmp;
-				}
-				
-				tmp = "";
+				Line += pShaderContent[i];
 			}
-
 		}
-
-		m_UniformList.push_back(New);
 
 		return 0;
 	}
 
-	TX_API void Shader::ReloadShader()
+	bool Shader::DoesUniformExist(std::string pUniformName) const
 	{
-		//Delete the Old Shader
-		Unbind();
-		GLCall(glDeleteProgram(ProgramID));
-		m_UniformList.clear();
-
-		ReadShaderFile(ShaderFilePath);
-		CreateShaderProgram();
-		
-		Logger::CoreLogger->SetInfo("Shader Reloaded from " + std::string(ShaderFilePath));
+		if (m_ShaderUniforms.find(pUniformName) == m_ShaderUniforms.end())
+			return false;
+		return true;
 	}
 
-	TX_API bool Shader::DoesUniformExist(const char * p_UniformName) const
-	{
-		for (auto &i : m_UniformList)
-		{
-			if (i.Name == p_UniformName)
-			{
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	TX_API int Shader::GetUniformLocation(std::string  Name) const
+	int Shader::GetUniformLocation(std::string  Name) const
 	{
 
 		//Check if uniform existed:
@@ -242,7 +268,7 @@ namespace TrexEngine
 			return m_ShaderUniforms[Name];
 		}
 
-		int Loc = glGetUniformLocation(ProgramID, Name.c_str());
+		int Loc = glGetUniformLocation(m_ProgramID, Name.c_str());
 
 		if (Loc != -1)
 		{
@@ -253,7 +279,7 @@ namespace TrexEngine
 	}
 
 
-	TX_API int Shader::SetUniformF1(const char * p_UniformName, float p_Value) const
+	int Shader::SetUniformF1(const char * p_UniformName, float p_Value) const
 	{
 		int Location = GetUniformLocation(p_UniformName);
 		if (Location == -1)
@@ -265,7 +291,7 @@ namespace TrexEngine
 		return 0;
 	}
 
-	TX_API int Shader::SetUniformF2(const char * p_UniformName, float p_Value1, float p_Value2) const
+	int Shader::SetUniformF2(const char * p_UniformName, float p_Value1, float p_Value2) const
 	{
 		int Location = GetUniformLocation(p_UniformName);
 		if (Location == -1)
@@ -277,7 +303,7 @@ namespace TrexEngine
 		return 0;
 	}
 
-	TX_API int Shader::SetUniformF3(const char * p_UniformName, float p_Value1, float p_Value2, float p_Value3) const
+	int Shader::SetUniformF3(const char * p_UniformName, float p_Value1, float p_Value2, float p_Value3) const
 	{
 		int Location = GetUniformLocation(p_UniformName);
 		if (Location == -1)
@@ -289,7 +315,7 @@ namespace TrexEngine
 		return 0;
 	}
 
-	TX_API int Shader::SetUniformF4(const char * p_UniformName, float p_Value1, float p_Value2, float p_Value3, float p_Value4) const
+	int Shader::SetUniformF4(const char * p_UniformName, float p_Value1, float p_Value2, float p_Value3, float p_Value4) const
 	{
 		int Location = GetUniformLocation(p_UniformName);
 		if (Location == -1)
@@ -301,7 +327,7 @@ namespace TrexEngine
 		return 0;
 	}
 
-	TX_API int Shader::SetUniformI1(const char * p_UniformName, int p_Value) const
+	int Shader::SetUniformI1(const char * p_UniformName, int p_Value) const
 	{
 		int Location = GetUniformLocation(p_UniformName);
 		if (Location == -1)
@@ -314,24 +340,11 @@ namespace TrexEngine
 	}
 
 
-	TX_API const std::string & Shader::GetShaderSource(const char* Type)
+	const std::string & Shader::GetShaderSource(const char* Type)
 	{
-		if (Type == "Vertex Shader")
-		{
-			return VertexShaderSource;
-		}
 
-		else if (Type == "Fragment")
-		{
-			return FragmentShaderSource;
-		}
 
 		return "Not Found";
-	}
-
-	TX_API const std::vector<TrexEngine::Shader::Uniform>& Shader::GetShaderUniformList()
-	{
-		return m_UniformList;
 	}
 
 

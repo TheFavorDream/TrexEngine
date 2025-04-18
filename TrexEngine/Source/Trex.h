@@ -10,6 +10,7 @@
 #include "./Trex/Core/Timer.h"
 #include "./Trex/Core/LayerContainer.h"
 #include "./Trex/Core/ShaderManager.h"
+#include "./Trex/Core/TextureManager.h"
 
 #include "./Trex/Debug/Log.h"
 

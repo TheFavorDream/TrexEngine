@@ -20,7 +20,7 @@ public:
 	void RenderWindowControlWidget();
 	void RenderShaderControlWidget();
 
-	void OnAttach(TrexEngine::Window* p_Window, TrexEngine::ShaderManager* p_ShadersMG, TrexEngine::Input* p_Events, TrexEngine::ResourceManager* p_Resources) override;
+	void OnAttach(TrexEngine::Window* p_Window, TrexEngine::ShaderManager* p_ShadersMG, TrexEngine::Input* p_Events, TrexEngine::TextureManager* p_Textures) override;
 	void OnEvent()      override;
 	void OnUpdate()     override;
 	void OnRender()     override;

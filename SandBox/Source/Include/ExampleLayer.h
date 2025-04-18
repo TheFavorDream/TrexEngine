@@ -11,7 +11,7 @@ public:
 
 	ExampleLayer();
 
-	void OnAttach(TrexEngine::Window* p_Window, TrexEngine::ShaderManager* p_ShadersMG, TrexEngine::Input* p_Events, ResourceManager* p_Resources) override;
+	void OnAttach(TrexEngine::Window* p_Window, TrexEngine::ShaderManager* p_ShadersMG, TrexEngine::Input* p_Events, TrexEngine::TextureManager* p_Textures) override;
 
 	void OnEvent() override;
 
@@ -22,6 +22,7 @@ public:
 	void OnDettach() override;
 
 	void EnableLayer() override;
+
 	void DisableLayer() override;
 
 
@@ -35,7 +36,6 @@ private:
 	TrexEngine::VertexBufferLayout VBL;
 	TrexEngine::VertexBuffer       VBO;
 	TrexEngine::IndexBuffer        EBO;
-	TrexEngine::Texture            texture;
 	
 	float Vertex[28] =
 	{

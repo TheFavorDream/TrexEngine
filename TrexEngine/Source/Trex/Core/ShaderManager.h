@@ -53,6 +53,4 @@ namespace TrexEngine
 		std::vector<std::string> m_ShaderList;
 		TrexEngine::Shader* m_Current = NULL;
 	};
-
-	static ShaderManager* s_Ref;
 };

@@ -5,11 +5,12 @@ namespace TrexEngine
 
 	ShaderManager::ShaderManager()
 	{
-
+		Logger::CoreLogger->SetInfo("Shader Manager Constructed");
 	}
 
 	ShaderManager::ShaderManager(std::string p_Name, TrexEngine::Shader * p_NewShader)
 	{
+		Logger::CoreLogger->SetInfo("Shader Manager Constructed");
 		AddShader(p_Name, p_NewShader);
 	}
 
@@ -18,12 +19,13 @@ namespace TrexEngine
 		for (auto &i : m_ShaderList)
 		{
 			delete m_Shaders[i];
+			Logger::CoreLogger->SetInfo("Shader " + i + " Deleted");
 		}
 
 
 		m_Shaders.clear();
 		m_ShaderList.clear();
-		Logger::CoreLogger->SetInfo("End of Shader Manager Constructor");
+		Logger::CoreLogger->SetInfo("Shader Manager Destructed");
 	}
 
 
@@ -66,7 +68,7 @@ namespace TrexEngine
 		m_Shaders[p_Name] = p_NewShader;
 
 		BindShader(p_Name);
-
+		Logger::CoreLogger->SetInfo("Shader " + p_Name + " Added");
 		return 0;
 	}
 
