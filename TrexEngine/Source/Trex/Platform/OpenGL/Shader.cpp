@@ -1,3 +1,4 @@
+
 #include "Shader.h"
 
 
@@ -325,6 +326,17 @@ namespace TrexEngine
 		}
 		GLCall(glUniform4f(Location, p_Value1, p_Value2, p_Value3, p_Value4));
 		return 0;
+	}
+
+	TX_API int Shader::SetUniformMat4(const char * p_UniformName, glm::mat4& p_Value) const
+	{
+		int Location = GetUniformLocation(p_UniformName);
+		if (Location == -1)
+		{
+			Logger::CoreLogger->SetError("Cannot Find the Location of the " + std::string(p_UniformName) + " uniform");
+			return 1;
+		}
+		GLCall(glUniformMatrix4fv(Location, 1, GL_FALSE, glm::value_ptr(p_Value)));
 	}
 
 	int Shader::SetUniformI1(const char * p_UniformName, int p_Value) const

@@ -15,14 +15,11 @@
 
 #pragma once
 
-
+#include <unordered_map>
 #include "Core.h"
 #include "../Debug/Log.h"
 #include "../3rdparty/GL/glew.h"
 #include "../Platform/OpenGL/Texture.h"
-
-#include <unordered_map>
-#include <vector>
 
 namespace TrexEngine
 {

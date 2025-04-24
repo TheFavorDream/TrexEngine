@@ -1,3 +1,4 @@
+
 #include "Log.h"
 
 #include "glew.h"
@@ -11,7 +12,8 @@ namespace TrexEngine
 
 	std::vector<Logger*> Logger::s_Loggers;
 
-	Logger::Logger(std::string p_Profile): m_Profile(p_Profile)
+	Logger::Logger(std::string p_Profile, bool UseLogFile)
+		: m_Profile(p_Profile), m_UseLogFile(UseLogFile)
 	{
 
 		
@@ -21,20 +23,23 @@ namespace TrexEngine
 		s_Loggers.push_back(this);
 		
 		//Create or open the log file
-		LogFilePath = (m_Profile + "_RuntimeLog.txt");
-		LogFile.open(LogFilePath, std::ios::out | std::ios::trunc);
-
-
-		if (LogFile.fail())
+		if (m_UseLogFile)
 		{
-			SetError("Unable to Open Log File");
-		}
+			LogFilePath = (m_Profile + "_RuntimeLog.txt");
+			LogFile.open(LogFilePath, std::ios::out | std::ios::trunc);
 
+
+			if (LogFile.fail())
+			{
+				SetError("Unable to Open Log File");
+			}
+		}
 	}
 
 	TX_API void Logger::Shutdown()
 	{
-		WriteLogEvents();
+		if (m_UseLogFile)
+			WriteLogEvents();
 	}
 
 	Logger::~Logger()
@@ -42,7 +47,8 @@ namespace TrexEngine
 
 		Shutdown();
 		//Closes the Log file
-		LogFile.close();
+		if (m_UseLogFile)
+			LogFile.close();
 
 		//removes this object from vector
 		for (int i = 0; i < s_Loggers.size(); ++i)

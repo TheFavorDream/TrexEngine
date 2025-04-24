@@ -12,9 +12,13 @@
 
 #pragma once
 
+
 #include "../Core/Core.h"
 #include "../3rdparty/glfw/include/GLFW/glfw3.h"
 #include "Keys.h"
+
+#define TX_CURSOR_HIDE 0
+#define TX_CURSOR_SHOW 1
 
 namespace TrexEngine
 {
@@ -38,6 +42,12 @@ namespace TrexEngine
 
 		TX_API static bool IsRightClickRelease();
 		TX_API static bool IsLeftClickRelease();
+
+		TX_API static int GetKeyState(int pKey);
+
+		TX_API static void SetCursorMode(GLFWwindow* pWindow, int Mode);
+
+		TX_API static void SetCursorPosition(GLFWwindow* pWindow, int pX, int pY);
 
 	private:
 		TX_API static double MouseX;

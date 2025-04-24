@@ -14,7 +14,6 @@
 #include "../Events/Keyboard.h"
 #include "../Core/ShaderManager.h"
 
-
 namespace TrexEngine
 {
 

@@ -33,12 +33,14 @@ workspace "TrexEngine"
 			"./TrexEngine/Source/Trex/3rdparty/ImGui/Include"
 		}
 
+
 		libdirs {
 			"./bin/"..OutputDir.."/glfw",
+			"./bin/"..OutputDir.."/glm",
 			"./bin/External"
 		}
 
-		links {"opengl32", "glew32s", "glfw", "ImGui","kernel32", "user32" , "gdi32", "winspool", "comdlg32", "advapi32", "shell32","ole32", 
+		links {"opengl32", "glew32s", "glm", "glfw", "ImGui","kernel32", "user32" , "gdi32", "winspool", "comdlg32", "advapi32", "shell32","ole32", 
 		"oleaut32", "uuid", "odbc32", "odbccp32"}
 
 		filter ("system:windows")
@@ -63,7 +65,7 @@ workspace "TrexEngine"
 -- --------------------------------------------------GLFW-------------------------------------------------------
 	project "glfw"
 		location "./TrexEngine/Source/Trex/3rdparty/glfw"
-		kind "StaticLib"
+		kind "SharedLib"
 		language "C"
 
 		targetdir ("./bin/" .. OutputDir .. "/glfw")
@@ -81,15 +83,67 @@ workspace "TrexEngine"
 
 		filter("configurations:Debug")
 			symbols "On"
+			defines {"_GLFW_BUILD_DLL"}
 		filter("configurations:Release")
 			optimize "On"
+			defines {"_GLFW_BUILD_DLL"}
 
 		filter {"system:windows", "configurations:Debug"}
 			buildoptions {"/MDd"}
 		filter {"system:windows", "configurations:Release"}
 			buildoptions {"/MT"}
 
+------------------------------------------------------GLM-------------------------------
+		project "glm"
+			location "./TrexEngine/Source/Trex/3rdparty/glm"
+			kind "StaticLib"
+			language "C++"
+			targetdir ("./bin/" .. OutputDir .. "/glm")
+			objdir ("./bin-in/" .. OutputDir .. "/glm")
 
+			includedirs {
+				"./TrexEngine/Source/Trex/3rdparty/glm/*"
+			}
+			files {
+				"./TrexEngine/Source/Trex/3rdparty/glm/**.h",
+				"./TrexEngine/Source/Trex/3rdparty/glm/**.hpp",
+				"./TrexEngine/Source/Trex/3rdparty/glm/**.cpp",
+
+				"./TrexEngine/Source/Trex/3rdparty/glm/detail/**.h",
+				"./TrexEngine/Source/Trex/3rdparty/glm/detail/**.hpp",
+				"./TrexEngine/Source/Trex/3rdparty/glm/detail/**.cpp",
+
+				"./TrexEngine/Source/Trex/3rdparty/glm/ext/**.h",
+				"./TrexEngine/Source/Trex/3rdparty/glm/ext/**.hpp",
+				"./TrexEngine/Source/Trex/3rdparty/glm/ext/**.cpp",
+
+				"./TrexEngine/Source/Trex/3rdparty/glm/gtc/**.h",
+				"./TrexEngine/Source/Trex/3rdparty/glm/gtc/**.hpp",
+				"./TrexEngine/Source/Trex/3rdparty/glm/gtc/**.cpp",
+
+				"./TrexEngine/Source/Trex/3rdparty/glm/gtx/**.h",
+				"./TrexEngine/Source/Trex/3rdparty/glm/gtx/**.hpp",
+				"./TrexEngine/Source/Trex/3rdparty/glm/gtx/**.cpp",
+
+				"./TrexEngine/Source/Trex/3rdparty/glm/simd/**.h",
+				"./TrexEngine/Source/Trex/3rdparty/glm/simd/**.hpp",
+				"./TrexEngine/Source/Trex/3rdparty/glm/simd/**.cpp"
+			}
+	
+			filter ("system:windows")
+				systemversion "10.0.17763.0"
+				staticruntime "On"
+				cppdialect "C++17"
+	
+			filter("configurations:Debug")
+				symbols "On"
+			filter("configurations:Release")
+				optimize "On"
+	
+			filter {"system:windows", "configurations:Debug"}
+				buildoptions {"/MDd"}
+			filter {"system:windows", "configurations:Release"}
+				buildoptions {"/MD"}
 ----------------------------------ImGui--------------------------------------------------------
 
 		project "ImGui"
@@ -122,6 +176,7 @@ workspace "TrexEngine"
 				buildoptions {"/MDd"}
 			filter {"system:windows", "configurations:Release"}
 				buildoptions {"/MD"}
+	
 -------------------------------------------------SandBox----------------------------------------------
 
 	project "SandBox"
@@ -157,7 +212,8 @@ workspace "TrexEngine"
 		systemversion "10.0.17763.0"
 		defines {"PLATFORM_WINDOWS"}
 		postbuildcommands {"{COPY} ../bin/" .. OutputDir .. "/TrexEngine/TrexEngine.dll ../bin/" .. OutputDir .. "/SandBox",
-						   "{COPY} ../bin/External/vcruntime140_1d.dll ../bin/" .. OutputDir .. "/SandBox"}
+						   "{COPY} ../bin/External/vcruntime140_1d.dll ../bin/" .. OutputDir .. "/SandBox",
+						 "{COPY} ../bin/" .. OutputDir .. "/glfw/glfw.dll ../bin/" .. OutputDir .. "/SandBox"}
 			
 		filter ("configurations:Debug")
 			symbols "On"

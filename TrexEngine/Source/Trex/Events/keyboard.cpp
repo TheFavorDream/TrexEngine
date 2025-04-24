@@ -1,3 +1,4 @@
+
 #include "Keyboard.h"
 
 
@@ -22,24 +23,24 @@ namespace TrexEngine
 	{
 		if (IsReadingText)
 		{
-			if (key >= KEY_A && key <= KEY_Z)
+			if (key >= TX_KEY_A && key <= TX_KEY_Z)
 				return;
 		}
 
 
 		switch (action)
 		{
-		case PRESS:
+		case KEY_PRESS:
 			if (Key_Table[key].OnPress != NULL)
 				Key_Table[key].OnPress();
 			break;
 
-		case HOLD:
+		case KEY_HOLD:
 			if (Key_Table[key].OnHold != NULL)
 				Key_Table[key].OnHold();
 			break;
 
-		case RELEASE:
+		case KEY_RELEASE:
 			if (Key_Table[key].OnRelease != NULL)
 				Key_Table[key].OnRelease();
 
@@ -79,7 +80,7 @@ namespace TrexEngine
 
 	TX_API bool Keyboard::IsKeyPressed(int Key)
 	{
-		if (GetKeyCurrentState(Key) == PRESS)
+		if (GetKeyCurrentState(Key) == KEY_PRESS)
 		{
 			ResetKey(Key);
 			return true;
@@ -90,7 +91,7 @@ namespace TrexEngine
 
 	TX_API bool Keyboard::IsKeyReleased(int Key) 
 	{
-		if (GetKeyCurrentState(Key) == RELEASE)
+		if (GetKeyCurrentState(Key) == KEY_RELEASE)
 		{
 			ResetKey(Key);
 			return true;
@@ -101,7 +102,7 @@ namespace TrexEngine
 
 	TX_API bool Keyboard::IsKeyHold(int Key) 
 	{
-		if (GetKeyCurrentState(Key) == HOLD)
+		if (GetKeyCurrentState(Key) == KEY_HOLD)
 		{
 			ResetKey(Key);
 			return true;
@@ -112,7 +113,7 @@ namespace TrexEngine
 
 	TX_API void Keyboard::ResetKey(int Key)
 	{
-		Key_Table[Key].State = NONE;
+		Key_Table[Key].State = KEY_NONE;
 	}
 
 	TX_API void Keyboard::SetKeyPressCallBack(int Key, void(*CallBackFunction)(void))
@@ -138,8 +139,8 @@ namespace TrexEngine
 			Current_String = &p_Text;
 			IsReadingText = true;
 
-			Key_Table[KEY_BACKSPACE].OnPress = PopTheLastChar;
-			Key_Table[KEY_BACKSPACE].OnHold = PopTheLastChar;
+			Key_Table[TX_KEY_BACKSPACE].OnPress = PopTheLastChar;
+			Key_Table[TX_KEY_BACKSPACE].OnHold = PopTheLastChar;
 		}
 
 		else		

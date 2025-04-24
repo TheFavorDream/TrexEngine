@@ -200,31 +200,31 @@ void ImGuiExample::OnEvent()
 {
 
 
-	if (m_Events->keyboard.IsKeyPressed(KEY_E))
+	if (m_Events->keyboard.IsKeyPressed(TX_KEY_E))
 	{
 		RenderMenuBar = true;
 	}
 
-	if (m_Events->keyboard.IsKeyPressed(KEY_ESCAPE))
+	if (m_Events->keyboard.IsKeyPressed(TX_KEY_ESCAPE))
 	{
 		RenderMenuBar = false;
 	}
 
 
-	if (m_Events->keyboard.IsKeyPressed(KEY_S))
+	if (m_Events->keyboard.IsKeyPressed(TX_KEY_P))
 	{
 		m_Events->keyboard.StartTextInput(Text);
 	}
 
 	if (m_Events->keyboard.IsInputingText())
 	{
-		if (m_Events->keyboard.IsKeyPressed(KEY_ENTER))
+		if (m_Events->keyboard.IsKeyPressed(TX_KEY_ENTER))
 		{
 			m_Events->keyboard.StopTextInput();
 		}
 	}
 
-	if (m_Events->keyboard.IsKeyPressed(KEY_R))
+	if (m_Events->keyboard.IsKeyPressed(TX_KEY_R))
 	{
 		RenderResourceWidget = !RenderResourceWidget;
 	}

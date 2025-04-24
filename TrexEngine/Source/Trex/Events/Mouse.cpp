@@ -1,3 +1,4 @@
+
 #include "Mouse.h"
 
 namespace TrexEngine
@@ -19,10 +20,10 @@ namespace TrexEngine
 	{
 		switch (button)
 		{
-		case MOUSE_BUTTON_LEFT:
+		case TX_MOUSE_BUTTON_LEFT:
 			LeftButtonState = action;
 			break;
-		case MOUSE_BUTTON_RIGHT:
+		case TX_MOUSE_BUTTON_RIGHT:
 			RightButtonState = action;
 			break;
 		}
@@ -48,12 +49,12 @@ namespace TrexEngine
 
 	TX_API void Mouse::ResetRightButton()
 	{
-		RightButtonState = NONE;
+		RightButtonState = KEY_NONE;
 	}
 
 	TX_API void Mouse::ResetLeftButton()
 	{
-		LeftButtonState = NONE;
+		LeftButtonState = KEY_NONE;
 	}
 
 	TX_API bool Mouse::IsRightClickPressed()
@@ -81,5 +82,35 @@ namespace TrexEngine
 		int State = LeftButtonState;
 
 		return (State == MS_RELEASE) ? true : false;
+	}
+
+	TX_API int Mouse::GetKeyState(int pKey)
+	{
+		switch (pKey)
+		{
+		case TX_MOUSE_BUTTON_LEFT:
+			return LeftButtonState;
+		case TX_MOUSE_BUTTON_RIGHT:
+			return RightButtonState;
+		}
+		return -1;
+	}
+
+	TX_API void Mouse::SetCursorMode(GLFWwindow* pWindow, int Mode)
+	{
+		switch (Mode)
+		{
+		case TX_CURSOR_HIDE:
+			glfwSetInputMode(pWindow, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+			break;
+		case TX_CURSOR_SHOW:
+			glfwSetInputMode(pWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			break;
+		}
+	}
+
+	TX_API void Mouse::SetCursorPosition(GLFWwindow* pWindow, int pX, int pY)
+	{
+
 	}
 };

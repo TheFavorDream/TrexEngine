@@ -11,14 +11,13 @@
 */
 
 #pragma once
+#include <unordered_map>
+#include <string>
 
 #include "../Core/Core.h"
 #include "../3rdparty/glfw/include/GLFW/glfw3.h"
 #include "../Debug/Log.h"
 #include "Keys.h"
-
-#include <unordered_map>
-#include <queue>
 
 namespace TrexEngine
 {
@@ -28,7 +27,7 @@ namespace TrexEngine
 	//A Structure for storing the State and Call Back functions
 	struct Key 
 	{
-		int State = NONE;
+		int State = KEY_NONE;
 		void (*OnPress)(void)   = NULL;
 		void (*OnRelease)(void) = NULL;
 		void (*OnHold)(void)    = NULL;

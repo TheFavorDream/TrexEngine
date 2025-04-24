@@ -1,3 +1,4 @@
+
 #include "Renderer.h"
 #include "Log.h"
 
@@ -24,6 +25,10 @@ namespace TrexEngine
 			Logger::CoreLogger->SetError("Unable to Init GLEW");
 			return 1;
 		}
+
+		glEnable(GL_BLEND);
+		glEnable(GL_DEPTH_TEST);
+
 		return 0;
 	}
 
@@ -32,7 +37,7 @@ namespace TrexEngine
 	{
 		VAO.Bind();
 		VBO.Bind();
-		GLCall(glDrawArrays(GL_TRIANGLES, 0, 3));
+		GLCall(glDrawArrays(GL_TRIANGLES, 0, VBO.GetNumberOfVertecies()));
 	}
 
 

@@ -1,6 +1,7 @@
 #pragma once
-#include "../Core/Core.h"
+
 #include <chrono>
+#include "../Core/Core.h"
 
 namespace TrexEngine
 {

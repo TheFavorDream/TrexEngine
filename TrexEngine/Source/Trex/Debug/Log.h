@@ -1,15 +1,12 @@
 #pragma once
 
-
-#include "../Core/Core.h"
-#include "../Core/Timer.h"
-
+#include <iostream>
+#include <vector>
+#include <string>
 #include <fstream>
 #include <queue>
-#include <chrono>
-#include <string>
-#include <iostream>
-
+#include "../Core/Core.h"
+#include "../Core/Timer.h"
 
 #define ASSERT(x) if (!(x)) __debugbreak()
 #define GLCall(x) Logger::CoreLogger->GL_ClearErrors();\
@@ -35,7 +32,7 @@ namespace TrexEngine
 	public: //DLL Exports:
 
 		//Constructor 
-		TX_API Logger(std::string p_Profile);
+		TX_API Logger(std::string p_Profile, bool UseLogFile = false);
 
 		//Should gets Called by Layer Distructor or by defualt gets called by Logger::~Logger()
 		TX_API void Shutdown();
@@ -82,10 +79,11 @@ namespace TrexEngine
 
 		std::queue<LogEvent> m_Logs;
 
+		bool m_UseLogFile = false;
+
 	public:
 		//A refrence to Engine Logger object
 		static Logger*  CoreLogger;
-
 		//Stores refrences to created log objects
 		static std::vector<Logger*> s_Loggers;
 	};

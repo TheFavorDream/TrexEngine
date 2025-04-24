@@ -1,3 +1,4 @@
+
 #include "Application.h"
 #include "Log.h"
 
@@ -33,7 +34,7 @@ namespace TrexEngine
 		while (m_IsRunning)
 		{
 			GLCall(glClearColor(WindowManager->GetBackground().x, WindowManager->GetBackground().y, WindowManager->GetBackground().z, WindowManager->GetBackground().a));
-			GLCall(glClear(GL_COLOR_BUFFER_BIT));
+			GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
 
 			for (int i = Layers.GetLayersNumber()-1; i >= 0; --i)
 			{

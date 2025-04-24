@@ -1,11 +1,11 @@
 #pragma once
+#include <unordered_map>
+
 #include "../Core/Core.h"
 #include "../3rdparty/GL/glew.h"
 #include "../Debug/Log.h"
-#include <string>
-#include <fstream>
-#include <iostream>
-#include <unordered_map>
+
+#include "../../3rdparty/glm/gtc/type_ptr.hpp"
 
 
 namespace TrexEngine
@@ -38,7 +38,7 @@ namespace TrexEngine
 		TX_API int SetUniformF2(const char* p_UniformName, float p_Value1, float p_Value2)   const;
 		TX_API int SetUniformF3(const char* p_UniformName, float p_Value1, float p_Value2, float p_Value3)   const;
 		TX_API int SetUniformF4(const char* p_UniformName, float p_Value1, float p_Value2, float p_Value3, float p_Value4)   const;
-
+		TX_API int SetUniformMat4(const char* p_UniformName, glm::mat4& p_Value) const;
 		TX_API int SetUniformI1(const char* p_UniformName, int p_Value)   const;
 
 		TX_API const std::string& GetShaderSource(const char* Type);

@@ -1,7 +1,7 @@
 #include ".\Include\ExampleLayer.h"
 
 ExampleLayer::ExampleLayer()
-	: Layer("ExampleLayer"), Log("ExampleLayer")
+	: Layer("ExampleLayer"), Log("ExampleLayer"), TrexCamera({ 0.0f, 0.0f, 5.0f }, 45)
 {
 
 }
@@ -15,15 +15,15 @@ void ExampleLayer::OnAttach(TrexEngine::Window* p_Window, TrexEngine::ShaderMana
 	m_ShadersMG = p_ShadersMG;
 
 
-	VBO.UploadData(GL_FLOAT, 7, 4, GL_STATIC_DRAW, (void*)Vertex);
+	VBO.UploadData(GL_FLOAT, 5, 36, GL_STATIC_DRAW, (void*)Vertex);
 	VBO.Bind();
 
-	VBL.push<float>(2);
 	VBL.push<float>(3);
 	VBL.push<float>(2);
 
+	//EBO.BufferData(Indicies, 6);
+
 	VAO.AddLayouts(VBO, VBL);
-	EBO.BufferData(Indicies, 6);
 
 	m_Textures->AddTexture("Wall", new Texture2D("G:\\Dev\\TrexEngine\\SandBox\\Resources\\wall.jpg"));
 
@@ -35,21 +35,26 @@ void ExampleLayer::OnAttach(TrexEngine::Window* p_Window, TrexEngine::ShaderMana
 void ExampleLayer::OnEvent()
 {
 	
-		
-}
-
-
-void ExampleLayer::OnRender()
-{
-
-	m_Textures->BindTexture("Wall");
-	TrexEngine::Renderer::GetInstance()->DrawElements(VBO, EBO, VAO);
+	CameraKeyControll();
+	CameraMouseControll();
 }
 
 void ExampleLayer::OnUpdate()
 {
+	model = glm::mat4(1.0f);
+	model = glm::rotate(model, glm::radians(float(Timer::GetCurrentElapsed()/10.0)), glm::vec3(0.0f, 1.0f, 1.0f));
+
+	m_ShadersMG->GetCurrentShader()->SetUniformMat4("Model", (model));
 
 }
+
+void ExampleLayer::OnRender()
+{
+	TrexCamera.Matrix(0.1f, 100.f, m_Window->GetW(), m_Window->GetH(), m_ShadersMG->GetCurrentShader());
+	m_Textures->BindTexture("Wall");
+	TrexEngine::Renderer::GetInstance()->DrawArrays(VBO, VAO);
+}
+
 
 
 void ExampleLayer::OnDettach()
@@ -69,6 +74,45 @@ void ExampleLayer::DisableLayer()
 {
 	Enable = false;
 	Log.SetWarning(LayerName + " got disabled");
+
+}
+
+void ExampleLayer::CameraKeyControll()
+{
+	float Speed = 0.05f;
+	if (m_Events->keyboard.GetKeyCurrentState(TX_KEY_W) == KEY_PRESS)
+	{
+		TrexCamera.GetCameraPosition() += Speed * TrexCamera.GetOriantation();
+	}
+
+	if (m_Events->keyboard.GetKeyCurrentState(TX_KEY_S) == KEY_PRESS)
+	{
+		TrexCamera.GetCameraPosition() -= Speed * TrexCamera.GetOriantation();
+	}
+
+	if (m_Events->keyboard.GetKeyCurrentState(TX_KEY_A) == KEY_PRESS)
+	{
+		TrexCamera.GetCameraPosition() += Speed * -glm::normalize(glm::cross(TrexCamera.GetOriantation(), TrexCamera.GetUP()));
+	}
+
+	if (m_Events->keyboard.GetKeyCurrentState(TX_KEY_D) == KEY_PRESS)
+	{
+		TrexCamera.GetCameraPosition() += Speed * glm::normalize(glm::cross(TrexCamera.GetOriantation(), TrexCamera.GetUP()));
+	}
+
+	if (m_Events->keyboard.GetKeyCurrentState(TX_KEY_SPACE) == KEY_PRESS)
+	{
+		TrexCamera.GetCameraPosition() += Speed * TrexCamera.GetUP();
+	}
+
+	if (m_Events->keyboard.GetKeyCurrentState(TX_KEY_LEFT_SHIFT) == KEY_PRESS)
+	{
+		TrexCamera.GetCameraPosition() += Speed * -TrexCamera.GetUP();
+	}
+}
+
+void ExampleLayer::CameraMouseControll()
+{
 
 }
 
