@@ -30,7 +30,6 @@ namespace TrexEngine
 		int State = KEY_NONE;
 		void (*OnPress)(void)   = NULL;
 		void (*OnRelease)(void) = NULL;
-		void (*OnHold)(void)    = NULL;
 	};
 
 	class Keyboard
@@ -51,7 +50,6 @@ namespace TrexEngine
 		TX_API static void PopTheLastChar();
 		TX_API static bool IsKeyPressed(int Key) ;
 		TX_API static bool IsKeyReleased(int Key) ;
-		TX_API static bool IsKeyHold(int Key) ;
 
 		//Resets the key state to none
 		TX_API static void ResetKey(int Key);
@@ -60,8 +58,6 @@ namespace TrexEngine
 		TX_API static void SetKeyPressCallBack(int Key, void(*CallBackFunction)(void));
 
 		TX_API static void SetKeyReleaseCallBack(int Key, void(*CallBackFunction)(void));
-
-		TX_API static void SetKeyHoldCallBack(int Key, void(*CallBackFunction)(void));
 
 		/*
 		If you want to get text from user call StartTextInput and pass a string address to it.
@@ -83,7 +79,7 @@ namespace TrexEngine
 		//Returns a pointer to key table
 		TX_API inline const std::unordered_map<int, Key>* Get_KeyTable() const { return &Key_Table; } 
 
-	public:
+	private:
 		TX_API static std::unordered_map<int, Key> Key_Table;
 		TX_API static std::string* Current_String;
 

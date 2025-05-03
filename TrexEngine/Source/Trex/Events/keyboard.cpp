@@ -33,21 +33,23 @@ namespace TrexEngine
 		case KEY_PRESS:
 			if (Key_Table[key].OnPress != NULL)
 				Key_Table[key].OnPress();
+			Key_Table[key].State = KEY_PRESS;
 			break;
 
 		case KEY_HOLD:
-			if (Key_Table[key].OnHold != NULL)
-				Key_Table[key].OnHold();
+			if (Key_Table[key].OnPress != NULL)
+				Key_Table[key].OnPress();
+			Key_Table[key].State = KEY_PRESS;
+
 			break;
 
 		case KEY_RELEASE:
 			if (Key_Table[key].OnRelease != NULL)
 				Key_Table[key].OnRelease();
-
+			Key_Table[key].State = KEY_RELEASE;
 			break;
 		}
-		
-		Key_Table[key].State = action;
+
 	}
 
 	TX_API void Keyboard::CharacterCallBack(GLFWwindow * p_window, unsigned int codepoint)
@@ -80,36 +82,15 @@ namespace TrexEngine
 
 	TX_API bool Keyboard::IsKeyPressed(int Key)
 	{
-		if (GetKeyCurrentState(Key) == KEY_PRESS)
-		{
-			ResetKey(Key);
-			return true;
-		}
-
-		return false;
+		return (GetKeyCurrentState(Key) == KEY_PRESS);
 	}
 
 	TX_API bool Keyboard::IsKeyReleased(int Key) 
 	{
-		if (GetKeyCurrentState(Key) == KEY_RELEASE)
-		{
-			ResetKey(Key);
-			return true;
-		}
-
-		return false;
+		return (GetKeyCurrentState(Key) == KEY_RELEASE);
+		
 	}
 
-	TX_API bool Keyboard::IsKeyHold(int Key) 
-	{
-		if (GetKeyCurrentState(Key) == KEY_HOLD)
-		{
-			ResetKey(Key);
-			return true;
-		}
-
-		return false;
-	}
 
 	TX_API void Keyboard::ResetKey(int Key)
 	{
@@ -126,10 +107,7 @@ namespace TrexEngine
 		Key_Table[Key].OnRelease = CallBackFunction;
 	}
 
-	TX_API void Keyboard::SetKeyHoldCallBack(int Key, void(*CallBackFunction)(void))
-	{
-		Key_Table[Key].OnHold = CallBackFunction;
-	}
+
 
 	TX_API void Keyboard::StartTextInput(std::string& p_Text)
 	{
@@ -140,7 +118,7 @@ namespace TrexEngine
 			IsReadingText = true;
 
 			Key_Table[TX_KEY_BACKSPACE].OnPress = PopTheLastChar;
-			Key_Table[TX_KEY_BACKSPACE].OnHold = PopTheLastChar;
+
 		}
 
 		else		

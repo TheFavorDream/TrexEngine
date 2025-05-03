@@ -18,14 +18,22 @@ public:
 		m_ExampleLayer(new ExampleLayer()),
 		m_ImGuiExample(new ImGuiExample())
 	{
+#ifdef RELEASE
+		ApplicationLogger.SetLogLevel(TX_L0);
+#endif
 		ApplicationLogger.SetInfo("SandBox Constructor Called");
 
 		WindowManager->SetWindowBackground(0.0f, 0.0f, 0.0f);
 
+		std::string Path = "../../../Sandbox/Shaders/";
+		if (IsDebuggerPresent())
+		{
+			Path = "./Shaders/";
+		}
 
-		ShadersManager->AddShader("Main", new TrexEngine::Shader("G:\\Dev\\TrexEngine\\SandBox\\Shaders\\Def.glsl"));
-		ShadersManager->AddShader("Test1", new TrexEngine::Shader("G:\\Dev\\TrexEngine\\SandBox\\Shaders\\Def2.glsl"));
-		ShadersManager->AddShader("Test2", new TrexEngine::Shader("G:\\Dev\\TrexEngine\\SandBox\\Shaders\\Def3.glsl"));
+		ShadersManager->AddShader("Main", new TrexEngine::Shader(Path+"Def.glsl"));
+		ShadersManager->AddShader("Test1", new TrexEngine::Shader(Path+"Def2.glsl"));
+		ShadersManager->AddShader("Test2", new TrexEngine::Shader(Path+"Def3.glsl"));
 
 		ShadersManager->BindShader("Main");
 

@@ -33,3 +33,4 @@
 #include "./Trex/3rdparty/glm/gtc/type_ptr.hpp"
 #include "./Trex/3rdparty/glm/gtx/rotate_vector.hpp"
 #include "./Trex/3rdparty/glm/gtx/vector_angle.hpp"
+#include "./Trex/3rdparty/glm/glm.hpp"

@@ -7,15 +7,21 @@ namespace TrexEngine
 
 
 	Engine::Engine(const char* p_Title, int p_Width, int p_Height):
-		m_Log("Core"),  WindowManager(new Window), ShadersManager(new ShaderManager), TexturesManager(new TextureManager)
+		m_Log("Core")
 	{
+
+#ifdef TX_RELEASE
+		Logger::CoreLogger->SetLogLevel(TX_L0);
+#endif
+		WindowManager = new Window;
+		ShadersManager = new ShaderManager;
+		TexturesManager = new TextureManager;
 
 		WindowManager->CreateNewWindow(p_Title, p_Width, p_Height);
 		Renderer::GetInstance()->Init();
 
 		events.keyboard.SetKeyCallBack(WindowManager->GetWindow());
 		events.mouse.SetMouseCallBacks(WindowManager->GetWindow());
-	
 		m_IsRunning = true;
 	}
 

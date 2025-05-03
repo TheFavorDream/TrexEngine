@@ -12,8 +12,8 @@ namespace TrexEngine
 
 	std::vector<Logger*> Logger::s_Loggers;
 
-	Logger::Logger(std::string p_Profile, bool UseLogFile)
-		: m_Profile(p_Profile), m_UseLogFile(UseLogFile)
+	Logger::Logger(std::string p_Profile, bool pUseLogFile, int pLogLevel)
+		: m_LogLevel(pLogLevel), m_Profile(p_Profile), m_UseLogFile(pUseLogFile)
 	{
 
 		
@@ -60,24 +60,35 @@ namespace TrexEngine
 		}
 	}
 
+	TX_API void Logger::ResetLogs()
+	{
+		m_Logs.clear();
+	}
+
 
 	void Logger::SetError(std::string p_ErrorMessage)
 	{
-		LogMessage(TX_ERROR, p_ErrorMessage.c_str());
+		if (m_LogLevel < TX_L1)
+			return;
+		LogMessage(TX_ERROR, p_ErrorMessage);
 	}
 
 
 
 	void Logger::SetWarning(std::string p_WarningMessage)
 	{
-		LogMessage(TX_WARNING, p_WarningMessage.c_str());
+		if (m_LogLevel < TX_L2)
+			return;
+		LogMessage(TX_WARNING, p_WarningMessage);
 	}
 
 
 
 	void Logger::SetInfo(std::string p_InfoMessage)
 	{
-		LogMessage(TX_INFO, p_InfoMessage.c_str());
+		if (m_LogLevel < TX_L3)
+			return;
+		LogMessage(TX_INFO, p_InfoMessage);
 	}
 
 	TX_API void Logger::GL_ClearErrors()
@@ -95,16 +106,22 @@ namespace TrexEngine
 		return true;
 	}
 
+	void Logger::SetLogLevel(uint16 pLevel)
+	{
+		if (pLevel >= TX_L0 && pLevel <= TX_L3)
+			m_LogLevel = pLevel;
+	}
 
-	void Logger::LogMessage(MessageType p_Type, const char * p_Message)
+
+	void Logger::LogMessage(MessageType p_Type, const std::string& p_Message)
 	{
 
 		//push an log event
-		m_Logs.push({p_Type, p_Message, std::chrono::high_resolution_clock::now()});
+		m_Logs.push_back({p_Type, p_Message, Timer::GetCurrentElapsedUint()/1000.0, 0});
 
 		//print
 		std::cout << '[' << m_Profile << "][" <<
-			Timer::GetElapsedTime(std::chrono::high_resolution_clock::now())<< "ms]" <<
+			Timer::GetCurrentElapsedUint() / 1000 << "s]" <<
 			ToString(p_Type)  << p_Message << '\n';
 	}
 
@@ -117,9 +134,9 @@ namespace TrexEngine
 			LogFile << '[' << m_Profile <<
 				"][" << Timer::GetElapsedTime(std::chrono::high_resolution_clock::now())
 				<< "ms]" << ToString(Current.m_Type) <<
-				Current.m_Message << "\n";
+				Current.m_Description << "\n";
 
-			m_Logs.pop();
+			m_Logs.pop_back();
 		}
 	}
 

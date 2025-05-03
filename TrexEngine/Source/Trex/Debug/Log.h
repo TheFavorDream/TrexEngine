@@ -8,9 +8,16 @@
 #include "../Core/Core.h"
 #include "../Core/Timer.h"
 
+
+//Logging levels
+#define TX_L0 0 //Logging Disabled
+#define TX_L1 1	//Only Errors
+#define TX_L2 2 //Errors and Warnings
+#define TX_L3 3 //Errors, Warnings and Information
+
 #define ASSERT(x) if (!(x)) __debugbreak()
 #define GLCall(x) Logger::CoreLogger->GL_ClearErrors();\
-													  x;ASSERT(Logger::CoreLogger->GL_GetLog(#x, __FILE__, __LINE__));
+													  x;Logger::CoreLogger->GL_GetLog(#x, __FILE__, __LINE__);
 													
 
 namespace TrexEngine
@@ -22,8 +29,9 @@ namespace TrexEngine
 	struct LogEvent
 	{
 		MessageType m_Type;
-		std::string m_Message;
-		std::chrono::time_point<std::chrono::high_resolution_clock> clock;
+		std::string m_Description;
+		float64 m_Time;
+		double m_ErrorCode;
 	};
 
 	//Log System Class
@@ -32,13 +40,14 @@ namespace TrexEngine
 	public: //DLL Exports:
 
 		//Constructor 
-		TX_API Logger(std::string p_Profile, bool UseLogFile = false);
+		TX_API Logger(std::string p_Profile, bool pUseLogFile = false, int pLogLevel=TX_L3);
 
 		//Should gets Called by Layer Distructor or by defualt gets called by Logger::~Logger()
 		TX_API void Shutdown();
 
 		TX_API ~Logger();
 
+		TX_API void ResetLogs();
 
 		//Set and Print an Error Message on Console
 		TX_API void SetError(std::string p_ErrorMessage);
@@ -57,6 +66,10 @@ namespace TrexEngine
 		TX_API bool GL_GetLog(const char* function, const char* file, int line);
 
 
+		TX_API void SetLogLevel(uint16 pLevel);
+
+		TX_API inline std::string& GetProfileName() { return m_Profile; }
+		TX_API inline std::vector<LogEvent>& GetLogs() { return m_Logs; }
 	public: // Engine Scope Functions:
 
 		//Writes the LogEvent queue to file
@@ -68,24 +81,25 @@ namespace TrexEngine
 		const char* ToString(MessageType p_Type);
 
 		//pushes the Event on Log queue and prints it on Console.
-		void LogMessage(MessageType p_Type, const char* p_Message);
+		void LogMessage(MessageType p_Type, const std::string& p_Message);
 
 
 	private:
+
+		int m_LogLevel;
 
 		std::string m_Profile;
 		std::string LogFilePath;
 		std::fstream LogFile;
 
-		std::queue<LogEvent> m_Logs;
-
+		std::vector<LogEvent> m_Logs;
 		bool m_UseLogFile = false;
 
 	public:
 		//A refrence to Engine Logger object
 		static Logger*  CoreLogger;
 		//Stores refrences to created log objects
-		static std::vector<Logger*> s_Loggers;
+		TX_API static std::vector<Logger*> s_Loggers;
 	};
 
 

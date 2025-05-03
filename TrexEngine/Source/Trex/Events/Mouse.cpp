@@ -59,15 +59,11 @@ namespace TrexEngine
 
 	TX_API bool Mouse::IsRightClickPressed()
 	{
-		int State = RightButtonState;
-		ResetRightButton();
-		return (State == MS_PRESS) ? true : false;
+		return (RightButtonState == MS_PRESS);
 	}
 	TX_API bool Mouse::IsLeftClickPressed()
 	{
-		int State = LeftButtonState;
-		ResetLeftButton();
-		return (State == MS_PRESS) ? true : false;
+		return (LeftButtonState == MS_PRESS);
 	}
 
 
@@ -96,6 +92,24 @@ namespace TrexEngine
 		return -1;
 	}
 
+	TX_API void Mouse::GetCursorPosition(GLFWwindow * window, double * Mx, double * My)
+	{
+		glfwGetCursorPos(window, Mx, My);
+	}
+
+	TX_API void Mouse::DisableCursor(GLFWwindow* pwindow, bool Enable)
+	{
+		switch (Enable)
+		{
+		case true:
+			glfwSetInputMode(pwindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			break;
+		case false:
+			glfwSetInputMode(pwindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			break;
+		}
+	}
+
 	TX_API void Mouse::SetCursorMode(GLFWwindow* pWindow, int Mode)
 	{
 		switch (Mode)
@@ -111,6 +125,6 @@ namespace TrexEngine
 
 	TX_API void Mouse::SetCursorPosition(GLFWwindow* pWindow, int pX, int pY)
 	{
-
+		glfwSetCursorPos(pWindow, pX, pY);
 	}
 };

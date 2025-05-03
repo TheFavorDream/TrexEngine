@@ -9,7 +9,7 @@ layout(location = 2) in vec2 m_TexCoords;
 out vec4 Our_Color;
 out vec2 out_TexCoords;
 
-uniform float u_R = 1.0f;
+uniform float u_ = 1.0f;
 uniform float u_G = 1.0f;
 uniform float u_B = 1.0f;
 

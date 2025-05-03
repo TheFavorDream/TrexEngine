@@ -34,21 +34,33 @@ namespace TrexEngine
 		TX_API  Camera(Vec3 pPosition, float pFieldOfView);
 		TX_API ~Camera();
 
-		TX_API void Matrix(float pNearPlane, float pFarPlane, uint32 pWidth, uint32 pHeight, const Shader* pCurrentShader);
+		TX_API void Matrix(float pNearPlane, float pFarPlane, uint32 pWidth, uint32 pHeight, const Shader* pCurrentShader, glm::vec3 Translation);
+
+
+		TX_API void MoveUp();
+		TX_API void MoveDown();
+		TX_API void MoveLeft();
+		TX_API void MoveRight();
+		TX_API void MoveFront();
+		TX_API void MoveBack();
+
+
 
 		TX_API void SetCameraPosition(Vec3 pPosition);
 		TX_API inline glm::vec3& GetCameraPosition() { return m_CameraPosition; }
-		TX_API inline glm::vec3 GetOriantation() { return m_CameraOriantation; }
-		TX_API inline glm::vec3 GetUP() { return m_Up; }
+		TX_API inline glm::vec3& GetOriantation() { return m_CameraOriantation; }
+		TX_API inline glm::vec3& GetUP() { return m_Up; }
+
 
 
 	private:
 		glm::vec3 m_CameraPosition;
 		glm::vec3 m_CameraOriantation = glm::vec3(0.0f, 0.0f, -1.0f);
 		glm::vec3 m_Up = glm::vec3(0.0f, 1.0f, 0.0f);
-	
 		glm::mat4 m_ProjectionMatrix = glm::mat4(1.0f);
 
+		float m_Sensetivity = 200.0f;
+		float m_Speed = 0.02f;
 		float m_FOV;
 		
 	};

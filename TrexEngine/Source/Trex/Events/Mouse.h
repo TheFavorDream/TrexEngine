@@ -45,8 +45,10 @@ namespace TrexEngine
 
 		TX_API static int GetKeyState(int pKey);
 
-		TX_API static void SetCursorMode(GLFWwindow* pWindow, int Mode);
+		TX_API static void GetCursorPosition(GLFWwindow* window, double* Mx, double* My);
 
+		TX_API static void DisableCursor(GLFWwindow* pwindow, bool Enable);
+		TX_API static void SetCursorMode(GLFWwindow* pWindow, int Mode);
 		TX_API static void SetCursorPosition(GLFWwindow* pWindow, int pX, int pY);
 
 	private:

@@ -285,7 +285,6 @@ namespace TrexEngine
 		int Location = GetUniformLocation(p_UniformName);
 		if (Location == -1)
 		{
-			Logger::CoreLogger->SetError("Cannot Find the Location of the " + std::string(p_UniformName) + " uniform");
 			return 1;
 		}
 		GLCall(glUniform1f(Location, p_Value));
@@ -297,7 +296,6 @@ namespace TrexEngine
 		int Location = GetUniformLocation(p_UniformName);
 		if (Location == -1)
 		{
-			Logger::CoreLogger->SetError("Cannot Find the Location of the " + std::string(p_UniformName) + " uniform");
 			return 1;
 		}
 		GLCall(glUniform2f(Location, p_Value1, p_Value2));
@@ -309,7 +307,6 @@ namespace TrexEngine
 		int Location = GetUniformLocation(p_UniformName);
 		if (Location == -1)
 		{
-			Logger::CoreLogger->SetError("Cannot Find the Location of the " + std::string(p_UniformName) + " uniform");
 			return 1;
 		}
 		GLCall(glUniform3f(Location, p_Value1, p_Value2, p_Value3));
@@ -321,7 +318,6 @@ namespace TrexEngine
 		int Location = GetUniformLocation(p_UniformName);
 		if (Location == -1)
 		{
-			Logger::CoreLogger->SetError("Cannot Find the Location of the " + std::string(p_UniformName) + " uniform");
 			return 1;
 		}
 		GLCall(glUniform4f(Location, p_Value1, p_Value2, p_Value3, p_Value4));
@@ -333,7 +329,6 @@ namespace TrexEngine
 		int Location = GetUniformLocation(p_UniformName);
 		if (Location == -1)
 		{
-			Logger::CoreLogger->SetError("Cannot Find the Location of the " + std::string(p_UniformName) + " uniform");
 			return 1;
 		}
 		GLCall(glUniformMatrix4fv(Location, 1, GL_FALSE, glm::value_ptr(p_Value)));
@@ -344,7 +339,6 @@ namespace TrexEngine
 		int Location = GetUniformLocation(p_UniformName);
 		if (Location == -1)
 		{
-			Logger::CoreLogger->SetError("Cannot Find the Location of the " + std::string(p_UniformName) + " uniform");
 			return 1;
 		}
 		GLCall(glUniform1i(Location, p_Value));

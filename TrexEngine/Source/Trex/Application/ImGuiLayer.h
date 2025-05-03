@@ -34,6 +34,10 @@ namespace TrexEngine
 		TX_API void StartNewFrame();
 		TX_API void EndNewFrame();
 
+
+		TX_API void ImGuiBeginGroupBox();
+		TX_API void ImGuiEndGroupBox();
+
 		TX_API bool ImGuiBegin(std::string p_Name);
 		TX_API void ImGuiEnd();
 
@@ -47,6 +51,7 @@ namespace TrexEngine
 
 
 		TX_API void ImGuiSameLine();
+		TX_API void ImGuiNextLine();
 
 		TX_API void ImGuiText(std::string p_Text);
 		TX_API bool ImGuiSliderFloat(std::string p_Label, float* p_Float, float p_Start, float p_End);

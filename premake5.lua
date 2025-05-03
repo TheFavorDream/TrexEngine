@@ -46,7 +46,7 @@ workspace "TrexEngine"
 		filter ("system:windows")
 			defines {"PLATFORM_WINDOWS", "TX_BUILD_DLL", "GLEW_STATIC", "WINDLL"}
 			staticruntime "On"
-			cppdialect "C++17"
+			cppdialect "C++20"
 			systemversion "10.0.17763.0"
 		
 			
@@ -133,7 +133,7 @@ workspace "TrexEngine"
 			filter ("system:windows")
 				systemversion "10.0.17763.0"
 				staticruntime "On"
-				cppdialect "C++17"
+				cppdialect "C++20"
 	
 			filter("configurations:Debug")
 				symbols "On"
@@ -165,7 +165,7 @@ workspace "TrexEngine"
 			filter ("system:windows")
 				systemversion "10.0.17763.0"
 				staticruntime "On"
-				cppdialect "C++17"
+				cppdialect "C++20"
 	
 			filter("configurations:Debug")
 				symbols "On"
@@ -207,7 +207,7 @@ workspace "TrexEngine"
 		}
 			
 		filter ("system:windows")
-		cppdialect "C++17"
+		cppdialect "C++20"
 		staticruntime "On"
 		systemversion "10.0.17763.0"
 		defines {"PLATFORM_WINDOWS"}

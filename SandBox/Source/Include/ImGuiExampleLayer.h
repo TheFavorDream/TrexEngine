@@ -19,6 +19,7 @@ public:
 	void ResourceControlWidget();
 	void RenderWindowControlWidget();
 	void RenderShaderControlWidget();
+	void RenderLogControlWidget();
 
 	void OnAttach(TrexEngine::Window* p_Window, TrexEngine::ShaderManager* p_ShadersMG, TrexEngine::Input* p_Events, TrexEngine::TextureManager* p_Textures) override;
 	void OnEvent()      override;
@@ -45,6 +46,7 @@ private:
 	bool RenderResourceWidget = false;
 	bool RenderWindowWidget = false;
 	bool RenderShaderWedget = false;
+	bool RenderLogControl = false;
 
 	bool Dark_Style = true;
 	bool Prev_Dark_Style = Dark_Style;

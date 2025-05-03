@@ -100,6 +100,16 @@ namespace TrexEngine
 		}
 	}
 
+	TX_API void ImGuiLayer::ImGuiBeginGroupBox()
+	{
+		ImGui::BeginGroup();
+	}
+
+	TX_API void ImGuiLayer::ImGuiEndGroupBox()
+	{
+		ImGui::EndGroup();
+	}
+
 	TX_API bool ImGuiLayer::ImGuiBegin(std::string p_Name)
 	{
 		return ImGui::Begin(p_Name.c_str());
@@ -138,6 +148,11 @@ namespace TrexEngine
 	TX_API void ImGuiLayer::ImGuiSameLine()
 	{
 		ImGui::SameLine();
+	}
+
+	TX_API void ImGuiLayer::ImGuiNextLine()
+	{
+		ImGui::NewLine();
 	}
 
 	TX_API bool ImGuiLayer::ImGuiSliderFloat(std::string p_Label, float * p_Float, float p_Start, float p_End)
