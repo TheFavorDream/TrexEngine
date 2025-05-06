@@ -23,7 +23,7 @@ public:
 #endif
 		ApplicationLogger.SetInfo("SandBox Constructor Called");
 
-		WindowManager->SetWindowBackground(0.0f, 0.0f, 0.0f);
+		WindowManager->SetWindowBackground(0.4f, 0.3f, 0.5f);
 
 		std::string Path = "../../../Sandbox/Shaders/";
 		if (IsDebuggerPresent())
@@ -39,6 +39,8 @@ public:
 
 		PushLayer(m_ExampleLayer);
 		PushOverLayer(m_ImGuiExample);
+
+		LockFPS(false, 5);
 
 	}
 

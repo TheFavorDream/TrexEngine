@@ -1,6 +1,6 @@
 #pragma once
 #include "../3rdparty/GL/glew.h"
-
+#include <thread>
 #include "../Debug/Log.h"
 #include "../Core/Core.h"
 #include "../Core/TextureManager.h"
@@ -52,9 +52,14 @@ namespace TrexEngine
 			Layers.PopOverLayer();
 		}
 
+		TX_API void LockFPS(bool Lock, int FPS=60);
+
+		inline int GetFPS() { return m_LockedFPS; }
 	private:
 		Logger   m_Log;
 		bool m_IsRunning = false;
+		bool m_IsFPSLocked = false;
+		int m_LockedFPS = 60; //Should not be zero
 	protected:
 
 		Window*         WindowManager   = NULL;

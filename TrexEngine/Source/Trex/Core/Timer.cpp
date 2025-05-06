@@ -5,6 +5,8 @@ namespace TrexEngine
 {
 
 	std::chrono::time_point<std::chrono::high_resolution_clock> Timer::s_Start;
+	float Timer::m_DeltaTime = 0.0f;
+	double Timer::m_LastTime = 0.0;
 
 	Timer::Timer()
 	{
@@ -25,6 +27,20 @@ namespace TrexEngine
 	{
 		return (uint64) std::chrono::duration_cast<std::chrono::milliseconds> (std::chrono::high_resolution_clock::now() - s_Start).count();
 
+	}
+
+
+
+	TX_API void Timer::DeltaTime(double Time)
+	{
+		double Current = Time;
+		m_DeltaTime = float(Current - m_LastTime);
+		m_LastTime = Current;
+	}
+
+	TX_API float Timer::GetDeltaTime()
+	{
+		return m_DeltaTime*1000.0f;
 	}
 
 };

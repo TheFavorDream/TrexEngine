@@ -105,7 +105,7 @@ void ImGuiExample::RenderWindowControlWidget()
 
 	m_Window->SetWindowBackground(WBG_R / 255.0f, WBG_G / 255.0f, WBG_B / 255.0f, 1.0f);
 
-
+	ImGuiText("DeltaTime (ms):" + std::to_string(TrexEngine::Timer::GetDeltaTime()));
 
 	ImGuiEnd();
 }
@@ -270,6 +270,11 @@ void ImGuiExample::OnAttach(TrexEngine::Window * p_Window, TrexEngine::ShaderMan
 	}
 	//Init the ImGui
 	InitImGui();
+
+	TrexEngine::vec4 Color = p_Window->GetBackground();
+	WBG_R = Color.x * 255.0f;
+	WBG_G = Color.y * 255.0f;
+	WBG_B = Color.z * 255.0f;
 }
 
 void ImGuiExample::OnEvent()

@@ -29,27 +29,27 @@ namespace TrexEngine
 	}
 	TX_API void Camera::MoveUp()
 	{
-		m_CameraPosition += m_Speed * m_Up;
+		m_CameraPosition += m_Speed * Timer::GetDeltaTime() * m_Up;
 	}
 	TX_API void Camera::MoveDown()
 	{
-		m_CameraPosition += m_Speed * -m_Up;
+		m_CameraPosition += m_Speed * Timer::GetDeltaTime() * -m_Up;
 	}
 	TX_API void Camera::MoveLeft()
 	{
-		m_CameraPosition += m_Speed * -glm::normalize(glm::cross(m_CameraOriantation, m_Up));
+		m_CameraPosition += m_Speed * Timer::GetDeltaTime() * -glm::normalize(glm::cross(m_CameraOriantation, m_Up));
 	}
 	TX_API void Camera::MoveRight()
 	{
-		m_CameraPosition += m_Speed * glm::normalize(glm::cross(m_CameraOriantation, m_Up));
+		m_CameraPosition += m_Speed * Timer::GetDeltaTime() *glm::normalize(glm::cross(m_CameraOriantation, m_Up));
 	}
 	TX_API void Camera::MoveFront()
 	{
-		m_CameraPosition += m_Speed * m_CameraOriantation;
+		m_CameraPosition += (m_Speed * Timer::GetDeltaTime()) * m_CameraOriantation;
 	}
 	TX_API void Camera::MoveBack()
 	{
-		m_CameraPosition += m_Speed * -m_CameraOriantation;
+		m_CameraPosition += m_Speed * Timer::GetDeltaTime() * -m_CameraOriantation;
 	}
 
 	TX_API void Camera::SetCameraPosition(Vec3 pPosition)

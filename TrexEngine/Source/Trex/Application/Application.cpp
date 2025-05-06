@@ -39,6 +39,8 @@ namespace TrexEngine
 	{
 		while (m_IsRunning)
 		{
+
+
 			GLCall(glClearColor(WindowManager->GetBackground().x, WindowManager->GetBackground().y, WindowManager->GetBackground().z, WindowManager->GetBackground().a));
 			GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
 
@@ -63,7 +65,18 @@ namespace TrexEngine
 
 
 			m_IsRunning = !WindowManager->WindowShouldClose();
+
+			std::this_thread::sleep_for(m_IsFPSLocked*std::chrono::microseconds(1000 / m_LockedFPS));
+			Timer::DeltaTime(glfwGetTime());
 		}
+	}
+
+	void Engine::LockFPS(bool Lock, int FPS)
+	{
+		m_IsFPSLocked = Lock;
+
+		if (FPS != 0)
+			m_LockedFPS = FPS;
 	}
 
 };

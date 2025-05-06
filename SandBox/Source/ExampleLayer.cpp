@@ -58,7 +58,7 @@ void ExampleLayer::OnEvent()
 
 void ExampleLayer::OnUpdate()
 {
-	//model = glm::mat4(1.0f);
+
 	if (TrexEngine::Input::keyboard.IsKeyPressed(TX_KEY_LEFT))
 		model = glm::rotate(model, glm::radians(10.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	if (TrexEngine::Input::keyboard.IsKeyPressed(TX_KEY_UP))
