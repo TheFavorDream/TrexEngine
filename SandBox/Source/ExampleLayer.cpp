@@ -18,17 +18,23 @@ void ExampleLayer::OnAttach(TrexEngine::Window* p_Window, TrexEngine::ShaderMana
 	m_Textures = p_Textures;
 	m_ShadersMG = p_ShadersMG;
 
-
+	VAO.Bind();
+	VBO.Bind();
 	VBO.UploadData(GL_FLOAT, 5, 24, GL_STATIC_DRAW, (void*)Vertex);
 	VBO.Bind();
-
 	VBL.push<float>(3);
 	VBL.push<float>(2);
-
 	EBO.BufferData(Indicies, 36);
-
 	VAO.AddLayouts(VBO, VBL);
 
+
+
+	SkyVAO.Bind();
+	SkyVBO.Bind();
+	SkyVBO.UploadData(GL_FLOAT, 3, 36, GL_STATIC_DRAW, (void*)SkyBoxVertex);
+	SkyVBO.Bind();
+	SkyVBL.push<float>(3);
+	SkyVAO.AddLayouts(SkyVBO, SkyVBL);
 
 	std::string T = "../../../Sandbox/Resources/";
 	if (IsDebuggerPresent())
@@ -39,10 +45,14 @@ void ExampleLayer::OnAttach(TrexEngine::Window* p_Window, TrexEngine::ShaderMana
 
 	m_Textures->AddTexture("Wall", new Texture2D(T+"wall.jpg"));
 	m_Textures->AddTexture("Container", new Texture2D(T + "container.jpg"));
+	m_Textures->AddTexture("Skybox", new TextureCube((T + "skybox/"), {"right.jpg", "left.jpg", "top.jpg", "bottom.jpg", "front.jpg", "back.jpg"}));
+
 
 	m_ShadersMG->GetCurrentShader()->SetUniformI1("Tex", 0);
+	
 	m_Textures->GetTexture("Wall")->LoadTexture();
 	m_Textures->GetTexture("Container")->LoadTexture();
+	m_Textures->GetTexture("Skybox")->LoadTexture();
 
 	model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
 
@@ -58,7 +68,7 @@ void ExampleLayer::OnEvent()
 
 void ExampleLayer::OnUpdate()
 {
-
+	m_ShadersMG->BindShader("Main");
 	if (TrexEngine::Input::keyboard.IsKeyPressed(TX_KEY_LEFT))
 		model = glm::rotate(model, glm::radians(10.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	if (TrexEngine::Input::keyboard.IsKeyPressed(TX_KEY_UP))
@@ -66,13 +76,21 @@ void ExampleLayer::OnUpdate()
 	if (TrexEngine::Input::keyboard.IsKeyPressed(TX_KEY_RIGHT))
 		model = glm::rotate(model, glm::radians(10.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 
-
 	m_ShadersMG->GetCurrentShader()->SetUniformMat4("Model", (model));
+
+	m_ShadersMG->BindShader("Skybox");
+	glm::mat4 View = glm::mat4(glm::mat3(TrexCamera.GetView()));
+	m_ShadersMG->GetCurrentShader()->SetUniformMat4("View_Projection", (TrexCamera.GetProjection()*View));
+	m_ShadersMG->GetCurrentShader()->SetUniformI1("skybox", 0);
+
 
 }
 
 void ExampleLayer::OnRender()
 {
+	VBO.Bind();
+	VAO.Bind();
+	m_ShadersMG->BindShader("Main");
 	for (int i = 0; i < 20; i++)
 	{
 		TrexCamera.Matrix(0.1f, 100.f, m_Window->GetW(), m_Window->GetH(), m_ShadersMG->GetCurrentShader(), Coords[i]);
@@ -84,6 +102,17 @@ void ExampleLayer::OnRender()
 		TrexEngine::Renderer::GetInstance()->DrawElements(VBO, EBO, VAO);
 	}
 	
+	//SkyBox;
+
+	SkyVBO.Bind();
+	SkyVAO.Bind();
+	m_ShadersMG->BindShader("Skybox");
+	m_Textures->BindTexture("Skybox");
+
+	TrexEngine::Renderer::GetInstance()->SetDepthSetting(GL_LEQUAL); 
+	TrexEngine::Renderer::GetInstance()->DrawArrays(SkyVBO, SkyVAO);
+	TrexEngine::Renderer::GetInstance()->SetDepthSetting(GL_LESS);
+
 }
 
 

@@ -32,6 +32,11 @@ private:
 	TrexEngine::VertexBufferLayout VBL;
 	TrexEngine::VertexBuffer       VBO;
 	TrexEngine::IndexBuffer        EBO;
+
+	TrexEngine::VertexBufferLayout  SkyVBL;
+	TrexEngine::VertexBuffer		SkyVBO;
+	TrexEngine::VertexArray			SkyVAO;
+
 	TrexEngine::Camera             TrexCamera;
 
 	glm::mat4 model = glm::mat4(1.0f);
@@ -72,6 +77,52 @@ private:
 	-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
 	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
 
+	};
+
+
+	float SkyBoxVertex[108] =
+	{
+	-1.0f,  1.0f, -1.0f,
+	-1.0f, -1.0f, -1.0f,
+	 1.0f, -1.0f, -1.0f,
+	 1.0f, -1.0f, -1.0f,
+	 1.0f,  1.0f, -1.0f,
+	-1.0f,  1.0f, -1.0f,
+
+	-1.0f, -1.0f,  1.0f,
+	-1.0f, -1.0f, -1.0f,
+	-1.0f,  1.0f, -1.0f,
+	-1.0f,  1.0f, -1.0f,
+	-1.0f,  1.0f,  1.0f,
+	-1.0f, -1.0f,  1.0f,
+
+	 1.0f, -1.0f, -1.0f,
+	 1.0f, -1.0f,  1.0f,
+	 1.0f,  1.0f,  1.0f,
+	 1.0f,  1.0f,  1.0f,
+	 1.0f,  1.0f, -1.0f,
+	 1.0f, -1.0f, -1.0f,
+
+	-1.0f, -1.0f,  1.0f,
+	-1.0f,  1.0f,  1.0f,
+	 1.0f,  1.0f,  1.0f,
+	 1.0f,  1.0f,  1.0f,
+	 1.0f, -1.0f,  1.0f,
+	-1.0f, -1.0f,  1.0f,
+
+	-1.0f,  1.0f, -1.0f,
+	 1.0f,  1.0f, -1.0f,
+	 1.0f,  1.0f,  1.0f,
+	 1.0f,  1.0f,  1.0f,
+	-1.0f,  1.0f,  1.0f,
+	-1.0f,  1.0f, -1.0f,
+
+	-1.0f, -1.0f, -1.0f,
+	-1.0f, -1.0f,  1.0f,
+	 1.0f, -1.0f, -1.0f,
+	 1.0f, -1.0f, -1.0f,
+	-1.0f, -1.0f,  1.0f,
+	 1.0f, -1.0f,  1.0f
 	};
 
 	glm::vec3 Coords[20] = 

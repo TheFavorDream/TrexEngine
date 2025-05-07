@@ -32,7 +32,7 @@ public:
 		}
 
 		ShadersManager->AddShader("Main", new TrexEngine::Shader(Path+"Def.glsl"));
-		ShadersManager->AddShader("Test1", new TrexEngine::Shader(Path+"Def2.glsl"));
+		ShadersManager->AddShader("Skybox", new TrexEngine::Shader(Path+"Skybox.glsl"));
 		ShadersManager->AddShader("Test2", new TrexEngine::Shader(Path+"Def3.glsl"));
 
 		ShadersManager->BindShader("Main");
