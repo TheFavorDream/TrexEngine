@@ -50,13 +50,16 @@ namespace TrexEngine
 		TX_API inline glm::vec3& GetCameraPosition() { return m_CameraPosition; }
 		TX_API inline glm::vec3& GetOriantation() { return m_CameraOriantation; }
 		TX_API inline glm::vec3& GetUP() { return m_Up; }
-
+		TX_API inline glm::mat4& GetProjection() { return m_ProjectionMatrix; }
+		TX_API inline glm::mat4& GetView() { return ViewMat; }
 
 
 	private:
 		glm::vec3 m_CameraPosition;
 		glm::vec3 m_CameraOriantation = glm::vec3(0.0f, 0.0f, -1.0f);
 		glm::vec3 m_Up = glm::vec3(0.0f, 1.0f, 0.0f);
+
+		glm::mat4 ViewMat = glm::mat4(1.0f);
 		glm::mat4 m_ProjectionMatrix = glm::mat4(1.0f);
 
 		float m_Sensetivity = 200.0f;

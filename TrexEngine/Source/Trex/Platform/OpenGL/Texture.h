@@ -65,4 +65,23 @@ namespace TrexEngine
 	private:
 		std::string m_Path;
 	};
+
+
+	class TextureCube : public Texture
+	{
+	public:
+		TX_API  TextureCube(std::string& pSubDirectory, std::vector<std::string> pTextures);
+		TX_API ~TextureCube();
+
+		TX_API int LoadTexture(bool KeepTextureCache) override;
+		TX_API int FreeTexture() override;
+		TX_API int DeleteTexture() override;
+
+		TX_API void Bind(uint32 slot = 0) override;
+		TX_API void Unbind() override;
+
+	private:
+		std::string m_SubDirectory;
+		std::vector<std::string> m_Textures;
+	};
 }

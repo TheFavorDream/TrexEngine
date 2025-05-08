@@ -50,6 +50,11 @@ namespace TrexEngine
 		return;
 	}
 
+	TX_API void Renderer::SetDepthSetting(GLenum pSetting)
+	{
+		GLCall(glDepthFunc(pSetting));
+	}
+
 	int Renderer::Shutdown()
 	{
 

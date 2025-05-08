@@ -86,4 +86,78 @@ namespace TrexEngine
 	{
 		GLCall(glBindTexture(GL_TEXTURE_2D, 0));
 	}
+
+//Cube Textures
+
+	TextureCube::TextureCube(std::string & pSubDirectory, std::vector<std::string> pTextures)
+	{
+		m_SubDirectory = pSubDirectory;
+		m_Textures = pTextures;
+		if (pTextures.size() < 6)
+		{
+			Logger::CoreLogger->SetWarning("not enough textures provided to cube texture");
+		}
+	}
+
+	TextureCube::~TextureCube()
+	{
+		DeleteTexture();
+	}
+
+	int TextureCube::LoadTexture(bool KeepTextureCache)
+	{
+		GLCall(glGenTextures(1, &m_TextureID));
+		Bind();
+
+
+		stbi_set_flip_vertically_on_load(false);
+		int Width, Height, Channels;
+
+		for (int i = 0; i < 6; i++)
+		{
+			unsigned char* Face_Data = stbi_load((m_SubDirectory + m_Textures[i]).c_str(), &Width, &Height, &Channels, 0);
+		
+			if (!Face_Data)
+			{
+				Logger::CoreLogger->SetError("Failed to Texture at " + m_Textures[i]);
+				stbi_image_free(Face_Data);
+				continue;
+			}
+
+			GLCall(glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, Width, Height, 0, GL_RGB, GL_UNSIGNED_BYTE, Face_Data));
+			stbi_image_free(Face_Data);
+
+			GLCall(glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
+			GLCall(glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR));
+			
+			GLCall(glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
+			GLCall(glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
+			GLCall(glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE));
+		}
+		return 0;
+	}
+	
+	int TextureCube::FreeTexture()
+	{
+		Unbind();
+		GLCall(glDeleteTextures(1, &m_TextureID));
+		m_TextureID = 0;
+		return 0;
+	}
+	
+	int TextureCube::DeleteTexture()
+	{
+		return FreeTexture();
+	}
+	
+	void TextureCube::Bind(uint32 slot)
+	{
+		GLCall(glActiveTexture(GL_TEXTURE0 + slot));
+		GLCall(glBindTexture(GL_TEXTURE_CUBE_MAP, m_TextureID));
+	}
+	
+	void TextureCube::Unbind()
+	{
+		GLCall(glBindTexture(GL_TEXTURE_CUBE_MAP, 0));
+	}
 }

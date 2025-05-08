@@ -21,12 +21,12 @@ namespace TrexEngine
 		TX_API static  Renderer* GetInstance();
 
 		TX_API int Init();
+		TX_API int Shutdown();
 
 		TX_API void DrawArrays(const VertexBuffer& VBO,  const VertexArray& VAO) const;
-
 		TX_API void DrawElements(const VertexBuffer& VBO, const IndexBuffer& EBO, const VertexArray& VAO) const;
 
-		TX_API int Shutdown();
+		TX_API void SetDepthSetting(GLenum pSetting);
 
 		TX_API ~Renderer();
 

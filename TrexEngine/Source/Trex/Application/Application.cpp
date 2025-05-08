@@ -66,7 +66,7 @@ namespace TrexEngine
 
 			m_IsRunning = !WindowManager->WindowShouldClose();
 
-			std::this_thread::sleep_for(m_IsFPSLocked*std::chrono::microseconds(1000 / m_LockedFPS));
+			std::this_thread::sleep_for(m_IsFPSLocked*(std::chrono::microseconds(1000 / m_LockedFPS-(int)Timer::GetDeltaTime())));
 			Timer::DeltaTime(glfwGetTime());
 		}
 	}

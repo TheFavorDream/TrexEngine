@@ -17,14 +17,14 @@ namespace TrexEngine
 
 	void Camera::Matrix(float pNearPlane, float pFarPlane, uint32 pWidth, uint32 pHeight, const Shader *pCurrentShader, glm::vec3 Translation)
 	{
-		glm::mat4 ViewMat = glm::mat4(1.0f);
+		ViewMat = glm::mat4(1.0f);
 
 		ViewMat = glm::lookAt(m_CameraPosition, m_CameraPosition+m_CameraOriantation, m_Up);
 		m_ProjectionMatrix = glm::perspective(glm::radians(m_FOV), float(pWidth / pHeight), pNearPlane, pFarPlane);
 		ViewMat = glm::translate(ViewMat, Translation);
 
-		pCurrentShader->SetUniformMat4("View", (ViewMat));
-		pCurrentShader->SetUniformMat4("Projection", (m_ProjectionMatrix));
+		pCurrentShader->SetUniformMat4("view", (ViewMat));
+		pCurrentShader->SetUniformMat4("projection", (m_ProjectionMatrix));
 
 	}
 	TX_API void Camera::MoveUp()
