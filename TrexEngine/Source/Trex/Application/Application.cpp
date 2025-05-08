@@ -5,6 +5,7 @@
 namespace TrexEngine
 {
 
+	Engine* Engine::s_Ref = NULL;
 
 	Engine::Engine(const char* p_Title, int p_Width, int p_Height):
 		m_Log("Core")
@@ -13,6 +14,8 @@ namespace TrexEngine
 #ifdef TX_RELEASE
 		Logger::CoreLogger->SetLogLevel(TX_L0);
 #endif
+		Engine::s_Ref = this;
+
 		WindowManager = new Window;
 		ShadersManager = new ShaderManager;
 		TexturesManager = new TextureManager;

@@ -33,7 +33,7 @@ namespace TrexEngine
 		void PushLayer(Layer* p_NewLayer)
 		{
 			Layers.PushLayer(p_NewLayer);
-			p_NewLayer->OnAttach(WindowManager, ShadersManager, &events, TexturesManager);
+			p_NewLayer->OnAttach();
 		}
 
 		void PopLayer()
@@ -44,13 +44,16 @@ namespace TrexEngine
 		void PushOverLayer(Layer* p_NewLayer)
 		{
 			Layers.PushOverLayer(p_NewLayer);
-			p_NewLayer->OnAttach(WindowManager, ShadersManager, &events, TexturesManager);
+			p_NewLayer->OnAttach();
 		}
 
 		void PopOverLayer()
 		{
 			Layers.PopOverLayer();
 		}
+
+
+		TX_API inline static Engine* Get() { return s_Ref; }
 
 		TX_API void LockFPS(bool Lock, int FPS=60);
 
@@ -60,7 +63,8 @@ namespace TrexEngine
 		bool m_IsRunning = false;
 		bool m_IsFPSLocked = false;
 		int m_LockedFPS = 60; //Should not be zero
-	protected:
+
+	public:
 
 		Window*         WindowManager   = NULL;
 		ShaderManager*  ShadersManager  = NULL;
@@ -70,7 +74,8 @@ namespace TrexEngine
 		Timer			timer;
 		LayerContainer  Layers;
 		Layer* m_ImGuiLayer = NULL;
-
+	private:
+		static Engine* s_Ref;
 	};
 
 

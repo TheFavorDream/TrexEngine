@@ -1,6 +1,6 @@
 #include <string>
 #include "ImGuiLayer.h"
-
+#include "../Application/Application.h"
 
 namespace TrexEngine
 {
@@ -35,7 +35,7 @@ namespace TrexEngine
 		ImGui_ImplOpenGL3_Init("#version 330");
 
 
-		ImGui_ImplGlfw_InitForOpenGL(m_Window->GetWindow(), true);
+		ImGui_ImplGlfw_InitForOpenGL(TrexEngine::Engine::Get()->WindowManager->GetWindow(), true);
 		return 0;
 	}
 
@@ -96,7 +96,7 @@ namespace TrexEngine
 
 			ImGui::UpdatePlatformWindows();
 			ImGui::RenderPlatformWindowsDefault();
-			glfwMakeContextCurrent(m_Window->GetWindow());
+			glfwMakeContextCurrent(TrexEngine::Engine::Get()->WindowManager->GetWindow());
 		}
 	}
 

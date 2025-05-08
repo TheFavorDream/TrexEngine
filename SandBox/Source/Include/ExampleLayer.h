@@ -11,7 +11,7 @@ public:
 
 	ExampleLayer();
 
-	void OnAttach(TrexEngine::Window* p_Window, TrexEngine::ShaderManager* p_ShadersMG, TrexEngine::Input* p_Events, TrexEngine::TextureManager* p_Textures) override;
+	void OnAttach() override;
 	void OnEvent() override;
 	void OnRender() override;
 	void OnUpdate() override;
@@ -25,9 +25,10 @@ public:
 	~ExampleLayer();
 
 private:
+	TrexEngine::Engine* m_Engine = NULL;
 
+	TrexEngine::Engine* engine = NULL;
 	TrexEngine::Logger Log;
-
 	TrexEngine::VertexArray        VAO;
 	TrexEngine::VertexBufferLayout VBL;
 	TrexEngine::VertexBuffer       VBO;

@@ -7,7 +7,9 @@ namespace TrexEngine
 		: m_FOV(pFieldOfView)
 	{
 		Logger::CoreLogger->SetInfo("Camera Created");
+
 		m_CameraPosition = glm::vec3(pPosition.x, pPosition.y, pPosition.z);
+		CalculateCamera();
 	}
 
 	Camera::~Camera()
@@ -15,41 +17,65 @@ namespace TrexEngine
 		Logger::CoreLogger->SetInfo("Camera Destroyed");
 	}
 
-	void Camera::Matrix(float pNearPlane, float pFarPlane, uint32 pWidth, uint32 pHeight, const Shader *pCurrentShader, glm::vec3 Translation)
+	glm::mat4& Camera::GetProjection(float pNearPlane, float pFarPlane, uint32 pWidth, uint32 pHeight)
 	{
-		ViewMat = glm::mat4(1.0f);
+		m_Projection = glm::perspective(glm::radians(m_FOV), float(pWidth / pHeight), pNearPlane, pFarPlane);
+		return m_Projection;
+	}
 
-		ViewMat = glm::lookAt(m_CameraPosition, m_CameraPosition+m_CameraOriantation, m_Up);
-		m_ProjectionMatrix = glm::perspective(glm::radians(m_FOV), float(pWidth / pHeight), pNearPlane, pFarPlane);
-		ViewMat = glm::translate(ViewMat, Translation);
+	glm::mat4 & Camera::GetView()
+	{
+		m_View = glm::lookAt(m_CameraPosition, m_CameraPosition + m_CameraFront, m_CameraUp);
+		return m_View;
+	}
 
-		pCurrentShader->SetUniformMat4("view", (ViewMat));
-		pCurrentShader->SetUniformMat4("projection", (m_ProjectionMatrix));
+
+
+	void Camera::Move(CameraMovement Movement)
+	{
+		float Volecity = m_Speed * Timer::GetDeltaTime();
+
+		switch (Movement)
+		{
+		case CAM_FRONT:
+			m_CameraPosition += m_CameraFront * Volecity;
+			break;
+		case CAM_BACK:
+			m_CameraPosition -= m_CameraFront * Volecity;
+			break;
+		case CAM_LEFT:
+			m_CameraPosition -= m_CameraRight * Volecity;
+			break;
+		case CAM_RIGHT:
+			m_CameraPosition += m_CameraRight * Volecity;
+			break;
+		case CAM_UP:
+			m_CameraPosition += m_CameraUp * Volecity;
+			break;
+		case CAM_DOWN:
+			m_CameraPosition -= m_CameraUp * Volecity;
+		}
 
 	}
-	TX_API void Camera::MoveUp()
+
+	TX_API void Camera::MouseMove(float MouseX, float MouseY)
 	{
-		m_CameraPosition += m_Speed * Timer::GetDeltaTime() * m_Up;
-	}
-	TX_API void Camera::MoveDown()
-	{
-		m_CameraPosition += m_Speed * Timer::GetDeltaTime() * -m_Up;
-	}
-	TX_API void Camera::MoveLeft()
-	{
-		m_CameraPosition += m_Speed * Timer::GetDeltaTime() * -glm::normalize(glm::cross(m_CameraOriantation, m_Up));
-	}
-	TX_API void Camera::MoveRight()
-	{
-		m_CameraPosition += m_Speed * Timer::GetDeltaTime() *glm::normalize(glm::cross(m_CameraOriantation, m_Up));
-	}
-	TX_API void Camera::MoveFront()
-	{
-		m_CameraPosition += (m_Speed * Timer::GetDeltaTime()) * m_CameraOriantation;
-	}
-	TX_API void Camera::MoveBack()
-	{
-		m_CameraPosition += m_Speed * Timer::GetDeltaTime() * -m_CameraOriantation;
+		MouseX *= m_Sensetivity;
+		MouseY *= m_Sensetivity;
+
+		m_Yaw += MouseX;
+		m_Pitch += MouseY;
+
+		// make sure that when pitch is out of bounds, screen doesn't get flipped
+		
+		if (m_Pitch > 89.0f)
+			m_Pitch = 89.0f;
+		if (m_Pitch < -89.0f)
+			m_Pitch = -89.0f;
+		
+
+		// update Front, Right and Up Vectors using the updated Euler angles
+		CalculateCamera();
 	}
 
 	TX_API void Camera::SetCameraPosition(Vec3 pPosition)
@@ -58,5 +84,16 @@ namespace TrexEngine
 		m_CameraPosition.y = pPosition.y;
 		m_CameraPosition.z = pPosition.z;
 
+	}
+	void Camera::CalculateCamera()
+	{
+		glm::vec3 front;
+		front.x = cos(glm::radians(m_Yaw)) * cos(glm::radians(m_Pitch));
+		front.y = sin(glm::radians(m_Pitch));
+		front.z = sin(glm::radians(m_Yaw)) * cos(glm::radians(m_Pitch));
+
+		m_CameraFront = glm::normalize(front);
+		m_CameraRight = glm::normalize(glm::cross(m_CameraFront, glm::vec3(0.0f, 1.0f, 0.0)));
+		m_CameraUp = glm::normalize(glm::cross(m_CameraRight, m_CameraFront));
 	}
 };

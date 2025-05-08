@@ -6,7 +6,7 @@ class ImGuiExample : public TrexEngine::ImGuiLayer
 {
 public:
 
-	ImGuiExample();
+	 ImGuiExample();
 
 	~ImGuiExample();
 
@@ -21,7 +21,7 @@ public:
 	void RenderShaderControlWidget();
 	void RenderLogControlWidget();
 
-	void OnAttach(TrexEngine::Window* p_Window, TrexEngine::ShaderManager* p_ShadersMG, TrexEngine::Input* p_Events, TrexEngine::TextureManager* p_Textures) override;
+	void OnAttach()     override;
 	void OnEvent()      override;
 	void OnUpdate()     override;
 	void OnRender()     override;
@@ -30,7 +30,7 @@ public:
 	void DisableLayer() override;
 
 private:
-
+	TrexEngine::Engine* m_Engine = NULL;
 	std::string Text;
 
 	float WBG_R = 0.0f;

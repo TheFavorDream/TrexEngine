@@ -113,7 +113,7 @@ namespace TrexEngine
 		stbi_set_flip_vertically_on_load(false);
 		int Width, Height, Channels;
 
-		for (int i = 0; i < 6; i++)
+		for (int i = 0; i < m_Textures.size(); i++)
 		{
 			unsigned char* Face_Data = stbi_load((m_SubDirectory + m_Textures[i]).c_str(), &Width, &Height, &Channels, 0);
 		

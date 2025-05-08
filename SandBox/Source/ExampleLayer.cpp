@@ -8,23 +8,23 @@ ExampleLayer::ExampleLayer()
 #ifdef RELEASE
 	Log.SetLogLevel(TX_L0);
 #endif
+	m_Engine = TrexEngine::Engine::Get();
+
+
 }
 
 
-void ExampleLayer::OnAttach(TrexEngine::Window* p_Window, TrexEngine::ShaderManager* p_ShadersMG, TrexEngine::Input* p_Events, TrexEngine::TextureManager* p_Textures)
+void ExampleLayer::OnAttach()
 {
-	m_Window = p_Window;
-	m_Events = p_Events;
-	m_Textures = p_Textures;
-	m_ShadersMG = p_ShadersMG;
+
 
 	VAO.Bind();
 	VBO.Bind();
-	VBO.UploadData(GL_FLOAT, 6, 36, GL_STATIC_DRAW, (void*)ReflectionContainer);
+	VBO.UploadData(GL_FLOAT, 5, 24, GL_STATIC_DRAW, (void*)Vertex);
 	VBO.Bind();
 	VBL.push<float>(3);
-	VBL.push<float>(3);
-	//EBO.BufferData(Indicies, 36);
+	VBL.push<float>(2);
+	EBO.BufferData(Indicies, 36);
 	VAO.AddLayouts(VBO, VBL);
 
 
@@ -44,16 +44,16 @@ void ExampleLayer::OnAttach(TrexEngine::Window* p_Window, TrexEngine::ShaderMana
 	}
 
 
-	m_Textures->AddTexture("Wall", new Texture2D(T+"wall.jpg"));
-	m_Textures->AddTexture("Container", new Texture2D(T + "container.jpg"));
-	m_Textures->AddTexture("Skybox", new TextureCube((T + "skybox/"), {"right.jpg", "left.jpg", "top.jpg", "bottom.jpg", "front.jpg", "back.jpg"}));
+	m_Engine->TexturesManager->AddTexture("Wall", new Texture2D(T+"wall.jpg"));
+	m_Engine->TexturesManager->AddTexture("Container", new Texture2D(T + "container.jpg"));
+	m_Engine->TexturesManager->AddTexture("Skybox", new TextureCube((T + "skybox/"), {"right.jpg", "left.jpg", "top.jpg", "bottom.jpg", "front.jpg", "back.jpg"}));
 
 
-	m_ShadersMG->GetCurrentShader()->SetUniformI1("Tex", 0);
+	m_Engine->ShadersManager->GetCurrentShader()->SetUniformI1("Tex", 0);
 	
-	m_Textures->GetTexture("Wall")->LoadTexture();
-	m_Textures->GetTexture("Container")->LoadTexture();
-	m_Textures->GetTexture("Skybox")->LoadTexture();
+	m_Engine->TexturesManager->GetTexture("Wall")->LoadTexture();
+	m_Engine->TexturesManager->GetTexture("Container")->LoadTexture();
+	m_Engine->TexturesManager->GetTexture("Skybox")->LoadTexture();
 
 	model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
 
@@ -69,6 +69,10 @@ void ExampleLayer::OnEvent()
 
 void ExampleLayer::OnUpdate()
 {
+
+
+	glm::mat4& Projection = TrexCamera.GetProjection(0.1f, 100.0f, m_Engine->WindowManager->GetW(), m_Engine->WindowManager->GetH());
+
 	if (TrexEngine::Input::keyboard.IsKeyPressed(TX_KEY_LEFT))
 		model = glm::rotate(model, glm::radians(10.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	if (TrexEngine::Input::keyboard.IsKeyPressed(TX_KEY_UP))
@@ -76,15 +80,19 @@ void ExampleLayer::OnUpdate()
 	if (TrexEngine::Input::keyboard.IsKeyPressed(TX_KEY_RIGHT))
 		model = glm::rotate(model, glm::radians(10.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 
-	m_ShadersMG->BindShader("Test2");
-	m_ShadersMG->GetCurrentShader()->SetUniformMat4("model", (model));
-	m_ShadersMG->GetCurrentShader()->SetUniformF3("cameraPos", TrexCamera.GetCameraPosition().x, TrexCamera.GetCameraPosition().y, TrexCamera.GetCameraPosition().z);
-	m_ShadersMG->GetCurrentShader()->SetUniformI1("skybox", 0);
+	//m_Engine->ShadersManager->BindShader("Test2");
+	//m_Engine->ShadersManager->GetCurrentShader()->SetUniformMat4("model", (model));
+	//m_Engine->ShadersManager->GetCurrentShader()->SetUniformF3("cameraPos", TrexCamera.GetCameraPosition().x, TrexCamera.GetCameraPosition().y, TrexCamera.GetCameraPosition().z);
+	//m_Engine->ShadersManager->GetCurrentShader()->SetUniformI1("skybox", 0);
 
-	m_ShadersMG->BindShader("Skybox");
+	m_Engine->ShadersManager->BindShader("Main");
+	m_Engine->ShadersManager->GetCurrentShader()->SetUniformMat4("Model", (model));
+	m_Engine->ShadersManager->GetCurrentShader()->SetUniformMat4("Projection", (Projection));
+
+	m_Engine->ShadersManager->BindShader("Skybox");
 	glm::mat4 View = glm::mat4(glm::mat3(TrexCamera.GetView()));
-	m_ShadersMG->GetCurrentShader()->SetUniformMat4("View_Projection", (TrexCamera.GetProjection()*View));
-	m_ShadersMG->GetCurrentShader()->SetUniformI1("skybox", 0);
+	m_Engine->ShadersManager->GetCurrentShader()->SetUniformMat4("View_Projection", (Projection*View));
+	m_Engine->ShadersManager->GetCurrentShader()->SetUniformI1("skybox", 0);
 
 
 }
@@ -93,21 +101,27 @@ void ExampleLayer::OnRender()
 {
 	VBO.Bind();
 	VAO.Bind();
-	m_ShadersMG->BindShader("Test2");
+	m_Engine->ShadersManager->BindShader("Main");
 	for (int i = 0; i < 20; i++)
 	{
-		TrexCamera.Matrix(0.1f, 100.f, m_Window->GetW(), m_Window->GetH(), m_ShadersMG->GetCurrentShader(), Coords[i]);
-		m_Textures->BindTexture("Skybox");
-		//TrexEngine::Renderer::GetInstance()->DrawElements(VBO, EBO, VAO);
-		TrexEngine::Renderer::GetInstance()->DrawArrays(VBO, VAO);
+		glm::mat4 View = TrexCamera.GetView();
+		View = glm::translate(View, Coords[i]);
+		m_Engine->ShadersManager->GetCurrentShader()->SetUniformMat4("View", (View));
+		if (i % 2 == 0)
+			m_Engine->TexturesManager->BindTexture("Wall");
+		else
+			m_Engine->TexturesManager->BindTexture("Container");
+
+		TrexEngine::Renderer::GetInstance()->DrawElements(VBO, EBO, VAO);
+		//TrexEngine::Renderer::GetInstance()->DrawArrays(VBO, VAO);
 	}
 	
 	//SkyBox;
 
 	SkyVBO.Bind();
 	SkyVAO.Bind();
-	m_ShadersMG->BindShader("Skybox");
-	m_Textures->BindTexture("Skybox");
+	m_Engine->ShadersManager->BindShader("Skybox");
+	m_Engine->TexturesManager->BindTexture("Skybox");
 
 	TrexEngine::Renderer::GetInstance()->SetDepthSetting(GL_LEQUAL); 
 	TrexEngine::Renderer::GetInstance()->DrawArrays(SkyVBO, SkyVAO);
@@ -138,72 +152,72 @@ void ExampleLayer::DisableLayer()
 
 void ExampleLayer::CameraKeyControll()
 {
-	if (m_Events->keyboard.IsKeyPressed(TX_KEY_W))
+	if (m_Engine->events.keyboard.IsKeyPressed(TX_KEY_W))
 	{
-		TrexCamera.MoveFront();
+		TrexCamera.Move(CAM_FRONT);
 	}
 
-	if (m_Events->keyboard.IsKeyPressed(TX_KEY_S))
+	if (m_Engine->events.keyboard.IsKeyPressed(TX_KEY_S))
 	{
-		TrexCamera.MoveBack();
+		TrexCamera.Move(CAM_BACK);
 	}
 
-	if (m_Events->keyboard.IsKeyPressed(TX_KEY_A))
+	if (m_Engine->events.keyboard.IsKeyPressed(TX_KEY_A))
 	{
-		TrexCamera.MoveLeft();
+		TrexCamera.Move(CAM_LEFT);
 	}
 
-	if (m_Events->keyboard.IsKeyPressed(TX_KEY_D))
+	if (m_Engine->events.keyboard.IsKeyPressed(TX_KEY_D))
 	{
-		TrexCamera.MoveRight();
+		TrexCamera.Move(CAM_RIGHT);
 	}
 
-	if (m_Events->keyboard.IsKeyPressed(TX_KEY_SPACE))
+	if (m_Engine->events.keyboard.IsKeyPressed(TX_KEY_SPACE))
 	{
-		TrexCamera.MoveUp();
+		TrexCamera.Move(CAM_UP);
 	}
 
-	if (m_Events->keyboard.IsKeyPressed(TX_KEY_LEFT_CONTROL))
+	if (m_Engine->events.keyboard.IsKeyPressed(TX_KEY_LEFT_CONTROL))
 	{
-		TrexCamera.MoveDown();
+		TrexCamera.Move(CAM_DOWN);
 	}
 }
 
 void ExampleLayer::CameraMouseControll()
 {
 	static bool FirstClick = true;
+	static float LastX = m_Engine->WindowManager->GetW()/2.0f;
+	static float LastY = m_Engine->WindowManager->GetH() / 2.0f;
 
 	if (TrexEngine::Input::mouse.IsRightClickPressed())
 	{
-		TrexEngine::Input::mouse.DisableCursor(m_Window->GetWindow(),true);
+		m_Engine->events.mouse.DisableCursor(m_Engine->WindowManager->GetWindow(), true);
+		
+		double PosXin, PosYin;
+		PosXin = m_Engine->events.mouse.GetMouseX();
+		PosYin = m_Engine->events.mouse.GetMouseY();
+
 		if (FirstClick)
 		{
+			LastX = (float)PosXin;
+			LastY = (float)PosYin;
 			FirstClick = false;
-			TrexEngine::Input::mouse.SetCursorPosition(m_Window->GetWindow(), m_Window->GetW()/2, m_Window->GetH()/2);
 		}
 
-		double Mx, My;
-		TrexEngine::Input::mouse.GetCursorPosition(m_Window->GetWindow(), &Mx, &My);
+		float MouseX = (PosXin - LastX);
+		float MouseY = (LastY - PosYin);
 
-		float rotX = 200.0f * (float)(My - (m_Window->GetH() / 2)) / m_Window->GetH();
-		float rotY = 200.0f * (float)(Mx - (m_Window->GetW() / 2)) / m_Window->GetW();
 
-		glm::vec3 NewOriantation = glm::rotate(TrexCamera.GetOriantation(), glm::radians(-rotX),
-			glm::normalize(glm::cross(TrexCamera.GetOriantation(), TrexCamera.GetUP())));
-
-		if (abs(glm::angle(NewOriantation, TrexCamera.GetUP()) - glm::radians(90.0f)) <= glm::radians(85.0f))
-			TrexCamera.GetOriantation() = NewOriantation;
-		
-
-		TrexCamera.GetOriantation() = glm::rotate(TrexCamera.GetOriantation(), glm::radians(-rotY), TrexCamera.GetUP());
-		TrexEngine::Input::mouse.SetCursorPosition(m_Window->GetWindow(), m_Window->GetW()/2, m_Window->GetH()/2);
+		TrexCamera.MouseMove(MouseX, MouseY);
+		LastX = PosXin;
+		LastY = PosYin;
 	}
 
 	else
 	{
 		if (!FirstClick)
 		{
-			TrexEngine::Input::mouse.DisableCursor(m_Window->GetWindow(), false);
+			TrexEngine::Input::mouse.DisableCursor(m_Engine->WindowManager->GetWindow(), false);
 			FirstClick = true;
 			Log.SetInfo("Cursor Reseted to Normal");
 		}

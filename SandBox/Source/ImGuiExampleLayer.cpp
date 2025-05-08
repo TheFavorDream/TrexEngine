@@ -5,6 +5,7 @@ ImGuiExample::ImGuiExample() : ImGuiLayer("ImGuiExampleLayer")
 #ifdef RELEASE
 	Log.SetLogLevel(TX_L0);
 #endif
+	m_Engine = TrexEngine::Engine::Get();
 }
 
 ImGuiExample::~ImGuiExample()
@@ -103,7 +104,7 @@ void ImGuiExample::RenderWindowControlWidget()
 	ImGuiSliderFloat("Green", &WBG_G, 0.0f, 255.0f);
 	ImGuiSliderFloat("Blue", &WBG_B, 0.0f, 255.0f);
 
-	m_Window->SetWindowBackground(WBG_R / 255.0f, WBG_G / 255.0f, WBG_B / 255.0f, 1.0f);
+	m_Engine->WindowManager->SetWindowBackground(WBG_R / 255.0f, WBG_G / 255.0f, WBG_B / 255.0f, 1.0f);
 
 	ImGuiText("DeltaTime (ms):" + std::to_string(TrexEngine::Timer::GetDeltaTime()));
 
@@ -114,17 +115,17 @@ void ImGuiExample::RenderShaderControlWidget()
 {
 	ImGuiBegin("Shader Control");
 
-	const std::vector<std::string>& List = m_ShadersMG->GetShaderList();
+	const std::vector<std::string>& List = m_Engine->ShadersManager->GetShaderList();
 
 	for (auto &i : List)
 	{
-		TrexEngine::Shader* Current = m_ShadersMG->GetShader(i);
+		TrexEngine::Shader* Current = m_Engine->ShadersManager->GetShader(i);
 
 		ImGuiText(i);
 		ImGuiSameLine();
 		if (ImGuiPushButton(("Use " + i)))
 		{
-			m_ShadersMG->BindShader(i);
+			m_Engine->ShadersManager->BindShader(i);
 
 		}
 		ImGuiSameLine();
@@ -207,9 +208,9 @@ void ImGuiExample::RenderMouseWiget()
 {
 	ImGuiBegin("Mouse");
 
-	ImGuiText("Mouse Position (via CallBack): " + std::to_string(m_Events->mouse.GetMouseX()) + "X, " + std::to_string(m_Events->mouse.GetMouseY()) + "Y.");
+	ImGuiText("Mouse Position (via CallBack): " + std::to_string(m_Engine->events.mouse.GetMouseX()) + "X, " + std::to_string(m_Engine->events.mouse.GetMouseY()) + "Y.");
 	double x, y;
-	TrexEngine::Input::mouse.GetCursorPosition(m_Window->GetWindow(), &x, &y);
+	TrexEngine::Input::mouse.GetCursorPosition(m_Engine->WindowManager->GetWindow(), &x, &y);
 	ImGuiText("Mouse Position (via direct):" + std::to_string(x) + "X, " + std::to_string(y) + "Y");
 
 
@@ -234,7 +235,7 @@ void ImGuiExample::ResourceControlWidget()
 
 	ImGuiText("Current Resources:");
 
-	auto Table = m_Textures->GetTextureTable();
+	auto Table = m_Engine->TexturesManager->GetTextureTable();
 
 	for (auto &i : Table)
 	{
@@ -242,36 +243,28 @@ void ImGuiExample::ResourceControlWidget()
 		ImGuiSameLine();
 		if (ImGuiPushButton("Load " + i.first))
 		{
-			m_Textures->GetTexture(i.first)->LoadTexture();
+			m_Engine->TexturesManager->GetTexture(i.first)->LoadTexture();
 		}
 		ImGuiSameLine();
 
 		if (ImGuiPushButton("Free " + i.first))
 		{
-			m_Textures->GetTexture(i.first)->FreeTexture();
+			m_Engine->TexturesManager->GetTexture(i.first)->FreeTexture();
 		}
 	}
 
 	ImGuiEnd();
 }
 
-void ImGuiExample::OnAttach(TrexEngine::Window * p_Window, TrexEngine::ShaderManager* p_ShadersMG, TrexEngine::Input* p_Events, TrexEngine::TextureManager* p_Textures)
+void ImGuiExample::OnAttach()
 {
-	m_Events = p_Events;
-	m_Textures = p_Textures;
-	m_ShadersMG = p_ShadersMG;
 
 	Log.SetInfo("OnAttach Called. Init the Layer");
 
-	if (p_Window != NULL)
-	{
-		m_Window = p_Window;
-
-	}
 	//Init the ImGui
 	InitImGui();
 
-	TrexEngine::vec4 Color = p_Window->GetBackground();
+	TrexEngine::vec4 Color = m_Engine->WindowManager->GetBackground();
 	WBG_R = Color.x * 255.0f;
 	WBG_G = Color.y * 255.0f;
 	WBG_B = Color.z * 255.0f;
@@ -281,31 +274,31 @@ void ImGuiExample::OnEvent()
 {
 
 
-	if (m_Events->keyboard.IsKeyPressed(TX_KEY_E))
+	if (m_Engine->events.keyboard.IsKeyPressed(TX_KEY_E))
 	{
 		RenderMenuBar = true;
 	}
 
-	if (m_Events->keyboard.IsKeyPressed(TX_KEY_ESCAPE))
+	if (m_Engine->events.keyboard.IsKeyPressed(TX_KEY_ESCAPE))
 	{
 		RenderMenuBar = false;
 	}
 
 
-	if (m_Events->keyboard.IsKeyPressed(TX_KEY_P))
+	if (m_Engine->events.keyboard.IsKeyPressed(TX_KEY_P))
 	{
-		m_Events->keyboard.StartTextInput(Text);
+		m_Engine->events.keyboard.StartTextInput(Text);
 	}
 
-	if (m_Events->keyboard.IsInputingText())
+	if (m_Engine->events.keyboard.IsInputingText())
 	{
-		if (m_Events->keyboard.IsKeyPressed(TX_KEY_ENTER))
+		if (m_Engine->events.keyboard.IsKeyPressed(TX_KEY_ENTER))
 		{
-			m_Events->keyboard.StopTextInput();
+			m_Engine->events.keyboard.StopTextInput();
 		}
 	}
 
-	if (m_Events->keyboard.IsKeyPressed(TX_KEY_T))
+	if (m_Engine->events.keyboard.IsKeyPressed(TX_KEY_T))
 	{
 		RenderResourceWidget = !RenderResourceWidget;
 	}
@@ -337,7 +330,7 @@ void ImGuiExample::OnRender()
 		RenderShaderControlWidget();
 	if (RenderLogControl)
 		RenderLogControlWidget();
-	if (m_Events->keyboard.IsInputingText())
+	if (m_Engine->events.keyboard.IsInputingText())
 	{
 		RenderTextBox();
 	}

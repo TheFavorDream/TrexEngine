@@ -7,7 +7,6 @@
 #include "../Events/Input.h"
 #include "../Core/ShaderManager.h"
 
-
 namespace TrexEngine
 {
 
@@ -17,7 +16,7 @@ namespace TrexEngine
 		TX_API Layer(std::string p_LayerName);
 		TX_API virtual ~Layer();
 
-		TX_API virtual void OnAttach (Window* p_Window, ShaderManager* p_ShadersMG, Input* p_Events, TextureManager* p_Textures)  = 0;
+		TX_API virtual void OnAttach ()  = 0;
 		TX_API virtual void OnDettach()  = 0;
 		TX_API virtual void OnUpdate ()  = 0;
 		TX_API virtual void OnRender ()  = 0;
@@ -30,11 +29,6 @@ namespace TrexEngine
 
 		TX_API inline std::string& GetLayerName() { return LayerName; }
 	protected:
-
-		Window* m_Window;
-		Input*  m_Events;
-		TextureManager* m_Textures;
-		ShaderManager*  m_ShadersMG;
 
 		//For Debugging
 		std::string LayerName;
