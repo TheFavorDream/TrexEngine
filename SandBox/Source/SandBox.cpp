@@ -33,14 +33,14 @@ public:
 
 		ShadersManager->AddShader("Main", new TrexEngine::Shader(Path+"Def.glsl"));
 		ShadersManager->AddShader("Skybox", new TrexEngine::Shader(Path+"Skybox.glsl"));
-		ShadersManager->AddShader("Test2", new TrexEngine::Shader(Path+"Def3.glsl"));
+		ShadersManager->AddShader("Light", new TrexEngine::Shader(Path+"Light.glsl"));
 
 		ShadersManager->BindShader("Main");
 
 		PushLayer(m_ExampleLayer);
 		PushOverLayer(m_ImGuiExample);
 
-		LockFPS(false, 5);
+		LockFPS(false, 30);
 
 	}
 
