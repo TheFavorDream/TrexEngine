@@ -20,7 +20,7 @@ void ExampleLayer::OnAttach()
 	//Cube Object
 	VAO.Bind();
 	VBO.Bind();
-	VBO.UploadData(GL_FLOAT, 8, 36, GL_STATIC_DRAW, (void*)Vertex);
+	VBO.UploadData(GL_FLOAT, 8, 24, GL_STATIC_DRAW, (void*)Vertex);
 	VBO.Bind();
 	VBL.push<float>(3);
 	VBL.push<float>(3);
@@ -147,13 +147,16 @@ void ExampleLayer::OnRender()
 	VBO.Bind();
 	VAO.Bind();
 	m_Engine->ShadersManager->BindShader("Main");
-	View = TrexCamera.GetView();
-	View = glm::translate(View, Coords[0]);
-	m_Engine->ShadersManager->GetCurrentShader()->SetUniformMat4("View", (View));
 	m_Engine->TexturesManager->BindTexture("Container", 0);
 	m_Engine->TexturesManager->BindTexture("ContainerBoarder", 1);
-	TrexEngine::Renderer::GetInstance()->DrawArrays(VBO, VAO);
-	
+
+	for (int i = 0; i <= 20; i++)
+	{
+		View = TrexCamera.GetView();
+		View = glm::translate(View, Coords[i]);
+	m_Engine->ShadersManager->GetCurrentShader()->SetUniformMat4("View", (View));
+		TrexEngine::Renderer::GetInstance()->DrawElements(VBO, EBO, VAO);
+	}
 	
 	//SkyBox;
 

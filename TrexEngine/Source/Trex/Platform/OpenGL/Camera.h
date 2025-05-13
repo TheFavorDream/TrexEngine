@@ -51,6 +51,8 @@ namespace TrexEngine
 		TX_API inline glm::vec3& GetFront() { return m_CameraFront; }
 		TX_API void SetCameraPosition(Vec3 pPosition);
 
+		TX_API inline glm::vec3 GetCameraPosition() { return m_CameraPosition; }
+
 	private:
 		glm::vec3 m_CameraPosition = glm::vec3(0.0f);
 		glm::vec3 m_CameraUp = glm::vec3(0.0f);
