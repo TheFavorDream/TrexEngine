@@ -20,6 +20,8 @@ public:
 	void RenderWindowControlWidget();
 	void RenderShaderControlWidget();
 	void RenderLogControlWidget();
+	void RenderViewPortControlWidget();
+
 
 	void OnAttach()     override;
 	void OnEvent()      override;
@@ -47,6 +49,7 @@ private:
 	bool RenderWindowWidget = false;
 	bool RenderShaderWedget = false;
 	bool RenderLogControl = false;
+	bool RenderViewPortControl = false;
 
 	bool Dark_Style = true;
 	bool Prev_Dark_Style = Dark_Style;

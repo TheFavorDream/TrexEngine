@@ -42,6 +42,8 @@ public:
 
 		LockFPS(false, 30);
 
+		//WindowManager->SetViewport(600, 180,600, 400);
+
 	}
 
 	~Application() 

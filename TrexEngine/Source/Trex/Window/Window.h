@@ -39,12 +39,13 @@ namespace TrexEngine
 		TX_API void GetWindowSize(uint32 &Width, uint32 &Height);
 		TX_API void SetWindowSize(uint32 Width, uint32 Height);
 
+		TX_API void SetViewport(uint32 X, uint32 Y, uint32 Width, uint32 Height);
+
 		TX_API void HideWindow(bool p_Hide);
 
 		//Window Events
 		TX_API inline bool WindowShouldClose() const { return glfwWindowShouldClose(window); }
-	public:
-		static void ViewportSizeCallBack(GLFWwindow* window, int32 width, int32 height);
+
 	private:
 
 		bool IsInited = false;

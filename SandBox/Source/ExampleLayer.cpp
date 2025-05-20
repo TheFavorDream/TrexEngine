@@ -93,11 +93,13 @@ void ExampleLayer::OnUpdate()
 
 	float Now = (float)TrexEngine::Timer::GetCurrentElapsed() / 800;
 
-	Coords[4] = glm::vec3(cos(Now)*20.0f, Coords[4].y, sin(Now)*20.0f);
+	//Coords[4] = glm::vec3(cos(Now)*20.0f, Coords[4].y, sin(Now)*20.0f);
 
 	//LightColor.x = sin(Now * 2.0f);
 	//LightColor.y = sin(Now * 0.7f);
 	//LightColor.z = sin(Now * 1.3f);
+
+	
 
 	m_Engine->ShadersManager->BindShader("Light");
 	m_Engine->ShadersManager->GetCurrentShader()->SetUniformMat4("Model", (model));
@@ -112,7 +114,7 @@ void ExampleLayer::OnUpdate()
 	
 	m_Engine->ShadersManager->GetCurrentShader()->SetUniformF1("meterial.Shininess", 64.0f);
 
-	m_Engine->ShadersManager->GetCurrentShader()->SetUniformF3("light.Position",	Coords[4].x, Coords[4].y, Coords[4].z);
+	m_Engine->ShadersManager->GetCurrentShader()->SetUniformF3("light.Position",	LightPosition.x, LightPosition.y, LightPosition.z);
 
 	glm::vec3 Diffuse = LightColor * glm::vec3(0.5f);
 	glm::vec3 Ambient = Diffuse * glm::vec3(0.8);
@@ -139,7 +141,7 @@ void ExampleLayer::OnRender()
 	CubeVAO.Bind();
 	m_Engine->ShadersManager->BindShader("Light");
 	glm::mat4 View = TrexCamera.GetView();
-	View = glm::translate(View, Coords[4]);
+	View = glm::translate(View, LightPosition);
 	m_Engine->ShadersManager->GetCurrentShader()->SetUniformMat4("View", (View));
 	TrexEngine::Renderer::GetInstance()->DrawElements(CubeVBO,EBO,  CubeVAO);
 

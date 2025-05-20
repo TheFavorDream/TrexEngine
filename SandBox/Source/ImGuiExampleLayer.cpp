@@ -45,7 +45,7 @@ void ImGuiExample::RenderMenuBarItems()
 
 			if (ImGuiMenuItem("Resources"))
 			{
-RenderResourceWidget = !RenderResourceWidget;
+				RenderResourceWidget = !RenderResourceWidget;
 			}
 
 			if (ImGuiMenuItem("Shaders"))
@@ -56,6 +56,11 @@ RenderResourceWidget = !RenderResourceWidget;
 			if (ImGuiMenuItem("Log"))
 			{
 				RenderLogControl = !RenderLogControl;
+			}
+
+			if (ImGuiMenuItem("View Port"))
+			{
+				RenderViewPortControl = !RenderViewPortControl;
 			}
 
 			ImGuiEndMenu();
@@ -195,6 +200,26 @@ void ImGuiExample::RenderLogControlWidget()
 	ImGuiEnd();
 }
 
+void ImGuiExample::RenderViewPortControlWidget()
+{
+	ImGuiBegin("View Port");
+
+	static int Width = m_Engine->WindowManager->GetW();
+	static int Height = m_Engine->WindowManager->GetH();
+	static int X, Y;
+
+	ImGuiTextInt("Width", &Width);
+	ImGuiTextInt("Height", &Height);
+
+
+	ImGuiTextInt("X", &X);
+	ImGuiTextInt("Y", &Y);
+
+	m_Engine->WindowManager->SetViewport(X, Y,Width, Height);
+
+	ImGuiEnd();
+}
+
 void ImGuiExample::RenderTextBox()
 {
 	ImGuiBegin("Text Inputing");
@@ -330,6 +355,8 @@ void ImGuiExample::OnRender()
 		RenderShaderControlWidget();
 	if (RenderLogControl)
 		RenderLogControlWidget();
+	if (RenderViewPortControl)
+		RenderViewPortControlWidget();
 	if (m_Engine->events.keyboard.IsInputingText())
 	{
 		RenderTextBox();

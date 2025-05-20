@@ -25,6 +25,8 @@ namespace TrexEngine
 		TX_API inline std::vector<Layer*>& GetLayers() { return m_Layers; }
 		TX_API inline size_t GetLayersNumber() const { return m_Layers.size(); }
 
+		TX_API inline Layer* GetOverLayer() { return m_OverLayerPointer; }
+
 	public:
 
 		std::vector<Layer*>::iterator begin() { return m_Layers.begin(); }

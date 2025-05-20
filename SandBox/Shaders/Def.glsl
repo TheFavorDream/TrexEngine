@@ -71,9 +71,10 @@ void main()
     float spec = pow(max(dot(ViewDir, Reflect), 0.0), meterial.Shininess);
 
 
-	vec3 ambient  = light.Ambient  * vec3(texture(meterial.Diffuse, TexCoord));
-	vec3 diffuse  = light.Diffuse  * Diff * vec3(texture(meterial.Diffuse, TexCoord));  
-	vec3 specular = light.Specular * spec * vec3(texture(meterial.Specular, TexCoord));
+	vec3 ambient  = light.Ambient  * texture(meterial.Diffuse, TexCoord).rgb;
+	vec3 diffuse  = light.Diffuse  * Diff * texture(meterial.Diffuse, TexCoord).rgb;  
+	vec3 specular = light.Specular * spec * texture(meterial.Specular, TexCoord).rgb;
 
-	FragColor = vec4(ambient + diffuse + specular, 1.0);   
+	vec3 Res = ambient + diffuse + specular;
+	FragColor = vec4(Res, 1.0);   
 };

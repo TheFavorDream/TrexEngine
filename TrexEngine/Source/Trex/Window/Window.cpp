@@ -71,7 +71,7 @@ namespace TrexEngine
 
 		glfwGetFramebufferSize(window, (int*)&WidthInPixels, (int*)&HeightInPixels);
 
-		glfwSetFramebufferSizeCallback(window, ViewportSizeCallBack);
+
 	}
 
 
@@ -102,6 +102,13 @@ namespace TrexEngine
 		glfwSetWindowSize(window, Width, Height);
 	}
 
+	TX_API void Window::SetViewport(uint32 X, uint32 Y, uint32 Width, uint32 Height)
+	{
+		GLCall(glViewport(X, Y, Width, Height));
+		this->Width = Width;
+		this->Height = Height;
+	}
+
 	TX_API void Window::HideWindow(bool p_Hide)
 	{
 		switch (p_Hide)
@@ -121,8 +128,4 @@ namespace TrexEngine
 		Shutdown();
 	}
 
-	void Window::ViewportSizeCallBack(GLFWwindow * window, int32 width, int32 height)
-	{
-		GLCall(glViewport(0,0,width, height));
-	}
 };

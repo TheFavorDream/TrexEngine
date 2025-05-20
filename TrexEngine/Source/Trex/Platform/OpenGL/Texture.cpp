@@ -44,7 +44,9 @@ namespace TrexEngine
 		GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
 		GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
 
-		GLCall(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, (void*)m_TextureData));
+		GLenum Format = GetColorChannel(m_Channel);
+
+		GLCall(glTexImage2D(GL_TEXTURE_2D, 0, Format, m_Width, m_Height, 0, Format, GL_UNSIGNED_BYTE, (void*)m_TextureData));
 
 		if (!KeepTextureCache)
 		{
@@ -124,7 +126,9 @@ namespace TrexEngine
 				continue;
 			}
 
-			GLCall(glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, Width, Height, 0, GL_RGB, GL_UNSIGNED_BYTE, Face_Data));
+			GLenum Format = GetColorChannel(Channels);
+
+			GLCall(glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, Format, Width, Height, 0, Format, GL_UNSIGNED_BYTE, Face_Data));
 			stbi_image_free(Face_Data);
 
 			GLCall(glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
@@ -159,5 +163,18 @@ namespace TrexEngine
 	void TextureCube::Unbind()
 	{
 		GLCall(glBindTexture(GL_TEXTURE_CUBE_MAP, 0));
+	}
+	TX_API GLenum Texture::GetColorChannel(int Channel)
+	{
+		switch (Channel)
+		{
+		case 1:
+			return GL_RED;
+		case 3:
+			return GL_RGB;
+		case 4:
+			return GL_RGBA;
+		}
+		return -1;
 	}
 }

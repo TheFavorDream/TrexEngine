@@ -37,6 +37,8 @@ namespace TrexEngine
 		TX_API virtual void Bind(uint32 slot = 0) = 0;
 		TX_API virtual void Unbind()			   = 0;
 
+		TX_API GLenum GetColorChannel(int Channel);
+
 	protected:
 
 		uint8* m_TextureData = nullptr;
