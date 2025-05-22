@@ -204,8 +204,8 @@ void ImGuiExample::RenderViewPortControlWidget()
 {
 	ImGuiBegin("View Port");
 
-	static int Width = m_Engine->WindowManager->GetW();
-	static int Height = m_Engine->WindowManager->GetH();
+	static int Width = 100;
+	static int Height = 100;
 	static int X, Y;
 
 	ImGuiTextInt("Width", &Width);

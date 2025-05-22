@@ -41,6 +41,10 @@ struct Light
     vec3 Diffuse;
     vec3 Specular;
 
+	float Constant;
+	float Linear;
+	float Quadratic;
+
 };
 
 uniform Meterial meterial;
@@ -74,6 +78,15 @@ void main()
 	vec3 ambient  = light.Ambient  * texture(meterial.Diffuse, TexCoord).rgb;
 	vec3 diffuse  = light.Diffuse  * Diff * texture(meterial.Diffuse, TexCoord).rgb;  
 	vec3 specular = light.Specular * spec * texture(meterial.Specular, TexCoord).rgb;
+
+
+	float Distance = length(light.Position - FragmentPos);
+	
+	float attenuation = 1.0 / (light.Constant + light.Linear * Distance + light.Quadratic * (Distance * Distance));  
+
+	ambient *= attenuation ;
+	diffuse *= attenuation ;
+	specular *= attenuation ;
 
 	vec3 Res = ambient + diffuse + specular;
 	FragColor = vec4(Res, 1.0);   

@@ -27,7 +27,6 @@ namespace TrexEngine
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-
 		IsInited = true;
 		return 0;
 	}
@@ -66,6 +65,7 @@ namespace TrexEngine
 		//Make openGL Context
 		glfwMakeContextCurrent(window);
 
+		//glfwSetWindowSizeCallback(window, Window::ViewPortCallBack);
 		//Set a Viewport
 		glViewport(0, 0, Width, Height);
 
@@ -90,10 +90,11 @@ namespace TrexEngine
 		WindowBackGround.a = a;
 	}
 
-	void Window::GetWindowSize(uint32 &Width, uint32 &Height)
+	void Window::GetWindowSize(int32 &Width, int32 &Height)
 	{
-		Width = this->Width;
-		Height = this->Height;
+		glfwGetWindowSize(window, &Width, &Height);
+		this->Width = Width;
+		this->Height = Height;
 	}
 
 
@@ -104,9 +105,11 @@ namespace TrexEngine
 
 	TX_API void Window::SetViewport(uint32 X, uint32 Y, uint32 Width, uint32 Height)
 	{
-		GLCall(glViewport(X, Y, Width, Height));
-		this->Width = Width;
-		this->Height = Height;
+		int w, h;
+		GetWindowSize(w, h);
+
+		GLCall(glViewport((w/100)*X,(h/100)*Y, (w/100)*Width, (h/100)*Height));
+		
 	}
 
 	TX_API void Window::HideWindow(bool p_Hide)
@@ -120,6 +123,12 @@ namespace TrexEngine
 			glfwShowWindow(window);
 			break;
 		}
+	}
+
+	void Window::ViewPortCallBack(GLFWwindow * window, int Width, int Height)
+	{
+		GLCall(glViewport(Width*(50/100), Height*(50/100), Width*(50 / 100), Height*(50/100) ));
+
 	}
 
 

@@ -44,7 +44,7 @@ private:
 	TrexEngine::Camera             TrexCamera;
 
 	glm::vec3 LightColor = glm::vec3(1.0f, 0.9f, 0.8f);
-	glm::vec3 LightPosition = glm::vec3(0.0f, 3.0f, 10.0f);
+	glm::vec3 LightPosition = glm::vec3(0.0f, 3.0f, 4.0f);
 
 	glm::mat4 model = glm::mat4(1.0f);
 

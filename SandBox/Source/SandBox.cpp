@@ -23,7 +23,7 @@ public:
 #endif
 		ApplicationLogger.SetInfo("SandBox Constructor Called");
 
-		WindowManager->SetWindowBackground(0.4f, 0.3f, 0.5f);
+		WindowManager->SetWindowBackground(0.2f, 0.2f, 0.2f);
 
 		std::string Path = "../../../Sandbox/Shaders/";
 		if (IsDebuggerPresent())
@@ -40,9 +40,9 @@ public:
 		PushLayer(m_ExampleLayer);
 		PushOverLayer(m_ImGuiExample);
 
-		LockFPS(false, 30);
+		LockFPS(true, 30);
 
-		//WindowManager->SetViewport(600, 180,600, 400);
+		//WindowManager->SetViewport(30, 30, 100, 100);
 
 	}
 
@@ -54,7 +54,7 @@ public:
 
 		delete m_ExampleLayer;
 		delete m_ImGuiExample;
-
+		
 		ApplicationLogger.SetInfo("SandBox Destructor called");
 		ApplicationLogger.Shutdown();
 	}
@@ -71,5 +71,5 @@ private:
 
 TrexEngine::Engine* TrexEngine::CreateApplication()
 {
-	return new Application("TrexEngine SandBox", 1200, 600);
+	return new Application("TrexEngine SandBox", 1400, 700);
 }

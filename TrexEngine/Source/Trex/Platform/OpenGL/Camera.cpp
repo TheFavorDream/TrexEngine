@@ -19,6 +19,8 @@ namespace TrexEngine
 
 	glm::mat4& Camera::GetProjection(float pNearPlane, float pFarPlane, uint32 pWidth, uint32 pHeight)
 	{
+		if (pHeight == 0)
+			return glm::mat4(1.0f);
 		m_Projection = glm::perspective(glm::radians(m_FOV), float(pWidth / pHeight), pNearPlane, pFarPlane);
 		return m_Projection;
 	}

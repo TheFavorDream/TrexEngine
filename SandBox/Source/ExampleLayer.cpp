@@ -67,6 +67,7 @@ void ExampleLayer::OnAttach()
 
 	
 	m_Engine->TexturesManager->GetTexture("Wall")->LoadTexture();
+	
 	m_Engine->TexturesManager->GetTexture("Container")->LoadTexture();
 	m_Engine->TexturesManager->GetTexture("ContainerBoarder")->LoadTexture();
 
@@ -99,6 +100,7 @@ void ExampleLayer::OnUpdate()
 	//LightColor.y = sin(Now * 0.7f);
 	//LightColor.z = sin(Now * 1.3f);
 
+	LightPosition.z = (sin(Now) + 1.2f)*10.0f;
 	
 
 	m_Engine->ShadersManager->BindShader("Light");
@@ -112,6 +114,9 @@ void ExampleLayer::OnUpdate()
 	m_Engine->ShadersManager->GetCurrentShader()->SetUniformF3("LightColor", LightColor.x, LightColor.y, LightColor.z);
 	m_Engine->ShadersManager->GetCurrentShader()->SetUniformF3("ViewPosition", TrexCamera.GetCameraPosition().x, TrexCamera.GetCameraPosition().y, TrexCamera.GetCameraPosition().z);
 	
+	m_Engine->ShadersManager->GetCurrentShader()->SetUniformI1("meterial.Diffuse", 0);
+	m_Engine->ShadersManager->GetCurrentShader()->SetUniformI1("meterial.Specular", 1);
+
 	m_Engine->ShadersManager->GetCurrentShader()->SetUniformF1("meterial.Shininess", 64.0f);
 
 	m_Engine->ShadersManager->GetCurrentShader()->SetUniformF3("light.Position",	LightPosition.x, LightPosition.y, LightPosition.z);
@@ -122,6 +127,10 @@ void ExampleLayer::OnUpdate()
 	m_Engine->ShadersManager->GetCurrentShader()->SetUniformF3("light.Ambient", Ambient.x, Ambient.y, Ambient.z);
 	m_Engine->ShadersManager->GetCurrentShader()->SetUniformF3("light.Diffuse", Diffuse.x, Diffuse.y, Diffuse.z);
 	m_Engine->ShadersManager->GetCurrentShader()->SetUniformF3("light.Specular", 1.0f, 1.0f, 1.0f);
+
+	m_Engine->ShadersManager->GetCurrentShader()->SetUniformF1("light.Constant", 1.0f);
+	m_Engine->ShadersManager->GetCurrentShader()->SetUniformF1("light.Linear", 0.045f);
+	m_Engine->ShadersManager->GetCurrentShader()->SetUniformF1("light.Quadratic", 0.0075f);
 
 
 	m_Engine->ShadersManager->BindShader("Skybox");
@@ -152,11 +161,11 @@ void ExampleLayer::OnRender()
 	m_Engine->TexturesManager->BindTexture("Container", 0);
 	m_Engine->TexturesManager->BindTexture("ContainerBoarder", 1);
 
-	for (int i = 0; i <= 20; i++)
+	for (int i = 0; i < 5; i++)
 	{
 		View = TrexCamera.GetView();
 		View = glm::translate(View, Coords[i]);
-	m_Engine->ShadersManager->GetCurrentShader()->SetUniformMat4("View", (View));
+		m_Engine->ShadersManager->GetCurrentShader()->SetUniformMat4("View", (View));
 		TrexEngine::Renderer::GetInstance()->DrawElements(VBO, EBO, VAO);
 	}
 	

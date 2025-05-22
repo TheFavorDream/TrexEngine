@@ -36,7 +36,7 @@ namespace TrexEngine
 
 
 		TX_API void SetWindowBackground(float x, float y, float z, float a=1.0f);
-		TX_API void GetWindowSize(uint32 &Width, uint32 &Height);
+		TX_API void GetWindowSize(int32 &Width, int32 &Height);
 		TX_API void SetWindowSize(uint32 Width, uint32 Height);
 
 		TX_API void SetViewport(uint32 X, uint32 Y, uint32 Width, uint32 Height);
@@ -46,6 +46,8 @@ namespace TrexEngine
 		//Window Events
 		TX_API inline bool WindowShouldClose() const { return glfwWindowShouldClose(window); }
 
+	public:
+		static void ViewPortCallBack(GLFWwindow* window, int Width, int Height);
 	private:
 
 		bool IsInited = false;
