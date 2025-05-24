@@ -64,6 +64,7 @@ namespace TrexEngine
 			}
 
 			WindowManager->SwapBuffers();
+			WindowManager->UpdateWindowSize();
 			Input::PollEvents();
 
 

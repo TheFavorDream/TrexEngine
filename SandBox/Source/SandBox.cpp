@@ -23,7 +23,7 @@ public:
 #endif
 		ApplicationLogger.SetInfo("SandBox Constructor Called");
 
-		WindowManager->SetWindowBackground(0.2f, 0.2f, 0.2f);
+		WindowManager->SetWindowBackground(0.1f, 0.1f, 0.1f);
 
 		std::string Path = "../../../Sandbox/Shaders/";
 		if (IsDebuggerPresent())
@@ -42,7 +42,7 @@ public:
 
 		LockFPS(true, 30);
 
-		//WindowManager->SetViewport(30, 30, 100, 100);
+		WindowManager->SetViewportRatio(30.0f, 30.0f, 70.0f, 70.0f);
 
 	}
 
@@ -71,5 +71,5 @@ private:
 
 TrexEngine::Engine* TrexEngine::CreateApplication()
 {
-	return new Application("TrexEngine SandBox", 1400, 700);
+	return new Application("TrexEngine SandBox", 1200, 600);
 }

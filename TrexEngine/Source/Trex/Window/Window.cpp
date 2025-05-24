@@ -65,7 +65,7 @@ namespace TrexEngine
 		//Make openGL Context
 		glfwMakeContextCurrent(window);
 
-		//glfwSetWindowSizeCallback(window, Window::ViewPortCallBack);
+
 		//Set a Viewport
 		glViewport(0, 0, Width, Height);
 
@@ -76,13 +76,44 @@ namespace TrexEngine
 
 
 
+	int Window::GetW()
+	{
+		glfwGetFramebufferSize(window, &Width, &Height);
+		return Width;
+	}
+
+	int Window::GetH()
+	{
+		glfwGetFramebufferSize(window, &Width, &Height);
+		return Height;
+	}
+
+	int Window::GetFramebufferW()
+	{
+		glfwGetFramebufferSize(window, &WidthInPixels, &HeightInPixels);
+		return WidthInPixels;
+	}
+
+	int Window::GetFramebufferH()
+	{
+		glfwGetFramebufferSize(window, &Width, &Height);
+		return HeightInPixels;
+	}
+
 	void Window::SwapBuffers()
 	{
 		glfwSwapBuffers(window);
 	}
 
+	TX_API void Window::UpdateWindowSize()
+	{
+		int w, h;
+		GetWindowSize(w, h);
+		GLCall(glViewport(w*(ViewportRation.x / 100.0f), h*(ViewportRation.y / 100.0f), w*(ViewportRation.z / 100.0f), h*(ViewportRation.a / 100.0f)));
+	}
 
-	TX_API void Window::SetWindowBackground(float x, float y, float z, float a)
+
+	void Window::SetWindowBackground(float x, float y, float z, float a)
 	{
 		WindowBackGround.x = x;
 		WindowBackGround.y = y;
@@ -97,22 +128,30 @@ namespace TrexEngine
 		this->Height = Height;
 	}
 
+	 void Window::GetFrameBufferSize(int32 & Width, int32 Height)
+	{
+		glfwGetFramebufferSize(window, &Width, &Height);
+		WidthInPixels = Width;
+		HeightInPixels = Height;
+	}
 
-	TX_API void Window::SetWindowSize(uint32 Width, uint32 Height)
+
+	 void Window::SetWindowSize(uint32 Width, uint32 Height)
 	{
 		glfwSetWindowSize(window, Width, Height);
 	}
 
-	TX_API void Window::SetViewport(uint32 X, uint32 Y, uint32 Width, uint32 Height)
+	void Window::SetViewportRatio(float X, float Y, float Width, float Height)
 	{
-		int w, h;
-		GetWindowSize(w, h);
-
-		GLCall(glViewport((w/100)*X,(h/100)*Y, (w/100)*Width, (h/100)*Height));
-		
+		 ViewportRation = { X, Y, Width, Height };
 	}
 
-	TX_API void Window::HideWindow(bool p_Hide)
+	 void Window::SetViewport(uint32 X, uint32 Y, uint32 Width, uint32 Height)
+	{
+		GLCall(glViewport(X, Y, Width, Height));
+	}
+
+	 void Window::HideWindow(bool p_Hide)
 	{
 		switch (p_Hide)
 		{
@@ -123,12 +162,6 @@ namespace TrexEngine
 			glfwShowWindow(window);
 			break;
 		}
-	}
-
-	void Window::ViewPortCallBack(GLFWwindow * window, int Width, int Height)
-	{
-		GLCall(glViewport(Width*(50/100), Height*(50/100), Width*(50 / 100), Height*(50/100) ));
-
 	}
 
 

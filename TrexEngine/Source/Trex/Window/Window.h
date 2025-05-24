@@ -28,17 +28,23 @@ namespace TrexEngine
 
 		TX_API inline GLFWwindow* GetWindow() const { return window; }
 		TX_API inline const char* GetTitle() const { return Title; }
-		TX_API inline int GetW() { return Width; }
-		TX_API inline int GetH() { return Height; }
 		TX_API inline const vec4& GetBackground() { return WindowBackGround; }
+		
+		TX_API int GetW();
+		TX_API int GetH();
+
+		TX_API int GetFramebufferW();
+		TX_API int GetFramebufferH();
 
 		TX_API void SwapBuffers();
-
+		TX_API void UpdateWindowSize();
 
 		TX_API void SetWindowBackground(float x, float y, float z, float a=1.0f);
 		TX_API void GetWindowSize(int32 &Width, int32 &Height);
+		TX_API void GetFrameBufferSize(int32 &Width, int32 Height);
 		TX_API void SetWindowSize(uint32 Width, uint32 Height);
 
+		TX_API void SetViewportRatio(float X, float Y, float Width, float Height);
 		TX_API void SetViewport(uint32 X, uint32 Y, uint32 Width, uint32 Height);
 
 		TX_API void HideWindow(bool p_Hide);
@@ -46,21 +52,19 @@ namespace TrexEngine
 		//Window Events
 		TX_API inline bool WindowShouldClose() const { return glfwWindowShouldClose(window); }
 
-	public:
-		static void ViewPortCallBack(GLFWwindow* window, int Width, int Height);
 	private:
 
 		bool IsInited = false;
 
 		GLFWwindow* window = NULL;
 
-		uint32 Width = 0;
-		uint32 Height = 0;
+		int32 Width = 0;
+		int32 Height = 0;
 		
-		uint32 WidthInPixels = 0;
-		uint32 HeightInPixels = 0;
+		int32 WidthInPixels = 0;
+		int32 HeightInPixels = 0;
 
-
+		vec4 ViewportRation;
 		vec4 WindowBackGround;
 
 		const char* Title = NULL;

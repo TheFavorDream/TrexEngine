@@ -21,7 +21,7 @@ namespace TrexEngine
 	{
 		if (pHeight == 0)
 			return glm::mat4(1.0f);
-		m_Projection = glm::perspective(glm::radians(m_FOV), float(pWidth / pHeight), pNearPlane, pFarPlane);
+		m_Projection = glm::perspective(glm::radians(m_FOV), (float(pWidth) / float(pHeight)), pNearPlane, pFarPlane);
 		return m_Projection;
 	}
 

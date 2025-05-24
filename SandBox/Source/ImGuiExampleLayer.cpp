@@ -111,6 +111,9 @@ void ImGuiExample::RenderWindowControlWidget()
 
 	m_Engine->WindowManager->SetWindowBackground(WBG_R / 255.0f, WBG_G / 255.0f, WBG_B / 255.0f, 1.0f);
 
+	ImGuiText(("Window Width " + std::to_string(m_Engine->WindowManager->GetW()) + ", Height" + std::to_string(m_Engine->WindowManager->GetH())));
+	ImGuiText(("Frame Buffer Width " + std::to_string(m_Engine->WindowManager->GetFramebufferW()) + ", Height" + std::to_string(m_Engine->WindowManager->GetFramebufferH())));
+
 	ImGuiText("DeltaTime (ms):" + std::to_string(TrexEngine::Timer::GetDeltaTime()));
 
 	ImGuiEnd();
@@ -206,17 +209,19 @@ void ImGuiExample::RenderViewPortControlWidget()
 
 	static int Width = 100;
 	static int Height = 100;
+	
 	static int X, Y;
 
 	ImGuiTextInt("Width", &Width);
 	ImGuiTextInt("Height", &Height);
-
-
 	ImGuiTextInt("X", &X);
 	ImGuiTextInt("Y", &Y);
 
-	m_Engine->WindowManager->SetViewport(X, Y,Width, Height);
 
+	if (ImGuiPushButton("Apply"))
+	{
+		m_Engine->WindowManager->SetViewportRatio(X, Y, Width, Height);
+	}
 	ImGuiEnd();
 }
 
@@ -293,6 +298,8 @@ void ImGuiExample::OnAttach()
 	WBG_R = Color.x * 255.0f;
 	WBG_G = Color.y * 255.0f;
 	WBG_B = Color.z * 255.0f;
+
+	Enable_Docking = false;
 }
 
 void ImGuiExample::OnEvent()
