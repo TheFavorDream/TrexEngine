@@ -2,6 +2,8 @@
 
 #include "Trex.h"
 
+#include <vector>
+
 using namespace TrexEngine;
 
 
@@ -22,6 +24,8 @@ public:
 	void CameraKeyControll();
 	void CameraMouseControll();
 
+	void CreateSphere(float radius, VertexBuffer& VBO, VertexArray& VAO, IndexBuffer& EBO);
+
 	~ExampleLayer();
 
 private:
@@ -37,94 +41,15 @@ private:
 	TrexEngine::VertexBuffer		SkyVBO;
 	TrexEngine::VertexArray			SkyVAO;
 
-	TrexEngine::VertexBufferLayout  CubeVBL;
-	TrexEngine::VertexBuffer		CubeVBO;
-	TrexEngine::VertexArray			CubeVAO;
-
 	TrexEngine::Camera             TrexCamera;
 
-	glm::vec3 LightColor = glm::vec3(1.0f, 0.9f, 0.8f);
-	glm::vec3 LightPosition = glm::vec3(0.0f, 3.0f, 4.0f);
+	glm::vec3 LightColor = glm::vec3(0.1f, 0.9f, 0.3f);
+	glm::vec3 LightPosition = glm::vec3(0.0f, 3.0f, 10.0f);
 
 	glm::mat4 model = glm::mat4(1.0f);
+	glm::mat4 SphereModel = glm::mat4(1.0f);
 
-
-	float Vertex[192] =
-	{
-	-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
-	 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
-	 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 0.0f,
-
-	 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 1.0f,
-	 0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 0.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
 	
-
-	-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
-	-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
-	-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
-	-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
-	
-
-	 0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
-	 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
-	 
-
-	-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 0.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
-	 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
-	 0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 1.0f,
-	
-
-	-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 0.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f,
-	 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
-	 0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 1.0f,
-	
-
-	};
-
-
-	float LightCube[72]= 
-	{
-		-0.5f,  0.5f, -0.5f,
-		-0.5f, -0.5f, -0.5f,
-		 0.5f,  0.5f, -0.5f,
-		 0.5f, -0.5f, -0.5f,
-		
-		
-		-0.5f,  0.5f, 0.5f,
-		-0.5f, -0.5f, 0.5f,
-		 0.5f,  0.5f, 0.5f,
-		 0.5f, -0.5f, 0.5f,
-		
-		
-		
-		-0.5f, -0.5f,  0.5f,
-		-0.5f,  0.5f,  0.5f,
-		-0.5f, -0.5f, -0.5f,
-		-0.5f,  0.5f, -0.5f,
-		
-		
-		 0.5f, -0.5f,  0.5f,
-		 0.5f,  0.5f,  0.5f,
-		 0.5f, -0.5f, -0.5f,
-		 0.5f,  0.5f, -0.5f,
-	 	
-		-0.5f, -0.5f,  0.5f,
-		-0.5f, -0.5f, -0.5f,
-		 0.5f, -0.5f,  0.5f,
-		 0.5f, -0.5f, -0.5f,
-		
-		-0.5f,  0.5f,  0.5f,
-		-0.5f,  0.5f, -0.5f,
-		 0.5f,  0.5f,  0.5f,
-		 0.5f,  0.5f, -0.5f
-	};
 
 
 	float SkyBoxVertex[108] =
@@ -174,7 +99,7 @@ private:
 
 	glm::vec3 Coords[20] = 
 	{
-		glm::vec3(10.0f, 3.0f, -10.0f),
+		glm::vec3(0.0f, 3.0f, -10.0f),
 		glm::vec3(6.0f, 3.0f, -10.0f),
 		glm::vec3(2.0f, 3.0f, -10.0f),
 		glm::vec3(-2.0f, 3.0f, -10.0f),

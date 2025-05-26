@@ -23,7 +23,7 @@ public:
 #endif
 		ApplicationLogger.SetInfo("SandBox Constructor Called");
 
-		WindowManager->SetWindowBackground(0.1f, 0.1f, 0.1f);
+		WindowManager->SetWindowBackground(0.05f, 0.05f, 0.05f);
 
 		std::string Path = "../../../Sandbox/Shaders/";
 		if (IsDebuggerPresent())
@@ -34,15 +34,15 @@ public:
 		ShadersManager->AddShader("Main", new TrexEngine::Shader(Path+"Def.glsl"));
 		ShadersManager->AddShader("Skybox", new TrexEngine::Shader(Path+"Skybox.glsl"));
 		ShadersManager->AddShader("Light", new TrexEngine::Shader(Path+"Light.glsl"));
+		ShadersManager->AddShader("Sphere", new TrexEngine::Shader(Path + "Sphere.glsl"));
 
-		ShadersManager->BindShader("Main");
 
 		PushLayer(m_ExampleLayer);
 		PushOverLayer(m_ImGuiExample);
 
-		LockFPS(true, 30);
+		LockFPS(false, 30);
 
-		WindowManager->SetViewportRatio(30.0f, 30.0f, 70.0f, 70.0f);
+		WindowManager->SetViewportRatio(0.0f, 0.0f, 100.0f, 100.0f);
 
 	}
 

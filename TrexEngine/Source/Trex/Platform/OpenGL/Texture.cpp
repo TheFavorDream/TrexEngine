@@ -174,6 +174,9 @@ namespace TrexEngine
 			return GL_RGB;
 		case 4:
 			return GL_RGBA;
+		default:
+			TrexEngine::Logger::CoreLogger->SetWarning("Unknown Format");
+			break;
 		}
 		return -1;
 	}

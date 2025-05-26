@@ -75,7 +75,7 @@ void main()
     float spec = pow(max(dot(ViewDir, Reflect), 0.0), meterial.Shininess);
 
 
-	vec3 ambient  = light.Ambient  * texture(meterial.Diffuse, TexCoord).rgb;
+	vec3 ambient  = light.Ambient  *        texture(meterial.Diffuse, TexCoord).rgb;
 	vec3 diffuse  = light.Diffuse  * Diff * texture(meterial.Diffuse, TexCoord).rgb;  
 	vec3 specular = light.Specular * spec * texture(meterial.Specular, TexCoord).rgb;
 
