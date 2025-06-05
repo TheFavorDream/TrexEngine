@@ -45,6 +45,7 @@ namespace TrexEngine
 		TX_API void SetWindowSize(uint32 Width, uint32 Height);
 
 		TX_API void SetViewportRatio(float X, float Y, float Width, float Height);
+		TX_API void GetViewportRatio(float& X, float& Y, float& Width, float& Height);
 		TX_API void SetViewport(uint32 X, uint32 Y, uint32 Width, uint32 Height);
 
 		TX_API void HideWindow(bool p_Hide);

@@ -16,4 +16,15 @@ namespace TrexEngine
 	}
 
 
+	TX_API void Layer::EnableLayer()
+	{
+		Enable = true;
+	}
+
+	TX_API void Layer::DisableLayer()
+	{
+		Enable = false;
+
+	}
+
 };

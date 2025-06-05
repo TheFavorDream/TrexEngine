@@ -1,9 +1,8 @@
 
 #include <iostream>
 
-#include ".\Include\ExampleLayer.h"
-#include ".\Include\ImGuiExampleLayer.h"
-
+#include ".\Include\Wednesdex.h"
+#include ".\Include\SandboxUI.h"
 #include "EntryPoint.h"
 
 
@@ -12,16 +11,11 @@ class Application : public TrexEngine::Engine
 {
 public:
 	Application(const char* p_Title, int p_Width, int p_Height)
-		: 
+		:
 		Engine(p_Title, p_Width, p_Height),
-		ApplicationLogger("SandBox"),
-		m_ExampleLayer(new ExampleLayer()),
-		m_ImGuiExample(new ImGuiExample())
+		m_Wednesdex(new Wednesdex()),
+		m_UI(new UI())
 	{
-#ifdef RELEASE
-		ApplicationLogger.SetLogLevel(TX_L0);
-#endif
-		ApplicationLogger.SetInfo("SandBox Constructor Called");
 
 		WindowManager->SetWindowBackground(0.05f, 0.05f, 0.05f);
 
@@ -37,12 +31,12 @@ public:
 		ShadersManager->AddShader("Sphere", new TrexEngine::Shader(Path + "Sphere.glsl"));
 
 
-		PushLayer(m_ExampleLayer);
-		PushOverLayer(m_ImGuiExample);
+		PushLayer(m_Wednesdex);
+		PushOverLayer(m_UI);
 
 		LockFPS(false, 30);
 
-		WindowManager->SetViewportRatio(0.0f, 0.0f, 100.0f, 100.0f);
+		WindowManager->SetViewportRatio(20.0f, 20.0f, 80.0f, 80.0f);
 
 	}
 
@@ -52,24 +46,22 @@ public:
 		PopLayer();
 		PopOverLayer();
 
-		delete m_ExampleLayer;
-		delete m_ImGuiExample;
-		
-		ApplicationLogger.SetInfo("SandBox Destructor called");
-		ApplicationLogger.Shutdown();
+		delete m_Wednesdex;
+		delete m_UI;
+
+
 	}
 
 
 private:
-	TrexEngine::Logger ApplicationLogger;
 
-	ExampleLayer *m_ExampleLayer = NULL;
-	ImGuiExample *m_ImGuiExample = NULL;
+	Wednesdex *m_Wednesdex = NULL;
+	UI* m_UI = NULL;
 };
 
 
 
 TrexEngine::Engine* TrexEngine::CreateApplication()
 {
-	return new Application("TrexEngine SandBox", 1200, 600);
+	return new Application("Wednesdex Simulator", 1200, 600);
 }

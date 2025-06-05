@@ -107,9 +107,8 @@ namespace TrexEngine
 
 	TX_API void Window::UpdateWindowSize()
 	{
-		int w, h;
-		GetWindowSize(w, h);
-		GLCall(glViewport(w*(ViewportRation.x / 100.0f), h*(ViewportRation.y / 100.0f), w*(ViewportRation.z / 100.0f), h*(ViewportRation.a / 100.0f)));
+		GetWindowSize(WidthInPixels, HeightInPixels);
+		GLCall(glViewport(WidthInPixels*(ViewportRation.x / 100.0f), HeightInPixels*(ViewportRation.y / 100.0f), WidthInPixels*(ViewportRation.z / 100.0f), HeightInPixels*(ViewportRation.a / 100.0f)));
 	}
 
 
@@ -144,6 +143,14 @@ namespace TrexEngine
 	void Window::SetViewportRatio(float X, float Y, float Width, float Height)
 	{
 		 ViewportRation = { X, Y, Width, Height };
+	}
+
+	void Window::GetViewportRatio(float & X, float & Y, float & Width, float & Height)
+	{
+		Width = ViewportRation.z;
+		Height = ViewportRation.a;
+		X = ViewportRation.x;
+		Y = ViewportRation.y;
 	}
 
 	 void Window::SetViewport(uint32 X, uint32 Y, uint32 Width, uint32 Height)

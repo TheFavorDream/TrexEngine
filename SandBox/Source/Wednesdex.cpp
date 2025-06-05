@@ -1,9 +1,9 @@
-#include ".\Include\ExampleLayer.h"
+#include ".\Include\Wednesdex.h"
 #include <filesystem>
 
 
-ExampleLayer::ExampleLayer()
-	: Layer("ExampleLayer"), Log("ExampleLayer"), TrexCamera({ 0.0f, 0.0f, 5.0f }, 45)
+Wednesdex::Wednesdex()
+	: Layer("Wednesdex"), Log("Wednesdex"), TrexCamera({ 0.0f, 0.0f, 5.0f }, 45)
 {
 #ifdef RELEASE
 	Log.SetLogLevel(TX_L0);
@@ -14,14 +14,13 @@ ExampleLayer::ExampleLayer()
 }
 
 
-void ExampleLayer::OnAttach()
+void Wednesdex::OnAttach()
 {
+
+	Log.SetInfo("Initalizing");
 
 	//Cube Object
 	CreateSphere(5.0f, VBO, VAO, EBO);
-
-
-
 
 	//Skybox
 	SkyVAO.Bind();
@@ -62,26 +61,26 @@ void ExampleLayer::OnAttach()
 }
 
 
-void ExampleLayer::OnEvent()
+void Wednesdex::OnEvent()
 {
 	
 	CameraKeyControll();
 	CameraMouseControll();
 }
 
-void ExampleLayer::OnUpdate()
+void Wednesdex::OnUpdate()
 {
 
 
-	glm::mat4& Projection = TrexCamera.GetProjection(0.1f, 100.0f, m_Engine->WindowManager->GetW(), m_Engine->WindowManager->GetH());
+	glm::mat4& Projection = TrexCamera.GetProjection(0.1f, 800.0f, m_Engine->WindowManager->GetW(), m_Engine->WindowManager->GetH());
 
 
-	float Now = (float)TrexEngine::Timer::GetCurrentElapsed() / 800;
+	float Now = (float)TrexEngine::Timer::GetCurrentElapsed() / 1000;
 	
 	model = glm::mat4(1.0f);
 	
-	LightPosition = glm::vec3(sinf(Now)*30.0f, 3.0f , cosf(Now)*30.0f);
-
+	//LightPosition = glm::vec3((cosf(Now)*sinf(Now))*30.0f, (sinf(Now)*30.0f) + 12.0f, cosf(Now)*30.0f);
+	LightPosition.z = 30.0f * sinf(Now) + 30.0f;
 	m_Engine->ShadersManager->BindShader("Light");
 	m_Engine->ShadersManager->GetCurrentShader()->SetUniformMat4("Model", (model));
 	m_Engine->ShadersManager->GetCurrentShader()->SetUniformMat4("Projection", (Projection));
@@ -96,11 +95,15 @@ void ExampleLayer::OnUpdate()
 	m_Engine->ShadersManager->GetCurrentShader()->SetUniformMat4("Projection", Projection);
 	m_Engine->ShadersManager->GetCurrentShader()->SetUniformF3("ViewPosition", TrexCamera.GetCameraPosition().x, TrexCamera.GetCameraPosition().y, TrexCamera.GetCameraPosition().z);
 
-	m_Engine->ShadersManager->GetCurrentShader()->SetUniformF3("meterial.Color", 0.3, 0.0f, 0.5f);
+	m_Engine->ShadersManager->GetCurrentShader()->SetUniformF3("meterial.Color", 0.3f, 0.0f, 0.5f);
 	m_Engine->ShadersManager->GetCurrentShader()->SetUniformI1("meterial.Texture", 0);
-	m_Engine->ShadersManager->GetCurrentShader()->SetUniformF1("meterial.Shininess", 12.0f);
+	m_Engine->ShadersManager->GetCurrentShader()->SetUniformF1("meterial.Shininess", 32.0f);
+
 	m_Engine->ShadersManager->GetCurrentShader()->SetUniformF3("light.Position", LightPosition.x, LightPosition.y, LightPosition.z);
 	m_Engine->ShadersManager->GetCurrentShader()->SetUniformF3("light.Color", LightColor.x, LightColor.y, LightColor.z);
+	m_Engine->ShadersManager->GetCurrentShader()->SetUniformF1("light.Constant", 1.0f);
+	m_Engine->ShadersManager->GetCurrentShader()->SetUniformF1("light.Linear", 0.00045f);
+	m_Engine->ShadersManager->GetCurrentShader()->SetUniformF1("light.Quadratic", 0.00034f);
 
 
 	m_Engine->ShadersManager->BindShader("Skybox");
@@ -111,7 +114,7 @@ void ExampleLayer::OnUpdate()
 
 }
 
-void ExampleLayer::OnRender()
+void Wednesdex::OnRender()
 {
 
 	//Light
@@ -129,12 +132,16 @@ void ExampleLayer::OnRender()
 	VBO.Bind();
 	VAO.Bind();
 	m_Engine->ShadersManager->BindShader("Sphere");	
-	View = TrexCamera.GetView();
-	View = glm::translate(View, Coords[0]);
-	m_Engine->ShadersManager->GetCurrentShader()->SetUniformMat4("View", (View));
-	TrexEngine::Renderer::GetInstance()->DrawElements(VBO, EBO, VAO);
-	
-	
+	for (int i = 0; i < 3; i++)
+	{
+		m_Engine->ShadersManager->GetCurrentShader()->SetUniformF3("meterial.Color", (i==0), (i==1), (i==2));
+
+		View = TrexCamera.GetView();
+		View = glm::translate(View, Coords[i]);
+		m_Engine->ShadersManager->GetCurrentShader()->SetUniformMat4("View", (View));
+		TrexEngine::Renderer::GetInstance()->DrawElements(VBO, EBO,  VAO);
+	}
+	 
 	//SkyBox;
 
 	SkyVBO.Bind();
@@ -149,27 +156,28 @@ void ExampleLayer::OnRender()
 }
 
 
-void ExampleLayer::OnDettach()
+void Wednesdex::OnDettach()
 {
 
-	Log.SetInfo("ExampleLayer Ondettach called");
+	Log.SetInfo("Shuting Down");
+
 	Log.Shutdown();
 }
 
-void ExampleLayer::EnableLayer()
+void Wednesdex::EnableLayer()
 {
 	Enable = true;
 	Log.SetWarning(LayerName + " got enabled");
 }
 
-void ExampleLayer::DisableLayer()
+void Wednesdex::DisableLayer()
 {
 	Enable = false;
 	Log.SetWarning(LayerName + " got disabled");
 
 }
 
-void ExampleLayer::CameraKeyControll()
+void Wednesdex::CameraKeyControll()
 {
 	if (m_Engine->events.keyboard.IsKeyPressed(TX_KEY_W))
 	{
@@ -202,7 +210,7 @@ void ExampleLayer::CameraKeyControll()
 	}
 }
 
-void ExampleLayer::CameraMouseControll()
+void Wednesdex::CameraMouseControll()
 {
 	static bool FirstClick = true;
 	static float LastX = m_Engine->WindowManager->GetW()/2.0f;
@@ -223,8 +231,8 @@ void ExampleLayer::CameraMouseControll()
 			FirstClick = false;
 		}
 
-		float MouseX = (PosXin - LastX);
-		float MouseY = (LastY - PosYin);
+		float MouseX = (float(PosXin) - LastX);
+		float MouseY = (LastY - float(PosYin));
 
 
 		TrexCamera.MouseMove(MouseX, MouseY);
@@ -245,7 +253,7 @@ void ExampleLayer::CameraMouseControll()
 
 }
 
-void ExampleLayer::CreateSphere(float radius,VertexBuffer & VBO, VertexArray & VAO, IndexBuffer & EBO)
+void Wednesdex::CreateSphere(float radius,VertexBuffer & VBO, VertexArray & VAO, IndexBuffer & EBO)
 {
 
 	std::vector<float> Vertecies;
@@ -343,6 +351,6 @@ void ExampleLayer::CreateSphere(float radius,VertexBuffer & VBO, VertexArray & V
 
 
 
-ExampleLayer::~ExampleLayer()
+Wednesdex::~Wednesdex()
 {
 }

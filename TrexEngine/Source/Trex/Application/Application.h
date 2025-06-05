@@ -9,7 +9,7 @@
 #include "../Core/Timer.h"
 #include "../Core/LayerContainer.h"
 #include "../Platform/OpenGL/Shader.h"
-#include "../Application/ImGuiLayer.h"
+#include "../UI/UI.h"
 #include "../Events/Input.h"
 #include "../Events/Keyboard.h"
 #include "../Core/ShaderManager.h"
@@ -69,7 +69,6 @@ namespace TrexEngine
 		Window*         WindowManager   = NULL;
 		ShaderManager*  ShadersManager  = NULL;
 		TextureManager* TexturesManager = NULL;
-
 		Input events;
 		Timer			timer;
 		LayerContainer  Layers;

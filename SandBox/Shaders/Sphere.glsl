@@ -38,6 +38,10 @@ struct Light
 {
     vec3 Position;
     vec3 Color;
+
+	float Constant;
+	float Linear;
+	float Quadratic;
 };
 
 uniform Meterial meterial;
@@ -71,6 +75,14 @@ void main()
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), meterial.Shininess);
     vec3 specular = specularStrength * spec * light.Color;  
         
+
+	float Distance = length(light.Position - FragmentPos);
+	float attenuation = 1.0 / (light.Constant + light.Linear * Distance + light.Quadratic * (Distance * Distance));  
+
+	ambient *= attenuation ;
+	diffuse *= attenuation ;
+	specular *= attenuation ;
+
     vec3 result = (ambient + diffuse + specular) * meterial.Color;
     FragColor = vec4(result, 1.0);  
 };

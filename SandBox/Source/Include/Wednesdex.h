@@ -7,11 +7,11 @@
 using namespace TrexEngine;
 
 
-class ExampleLayer : public TrexEngine::Layer
+class Wednesdex : public TrexEngine::Layer
 {
 public:
 
-	ExampleLayer();
+	Wednesdex();
 
 	void OnAttach() override;
 	void OnEvent() override;
@@ -26,7 +26,7 @@ public:
 
 	void CreateSphere(float radius, VertexBuffer& VBO, VertexArray& VAO, IndexBuffer& EBO);
 
-	~ExampleLayer();
+	~Wednesdex();
 
 private:
 	TrexEngine::Engine* m_Engine = NULL;
@@ -43,8 +43,8 @@ private:
 
 	TrexEngine::Camera             TrexCamera;
 
-	glm::vec3 LightColor = glm::vec3(0.1f, 0.9f, 0.3f);
-	glm::vec3 LightPosition = glm::vec3(0.0f, 3.0f, 10.0f);
+	glm::vec3 LightColor = glm::vec3(1.0f, 1.0f, 1.0f);
+	glm::vec3 LightPosition = glm::vec3(17.0f, 3.0f, 10.0f);
 
 	glm::mat4 model = glm::mat4(1.0f);
 	glm::mat4 SphereModel = glm::mat4(1.0f);
@@ -97,31 +97,11 @@ private:
 	 1.0f, -1.0f,  1.0f
 	};
 
-	glm::vec3 Coords[20] = 
+	glm::vec3 Coords[3] = 
 	{
 		glm::vec3(0.0f, 3.0f, -10.0f),
-		glm::vec3(6.0f, 3.0f, -10.0f),
-		glm::vec3(2.0f, 3.0f, -10.0f),
-		glm::vec3(-2.0f, 3.0f, -10.0f),
-		glm::vec3(-6.0f, 3.0f, -10.0f),
-
-		glm::vec3(10.0f, 3.0f, -6.0f),
-		glm::vec3(6.0f, 3.0f,  -6.0f),
-		glm::vec3(2.0f, 3.0f,  -6.0f),
-		glm::vec3(-2.0f, 3.0f, -6.0f),
-		glm::vec3(-6.0f, 3.0f, -6.0f),
-
-		glm::vec3(10.0f, 3.0f, -2.0f),
-		glm::vec3(6.0f, 3.0f,  -2.0f),
-		glm::vec3(2.0f, 3.0f,  -2.0f),
-		glm::vec3(-2.0f, 3.0f, -2.0f),
-		glm::vec3(-6.0f, 3.0f, -2.0f),
-
-		glm::vec3(10.0f, 3.0f, 2.0f),
-		glm::vec3(6.0f, 3.0f,  2.0f),
-		glm::vec3(2.0f, 3.0f,  2.0f),
-		glm::vec3(-2.0f, 3.0f, 2.0f),
-		glm::vec3(-6.0f, 3.0f, 2.0f)
+		glm::vec3(12.0f, 3.0f, -10.0f),
+		glm::vec3(24.0f, 3.0f, -10.0f)
 	};
 
 	unsigned int Indicies[36] =
