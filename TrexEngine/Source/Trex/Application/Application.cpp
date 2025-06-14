@@ -26,10 +26,13 @@ namespace TrexEngine
 		events.keyboard.SetKeyCallBack(WindowManager->GetWindow());
 		events.mouse.SetMouseCallBacks(WindowManager->GetWindow());
 		m_IsRunning = true;
+	
+		UICore = new TrexUI(WindowManager);
 	}
 
 	Engine::~Engine()
 	{
+		delete UICore;
 		delete TexturesManager;
 		delete ShadersManager;
 		delete Renderer::s_RenderInstance;

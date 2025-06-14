@@ -23,6 +23,12 @@ namespace TrexEngine
 		return (double) std::chrono::duration_cast<std::chrono::milliseconds> (std::chrono::high_resolution_clock::now() - s_Start).count();
 	}
 
+	TX_API long double Timer::GetCurrentElapsedMicro()
+	{
+		return (double)std::chrono::duration_cast<std::chrono::microseconds> (std::chrono::high_resolution_clock::now() - s_Start).count();
+
+	}
+
 	TX_API uint64 Timer::GetCurrentElapsedUint()
 	{
 		return (uint64) std::chrono::duration_cast<std::chrono::milliseconds> (std::chrono::high_resolution_clock::now() - s_Start).count();

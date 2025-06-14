@@ -15,6 +15,7 @@
 #define TX_L2 2 //Errors and Warnings
 #define TX_L3 3 //Errors, Warnings and Information
 
+#define STOP() __debugbreak()
 #define ASSERT(x) if (!(x)) __debugbreak()
 #define GLCall(x) Logger::CoreLogger->GL_ClearErrors();\
 													  x;Logger::CoreLogger->GL_GetLog(#x, __FILE__, __LINE__);

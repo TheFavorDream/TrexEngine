@@ -5,6 +5,7 @@
 #include "./Trex/Application/Application.h"
 #include "./Trex/Application/Layer.h"
 #include "./Trex/UI/UI.h"
+#include "./Trex/UI/Widget.h"
 
 #include "./Trex/Core/Core.h"
 #include "./Trex/Core/Timer.h"

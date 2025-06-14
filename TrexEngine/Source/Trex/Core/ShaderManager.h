@@ -17,7 +17,6 @@
 #include "../Debug/Log.h"
 
 
-
 namespace TrexEngine
 {
 	class ShaderManager

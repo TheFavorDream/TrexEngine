@@ -18,6 +18,7 @@ public:
 	{
 
 		WindowManager->SetWindowBackground(0.05f, 0.05f, 0.05f);
+		WindowManager->SetViewportRatio(20.0f, 20.0f, 80.0f, 80.0f);
 
 		std::string Path = "../../../Sandbox/Shaders/";
 		if (IsDebuggerPresent())
@@ -36,7 +37,6 @@ public:
 
 		LockFPS(false, 30);
 
-		WindowManager->SetViewportRatio(20.0f, 20.0f, 80.0f, 80.0f);
 
 	}
 

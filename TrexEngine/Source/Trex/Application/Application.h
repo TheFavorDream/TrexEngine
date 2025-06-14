@@ -69,6 +69,8 @@ namespace TrexEngine
 		Window*         WindowManager   = NULL;
 		ShaderManager*  ShadersManager  = NULL;
 		TextureManager* TexturesManager = NULL;
+		TrexUI*         UICore = NULL;
+
 		Input events;
 		Timer			timer;
 		LayerContainer  Layers;
